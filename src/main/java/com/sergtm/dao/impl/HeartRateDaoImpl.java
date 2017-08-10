@@ -17,7 +17,7 @@ import java.util.Collection;
 @Transactional
 public class HeartRateDaoImpl implements IHeartRateDao {
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public void addHeartRate(HeartRate heartRate) {
@@ -30,19 +30,22 @@ public class HeartRateDaoImpl implements IHeartRateDao {
     }
 
     @Override
-    public HeartRate getHeartRateById(Long heartRateId) {
-        return null;
+    public HeartRate getById(Long heartRateId) {
+        return sessionFactory.getCurrentSession().get(HeartRate.class, heartRateId);
     }
 
     @Override
-    public void deleteHeartRate(Long heartRateId) {
-
+    public void deleteHeartRate(HeartRate heartRate) {
+        sessionFactory.getCurrentSession().delete(heartRate);
     }
 
+
     @Override
-    public Collection getAllHeartRates() {
-        String sql = "FROM HeartRate";
+    public Collection<HeartRate> getByPage(int firstResult, int maxResult) {
+        String sql = "FROM HeartRate h order by h.date";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResult);
         return query.getResultList();
     }
 }

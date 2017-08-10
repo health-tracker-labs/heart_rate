@@ -12,6 +12,6 @@ public interface IPersonDao {
     void savePerson(Person person);
     Person getPersonById(Long personId);
     void deletePerson(Person person);
-    Collection findAll();
-    List getPersonByName(String firstName, String secondName);
+    Collection<Person> findAll();
+    List<Person> getPersonByName(String firstName, String secondName);
 }

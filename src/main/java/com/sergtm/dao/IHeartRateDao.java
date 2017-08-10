@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface IHeartRateDao {
     void addHeartRate(HeartRate heartRate);
     void updateHeartRate(Long heartRateId, HeartRate heartRate);
-    HeartRate getHeartRateById(Long heartRateId);
-    void deleteHeartRate(Long heartRateId);
-    Collection getAllHeartRates();
+    HeartRate getById(Long heartRateId);
+    void deleteHeartRate(HeartRate heartRate);
+    Collection<HeartRate> getByPage(int firstResult, int maxResult);
 }

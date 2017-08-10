@@ -17,18 +17,13 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class HeartRateServiceImpl implements IHeartRateService {
+    private static int RECORD_COUNT_ON_PAGE = 5;
     @Autowired
-    IHeartRateDao heartRateDao;
+    private IHeartRateDao heartRateDao;
     @Autowired
-    IPersonDao personDao;
+    private IPersonDao personDao;
     @Autowired
-    IHelpDao helpDao;
-
-    @Override
-    public Collection<HeartRate> findAll() {
-        Collection<HeartRate> heartRates = heartRateDao.getAllHeartRates();
-        return heartRates;
-    }
+    private IHelpDao helpDao;
 
     @Override
     @Transactional
@@ -61,8 +56,26 @@ public class HeartRateServiceImpl implements IHeartRateService {
     @Override
     @Transactional
     public Collection<? extends IEntity> getHelp(String query, String topicName) {
-        Collection<Help> helps = helpDao.getByTopic(query, topicName);
-        return helps;
+        return helpDao.getByTopic(query, topicName);
+
+    }
+
+    @Override
+    @Transactional
+    public Collection<? extends IEntity> findByPage(final int page) {
+        int pageNumber = page;
+        if(page <= 0){
+            pageNumber = 1;
+        }
+        int firstResult = (pageNumber * RECORD_COUNT_ON_PAGE) - RECORD_COUNT_ON_PAGE;
+        return heartRateDao.getByPage(firstResult, RECORD_COUNT_ON_PAGE);
+    }
+
+    @Override
+    @Transactional
+    public void deleteHeartRate(Long id) {
+        HeartRate heartRate = heartRateDao.getById(id);
+        heartRateDao.deleteHeartRate(heartRate);
     }
 
     private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, Date datetime, Person person) {

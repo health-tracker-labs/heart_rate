@@ -1,7 +1,5 @@
 package com.sergtm.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -18,7 +16,6 @@ public class HeartRate implements IEntity{
     @GeneratedValue(strategy=GenerationType.AUTO, generator="HEART_RATE_SEQUENCE")
     @SequenceGenerator(name="HEART_RATE_SEQUENCE", sequenceName="HEART_RATE_SEQ", allocationSize = 1)
     @Column(name = "ID")
-    @JsonIgnore
     @XmlTransient
     private Long id;
 
