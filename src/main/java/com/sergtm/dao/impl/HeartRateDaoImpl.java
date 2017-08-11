@@ -42,7 +42,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
 
     @Override
     public Collection<HeartRate> getByPage(int firstResult, int maxResult) {
-        String sql = "FROM HeartRate h order by h.date";
+        String sql = "FROM HeartRate h order by h.date DESC";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setFirstResult(firstResult);
         query.setMaxResults(maxResult);
