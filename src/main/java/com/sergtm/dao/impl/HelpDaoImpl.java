@@ -1,6 +1,7 @@
 package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IHelpDao;
+import com.sergtm.entities.Help;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,17 +15,17 @@ import java.util.List;
 @Transactional
 public class HelpDaoImpl implements IHelpDao{
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
-    public Collection findAll() {
+    public Collection<Help> findAll() {
         String sql = "FROM Help";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         return query.getResultList();
     }
 
     @Override
-    public List getHelpByName(String name) {
+    public List<Help> getHelpByName(String name) {
         String sql = "FROM Help h WHERE upper(h.name) LIKE :name";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("name", name.toUpperCase());
@@ -32,7 +33,7 @@ public class HelpDaoImpl implements IHelpDao{
     }
 
     @Override
-    public Collection getByTopic(String name, String topicName) {
+    public Collection<Help> getByTopic(String name, String topicName) {
         String sql = "FROM Help h WHERE upper(h.name) LIKE :name AND h.topic.name = :topicName";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("name", name.toUpperCase());

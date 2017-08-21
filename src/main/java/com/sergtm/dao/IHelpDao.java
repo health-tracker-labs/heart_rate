@@ -1,10 +1,12 @@
 package com.sergtm.dao;
 
+import com.sergtm.entities.Help;
+
 import java.util.Collection;
 import java.util.List;
 
 public interface IHelpDao {
-    Collection findAll();
-    List getHelpByName(String name);
-    Collection getByTopic(String name, String topicName);
+    Collection<Help> findAll();
+    List<Help> getHelpByName(String name);
+    Collection<Help> getByTopic(String name, String topicName);
 }

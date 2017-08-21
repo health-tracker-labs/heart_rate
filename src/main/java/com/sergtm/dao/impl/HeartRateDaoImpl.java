@@ -1,14 +1,18 @@
 package com.sergtm.dao.impl;
 
-import com.sergtm.dao.IHeartRateDao;
-import com.sergtm.entities.HeartRate;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import javax.transaction.Transactional;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-import java.util.Collection;
+import com.sergtm.dao.IHeartRateDao;
+import com.sergtm.entities.HeartRate;
 
 /**
  * Created by Sergey on 18.07.2017.
@@ -16,8 +20,10 @@ import java.util.Collection;
 @Repository
 @Transactional
 public class HeartRateDaoImpl implements IHeartRateDao {
+    private static final String FIND_BY_DATE_RANGE = "from HeartRate h where h.date between :from and :to order by h.date";
+
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public void addHeartRate(HeartRate heartRate) {
@@ -25,24 +31,34 @@ public class HeartRateDaoImpl implements IHeartRateDao {
     }
 
     @Override
-    public void updateHeartRate(Long heartRateId, HeartRate heartRate) {
-
+    public HeartRate getById(Long heartRateId) {
+        return sessionFactory.getCurrentSession().get(HeartRate.class, heartRateId);
     }
 
     @Override
-    public HeartRate getHeartRateById(Long heartRateId) {
-        return null;
+    public void deleteHeartRate(HeartRate heartRate) {
+        sessionFactory.getCurrentSession().delete(heartRate);
     }
 
-    @Override
-    public void deleteHeartRate(Long heartRateId) {
 
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
-    public Collection getAllHeartRates() {
-        String sql = "FROM HeartRate";
+    public Collection<HeartRate> getByPage(int firstResult, int maxResult) {
+        final String sql = "FROM HeartRate h order by h.date DESC";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
+   
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResult);
+
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection<HeartRate> findHeartRatesByDateRange(Date from, Date to) {
+        Query query = sessionFactory.getCurrentSession().createQuery(FIND_BY_DATE_RANGE);
+        query.setParameter("from", from, TemporalType.DATE);
+        query.setParameter("to", to, TemporalType.DATE);
         return query.getResultList();
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class PersonDaoImpl implements IPersonDao{
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public void savePerson(Person person) {
@@ -38,14 +38,14 @@ public class PersonDaoImpl implements IPersonDao{
     }
 
     @Override
-    public Collection findAll() {
+    public Collection<Person> findAll() {
         String sql = "FROM Person";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         return query.getResultList();
     }
 
     @Override
-    public List getPersonByName(String firstName, String secondName) {
+    public List<Person> getPersonByName(String firstName, String secondName) {
         String sql = "FROM Person p WHERE p.firstName = :firstName AND p.secondName = :secondName";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("firstName", firstName);
