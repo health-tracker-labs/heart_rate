@@ -1,4 +1,4 @@
-Ext.define('app.store.HeartRateStore', {
+Ext.define('app.store.HeartRateChartStore', {
     extend: 'Ext.data.Store',
 
     fields: ['date', 'lower', 'upper' ],

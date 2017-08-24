@@ -20,6 +20,7 @@ import com.sergtm.dto.HeartRateOnDay;
 import com.sergtm.entities.HeartRate;
 import com.sergtm.entities.IEntity;
 import com.sergtm.entities.Person;
+import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
 
 @Service
@@ -51,6 +52,15 @@ public class HeartRateServiceImpl implements IHeartRateService {
         } else {
             return people;
         }
+    }
+
+    @Override
+    @Transactional
+    public HeartRate createHeartRate(AddHeartRateForm form) {
+        Person person = personDao.getPersonById(form.getPersonId());
+        HeartRate hr = createAndSaveHeartRate(form.getUpperPressure(), 
+                form.getLowerPressure(), new Date(), person);
+        return hr;
     }
 
     @Override

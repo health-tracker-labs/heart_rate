@@ -2,10 +2,10 @@ Ext.define('app.view.HeartRateChart', {
     extend: 'Ext.Panel',
 
     requires : [
-        'app.controller.HeartRateController'
+        'app.controller.HeartRateChartController'
     ],
 
-    controller: 'HeartRateController',
+    controller: 'HeartRateChartController',
 
     width: 650,
     renderTo: Ext.getBody(),
@@ -15,7 +15,7 @@ Ext.define('app.view.HeartRateChart', {
         reference: 'chart',
         width: '100%',
         height: 500,
-        store: Ext.create('app.store.HeartRateStore'),
+        store: Ext.create('app.store.HeartRateChartStore'),
         insetPadding: {
             top: 40,
             right: 40,

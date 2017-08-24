@@ -1,6 +1,9 @@
 package com.sergtm.entities;
 
 import javax.persistence.*;
+
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDateTime;
 
 /**
@@ -64,6 +67,12 @@ public class Person implements IEntity{
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public String getName() {
+        final String middleName = getMiddleName();
+        return String.format("%s%s, %s", getSecondName(), 
+                StringUtils.isEmpty(middleName) ? "" : " " + middleName, getFirstName());
     }
 
     public String getCountry() {

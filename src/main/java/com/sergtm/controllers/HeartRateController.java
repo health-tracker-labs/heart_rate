@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sergtm.dto.HeartRateOnDay;
 import com.sergtm.entities.IEntity;
+import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
 
 @RestController
@@ -57,6 +59,11 @@ public class HeartRateController {
     @RequestMapping(method = RequestMethod.GET, path = "chart.json", produces = "application/json")
     public Collection<HeartRateOnDay> getChartData() {
         return heartRateService.getChartData();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "save.do")
+    public void save(@ModelAttribute AddHeartRateForm form) {
+        heartRateService.createHeartRate(form);
     }
 
     private Date checkParam(Date date){
