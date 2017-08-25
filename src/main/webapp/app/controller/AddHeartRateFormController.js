@@ -12,15 +12,10 @@ Ext.define('app.controller.AddHeartRateFormController', {
         if (form.isValid()) {
             form.submit({
                 success: function(form, action) {
-                   Ext.Msg.alert('Success', action.result.msg);
+                   Ext.Msg.alert('Success', 'Save success');
                 },
                 failure: function(form, action) {
-                    var result = action.result;
-                    var msg;
-                    if (result) {
-                        msg = result.msg;
-                    }
-                    Ext.Msg.alert('Failed', msg);
+                    Ext.Msg.alert('Failed', 'Save failed');
                 }
             });
         }
