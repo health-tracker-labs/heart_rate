@@ -1,18 +1,5 @@
 package com.sergtm.service.impl;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.sergtm.dao.IHeartRateDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
@@ -22,6 +9,19 @@ import com.sergtm.entities.IEntity;
 import com.sergtm.entities.Person;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
+import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -91,9 +91,18 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
     @Override
     @Transactional
-    public void deleteHeartRate(Long id) {
+    public boolean deleteHeartRate(Long id) {
         HeartRate heartRate = heartRateDao.getById(id);
-        heartRateDao.deleteHeartRate(heartRate);
+        if(heartRate==null){
+            return false;
+        }
+        try {
+            heartRateDao.deleteHeartRate(heartRate);
+            return true;
+        }catch (HibernateException e){
+
+        }
+        return false;
     }
 
     private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, Date datetime, Person person) {

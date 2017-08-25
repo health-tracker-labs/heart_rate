@@ -1,21 +1,15 @@
 package com.sergtm.controllers;
 
-import java.util.Collection;
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.sergtm.dto.HeartRateOnDay;
 import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/heartRate")
@@ -51,9 +45,9 @@ public class HeartRateController {
         return heartRateService.findByPage(page);
     }
 
-    @RequestMapping(path = "deleteHeartRate")
-    public void deleateHeartRate(@RequestParam Long id){
-       heartRateService.deleteHeartRate(id);
+    @RequestMapping(path = "delete.do")
+    public boolean delete(@RequestParam Long id){
+       return heartRateService.deleteHeartRate(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "chart.json", produces = "application/json")

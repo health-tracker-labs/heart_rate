@@ -2,6 +2,7 @@ package com.sergtm.controllers;
 
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
+import com.sergtm.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import java.util.Collection;
 public class PersonController {
     @Autowired
     private IPersonDao personDao;
+    @Autowired
+    private IPersonService personService;
 
     @RequestMapping(method = RequestMethod.GET, path = "add.json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
@@ -32,6 +35,11 @@ public class PersonController {
     @RequestMapping(method = RequestMethod.GET, path = "getAll.json", produces = "application/json")
     public Collection<Person> getAllJSon(){
         return personDao.findAll();
+    }
+
+    @RequestMapping(path = "delete.do")
+    public boolean deletePerson(@RequestParam Long id){
+       return personService.deletePerson(id);
     }
 }
 
