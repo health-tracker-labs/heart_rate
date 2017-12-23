@@ -20,7 +20,7 @@ import com.sergtm.entities.HeartRate;
 @Repository
 @Transactional
 public class HeartRateDaoImpl implements IHeartRateDao {
-    private static final String FIND_BY_DATE_RANGE = "from HeartRate h where h.date between :from and :to order by h.date";
+    private static final String FIND_BY_DATE_RANGE = "FROM HeartRate h where h.date between :from and :to order by h.date";
 
     @Autowired
     private SessionFactory sessionFactory;

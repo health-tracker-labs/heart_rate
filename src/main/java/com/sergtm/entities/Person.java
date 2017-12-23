@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 @Table(schema = "HEART_RATE", name = "PERSON")
 public class Person implements IEntity{
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PERSON_SEQUENCE")
-    @SequenceGenerator(name="PERSON_SEQUENCE", sequenceName="PERSON_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
     @Column(name = "FIRST_NAME")

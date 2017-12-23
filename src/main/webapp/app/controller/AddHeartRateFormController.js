@@ -5,6 +5,8 @@ Ext.define('app.controller.AddHeartRateFormController', {
     onResetButtonClick: function() {
         var form = this.getView();
         form.reset();
+        location.reload();
+
     },
 
     onSubmitButtonClick: function() {

@@ -7,7 +7,7 @@ Ext.define('app.view.AddHeartRateForm', {
 
     controller: 'AddHeartRateFormController',
 
-    width: 650,
+    width: 1440,
     title: 'Add Heart Rate',
     renderTo: Ext.getBody(),
 
@@ -26,6 +26,9 @@ Ext.define('app.view.AddHeartRateForm', {
         fieldLabel: 'Lower',
         name: 'lowerPressure'
     }, {
+        fieldLabel: 'BPM',
+        name: 'beatsPerMinute'
+    }, {
         xtype: 'combobox',
         fieldLabel: 'Person',
         store: Ext.create('app.store.PersonStore'),
@@ -35,7 +38,7 @@ Ext.define('app.view.AddHeartRateForm', {
         name: 'personId'
     }],
     buttons: [{
-        text: 'Reset',
+        text: 'Refresh',
         handler: 'onResetButtonClick'
     }, {
         text: 'Submit',

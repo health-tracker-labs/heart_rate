@@ -13,8 +13,7 @@ import java.util.Date;
 @XmlRootElement
 public class HeartRate implements IEntity{
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO, generator="HEART_RATE_SEQUENCE")
-    @SequenceGenerator(name="HEART_RATE_SEQUENCE", sequenceName="HEART_RATE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     @XmlTransient
     private Long id;
@@ -24,6 +23,9 @@ public class HeartRate implements IEntity{
 
     @Column(name = "LOWER_PRESSURE")
     private int lowerPressure;
+
+    @Column(name = "BPM")
+    private int beatsPerMinute;
 
     @Column(name = "CONCREATE_DATE")
     @Temporal(TemporalType.DATE)
@@ -59,6 +61,14 @@ public class HeartRate implements IEntity{
         this.lowerPressure = lowerPressure;
     }
 
+    public int getBeatsPerMinute() {
+        return beatsPerMinute;
+    }
+
+    public void setBeatsPerMinute(int beatsPerMinute) {
+        this.beatsPerMinute = beatsPerMinute;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -75,10 +85,11 @@ public class HeartRate implements IEntity{
         this.person = person;
     }
 
-    public static HeartRate createHeartRate(int upperPressure, int lowerPressure, Date datetime, Person person){
+    public static HeartRate createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, Person person){
         HeartRate hr = new HeartRate();
         hr.setUpperPressure(upperPressure);
         hr.setLowerPressure(lowerPressure);
+        hr.setBeatsPerMinute(beatsPerMinute);
         hr.setDate(datetime);
         hr.setPerson(person);
         return hr;

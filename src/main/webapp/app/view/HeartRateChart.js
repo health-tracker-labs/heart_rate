@@ -7,14 +7,14 @@ Ext.define('app.view.HeartRateChart', {
 
     controller: 'HeartRateChartController',
 
-    width: 650,
+    width: 1440,
     renderTo: Ext.getBody(),
 
     items: [{
         xtype: 'cartesian',
         reference: 'chart',
         width: '100%',
-        height: 500,
+        height: 540,
         store: Ext.create('app.store.HeartRateChartStore'),
         insetPadding: {
             top: 40,
@@ -36,7 +36,7 @@ Ext.define('app.view.HeartRateChart', {
         }],
         axes: [{
             type: 'numeric',
-            fields: ['lower', 'upper' ],
+            fields: ['lower', 'upper', 'beatsPerMinute'],
             position: 'left',
             grid: true
         }, {
@@ -79,6 +79,27 @@ Ext.define('app.view.HeartRateChart', {
             type: 'line',
             xField: 'date',
             yField: 'upper',
+            smooth: true,
+            style: {
+                lineWidth: 4
+            },
+            marker: {
+                radius: 4
+            },
+            highlight: {
+                fillStyle: '#000',
+                radius: 5,
+                lineWidth: 2,
+                strokeStyle: '#fff'
+            },
+            tooltip: {
+                trackMouse: true,
+                renderer: 'onSeriesTooltipRender'
+            }
+        }, {
+            type: 'line',
+            xField: 'date',
+            yField: 'beatsPerMinute',
             smooth: true,
             style: {
                 lineWidth: 4

@@ -36,38 +36,38 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
     @Override
     @Transactional
-    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, Date datetime, String firstName, String secondName) {
+    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, String firstName, String secondName) {
         List<Person> people = personDao.getPersonByName(firstName, secondName);
 
         if (people.size() == 1) {
-            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, datetime, people.get(0));
+            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, people.get(0));
 
             return Arrays.asList(hr);
         } else if (people.size() == 0) {
             Person person = Person.createPerson(firstName, secondName);
             personDao.savePerson(person);
 
-            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, datetime, person);
+            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
             return Arrays.asList(hr);
         } else {
             return people;
         }
     }
-
+    //Rewrite
     @Override
     @Transactional
     public HeartRate createHeartRate(AddHeartRateForm form) {
         Person person = personDao.getPersonById(form.getPersonId());
         HeartRate hr = createAndSaveHeartRate(form.getUpperPressure(), 
-                form.getLowerPressure(), new Date(), person);
+                form.getLowerPressure(), form.getBeatsPerMinute() ,new Date(), person);
         return hr;
     }
-
+    //Rewrite
     @Override
     @Transactional
-    public void addHeartRateById(Long id, int upperPressure, int lowerPressure, Date datetime) {
+    public void addHeartRateById(Long id, int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime) {
         Person person = personDao.getPersonById(id);
-        HeartRate heartRate = HeartRate.createHeartRate(upperPressure, lowerPressure, datetime, person);
+        HeartRate heartRate = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
         heartRateDao.addHeartRate(heartRate);
     }
 
@@ -105,8 +105,8 @@ public class HeartRateServiceImpl implements IHeartRateService {
         return false;
     }
 
-    private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, Date datetime, Person person) {
-        HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure, datetime, person);
+    private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, Person person) {
+        HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
         heartRateDao.addHeartRate(hr);
         return hr;
     }
