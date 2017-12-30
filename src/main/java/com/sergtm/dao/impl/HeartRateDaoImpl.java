@@ -40,7 +40,6 @@ public class HeartRateDaoImpl implements IHeartRateDao {
         sessionFactory.getCurrentSession().delete(heartRate);
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public Collection<HeartRate> getByPage(int firstResult, int maxResult) {

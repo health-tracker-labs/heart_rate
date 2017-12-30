@@ -26,7 +26,7 @@ PERSON_ID INT NOT NULL
 );
 
 ALTER TABLE HEART_RATE.HEART_RATE ADD CONSTRAINT fk_heart_rate_person_id FOREIGN KEY(PERSON_ID) REFERENCES heart_rate.PERSON(ID) ON DELETE CASCADE;
-
+alter table heart_rate.heart_rate add BPM int default 0 not null
 
 CREATE TABLE HEART_RATE.HELP(
 ID INT NOT NULL PRIMARY KEY auto_increment,

@@ -12,7 +12,7 @@ Ext.define('app.view.HeartRateChart', {
 
     items: [{
         xtype: 'cartesian',
-        reference: 'chart',
+        itemId: 'chart',
         width: '100%',
         height: 540,
         store: Ext.create('app.store.HeartRateChartStore'),
@@ -36,7 +36,7 @@ Ext.define('app.view.HeartRateChart', {
         }],
         axes: [{
             type: 'numeric',
-            fields: ['lower', 'upper', 'beatsPerMinute'],
+            fields: ['upper', 'lower', 'beatsPerMinute'],
             position: 'left',
             grid: true
         }, {
@@ -57,7 +57,7 @@ Ext.define('app.view.HeartRateChart', {
         series: [{
             type: 'line',
             xField: 'date',
-            yField: 'lower',
+            yField: 'upper',
             smooth: true,
             style: {
                 lineWidth: 4
@@ -78,7 +78,7 @@ Ext.define('app.view.HeartRateChart', {
         }, {
             type: 'line',
             xField: 'date',
-            yField: 'upper',
+            yField: 'lower',
             smooth: true,
             style: {
                 lineWidth: 4
