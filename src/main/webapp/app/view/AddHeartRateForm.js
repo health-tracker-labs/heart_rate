@@ -30,6 +30,7 @@ Ext.define('app.view.AddHeartRateForm', {
         name: 'beatsPerMinute'
     }, {
         xtype: 'combobox',
+        reference: 'personCombobox',
         fieldLabel: 'Person',
         store: Ext.create('app.store.PersonStore'),
         queryMode: 'local',

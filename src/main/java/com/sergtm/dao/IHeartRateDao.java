@@ -13,5 +13,5 @@ public interface IHeartRateDao {
     HeartRate getById(Long heartRateId);
     void deleteHeartRate(HeartRate heartRate);
     Collection<HeartRate> getByPage(int firstResult, int maxResult);
-    Collection<HeartRate> findHeartRatesByDateRange(Date from, Date from2);
+    Collection<HeartRate> findHeartRatesByDateRange(Date from, Date from2, Long personId);
 }

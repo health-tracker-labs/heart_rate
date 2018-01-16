@@ -4,9 +4,15 @@ Ext.define('app.controller.AddHeartRateFormController', {
 
     onResetButtonClick: function() {
         var form = this.getView();
+        var chart = Ext.ComponentQuery.query("#chart")[0];
+        var personId = form.getReferences().personCombobox.getValue();
+        chart.getStore().load({
+            params:{
+                personId: personId
+            }
+        });
+        chart.redraw();
         form.reset();
-        location.reload();
-
     },
 
     onSubmitButtonClick: function() {
@@ -16,9 +22,9 @@ Ext.define('app.controller.AddHeartRateFormController', {
             form.submit({
                 success: function(form, action) {
                    Ext.Msg.alert('Success', 'Save success');
-                   var chart = Ext.ComponentQuery.query("#chart")[0];
-                   chart.getStore().load();
-                   chart.redraw();
+                    var chart = Ext.ComponentQuery.query("#chart")[0];
+                    chart.getStore().load();
+                    chart.redraw();
                 },
                 failure: function(form, action) {
                     Ext.Msg.alert('Failed', 'Save failed');

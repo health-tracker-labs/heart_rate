@@ -112,14 +112,14 @@ public class HeartRateServiceImpl implements IHeartRateService {
     }
 
     @Override
-    public Collection<HeartRateOnDay> getChartData() {
+    public Collection<HeartRateOnDay> getChartData(Long personId) {
         LocalDate now = LocalDate.now();
         LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
         LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
 
         Collection<HeartRate> heartRates = heartRateDao.findHeartRatesByDateRange(
                 Date.from(firstDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), 
-                Date.from(lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()));
+                Date.from(lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), personId);
 
         return heartRates.stream()
             .map(HeartRateOnDay::new)
