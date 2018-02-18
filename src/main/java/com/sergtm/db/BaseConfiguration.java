@@ -15,10 +15,10 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @EnableTransactionManagement
-@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service" })
-@EnableWebMvc
+@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service"})
+//@EnableWebMvc
 @Import(JacksonConfiguration.class)
-public class BaseConfiguration {
+public class BaseConfiguration{
     @Autowired
     private Environment env;
 

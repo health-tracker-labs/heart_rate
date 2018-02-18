@@ -43,7 +43,6 @@ public class HeartRateController {
 
     @RequestMapping(method = RequestMethod.GET, path = "getByPage.json", produces = "application/json")
     public Collection<? extends IEntity> getAllJSon(@RequestParam(defaultValue = "1") int page){
-
         return heartRateService.findByPage(page);
     }
 

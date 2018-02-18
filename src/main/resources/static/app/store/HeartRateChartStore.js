@@ -5,7 +5,7 @@ Ext.define('app.store.HeartRateChartStore', {
 
     proxy: {
         type: 'ajax',
-        url : 'heartRate/chart.json',
+        url : '/heartRate/chart.json',
         reader: {
             type: 'json',
             rootProperty : 'data'
