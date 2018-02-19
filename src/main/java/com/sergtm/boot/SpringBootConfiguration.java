@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @EnableAutoConfiguration(exclude = {
+        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class})
 @SpringBootApplication
 @ComponentScan("com.sergtm.db")
