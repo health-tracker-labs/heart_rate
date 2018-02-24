@@ -1,5 +1,6 @@
-package com.sergtm.db;
+package com.sergtm.configuration.db;
 
+import com.sergtm.configuration.db.JacksonConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @EnableTransactionManagement
-@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service"})
+@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service", "com.sergtm.configuration.security"})
 //@EnableWebMvc
 @Import(JacksonConfiguration.class)
 public class BaseConfiguration{

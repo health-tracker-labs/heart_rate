@@ -1,4 +1,4 @@
-package com.sergtm.db;
+package com.sergtm.configuration.db;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.converter.HttpMessageConverter;

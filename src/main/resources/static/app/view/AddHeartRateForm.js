@@ -37,7 +37,15 @@ Ext.define('app.view.AddHeartRateForm', {
         displayField: 'name',
         valueField: 'id',
         name: 'personId'
-    }],
+    },
+        {
+            xtype: 'component',
+            autoEl: {
+                tag: 'a',
+                href: 'http://localhost:8080/logout',
+                html: 'logout'
+            }
+        }],
     buttons: [{
         text: 'Refresh',
         handler: 'onResetButtonClick'

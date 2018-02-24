@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
     @RequestMapping("/")
     public String home(Model model){
+        //return "redirect:/static/index.html";
+        //return "login";
         return "redirect:/static/index.html";
     }
 }
