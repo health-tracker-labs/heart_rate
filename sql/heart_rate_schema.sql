@@ -24,7 +24,7 @@ EMAIL VARCHAR2(30)
 
 CREATE SEQUENCE HEART_RATE.PERSON_SEQ;
 
-create table heart_rate.USER(
+create table heart_rate.USER_(
 ID INT not null primary key,
 USERNAME varchar2(20) not null,
 PASSWORD varchar2(20) not null,
