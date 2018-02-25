@@ -20,7 +20,7 @@
 
     <context-param>
         <param-name>spring.profiles.active</param-name>
-        <param-value>MySQL</param-value>
+        <param-value>oracle</param-value>
     </context-param>
 
     <!--<listener>

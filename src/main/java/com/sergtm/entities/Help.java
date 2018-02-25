@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Table(schema = "HEART_RATE", name = "HELP")
 public class Help implements IEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @SequenceGenerator(name = "HELP_SEQ", sequenceName = "HELP_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "HELP_SEQ")
     @Column(name = "ID")
     @JsonIgnore
     private Long id;

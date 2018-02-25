@@ -33,7 +33,7 @@ ROLE varchar2(20) not null
 
 CREATE SEQUENCE HEART_RATE.USER_SEQ;
 
-insert into HEART_RATE.USER(username, password, role) values('admin', 'admin', 'ADMIN');
+insert into HEART_RATE.USER(id, username, password, role) values(1,'admin', 'admin', 'ADMIN');
 
 CREATE TABLE HEART_RATE.HEART_RATE(
 ID INT NOT NULL PRIMARY KEY,

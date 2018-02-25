@@ -13,7 +13,8 @@ import java.util.Date;
 @XmlRootElement
 public class HeartRate implements IEntity{
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @SequenceGenerator(name = "HEART_RATE_SEQ", sequenceName = "HEART_RATE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "HEART_RATE_SEQ")
     @Column(name = "ID")
     @XmlTransient
     private Long id;
