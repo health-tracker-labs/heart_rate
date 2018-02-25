@@ -7,7 +7,7 @@
 <body>
 <div class="logFormDiv">
 <h2>LOGIN</h2>
-<form action="/login" method="post" class="centeredLoginForm">
+<form action="login" method="post" class="centeredLoginForm">
     <c:if test="${param.error != null}">
         <p style='color:red'>
             Invalid username and password.

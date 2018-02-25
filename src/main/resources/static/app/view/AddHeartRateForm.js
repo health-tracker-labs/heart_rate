@@ -11,7 +11,7 @@ Ext.define('app.view.AddHeartRateForm', {
     title: 'Add Heart Rate',
     renderTo: Ext.getBody(),
 
-    url: '/heartRate/save.do',
+    url: '../heartRate/save.do',
 
     defaults: {
         anchor: '100%',
@@ -42,7 +42,7 @@ Ext.define('app.view.AddHeartRateForm', {
             xtype: 'component',
             autoEl: {
                 tag: 'a',
-                href: 'http://localhost:8080/logout',
+                href: '../logout',
                 html: 'logout'
             }
         }],

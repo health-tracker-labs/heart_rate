@@ -3,7 +3,7 @@ Ext.define('app.store.PersonStore', {
 
     proxy: {
         type: 'ajax',
-        url : '/person/getAll.json',
+        url : '../person/getAll.json',
         reader: {
             type: 'json',
             rootProperty : 'data'
