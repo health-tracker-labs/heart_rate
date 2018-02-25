@@ -4,8 +4,9 @@ import com.sergtm.Role;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(schema = "HEART_RATE", name = "USER")
+@Table(schema = "HEART_RATE", name = "USER_")
 public class User implements IEntity{
 
     @Id
