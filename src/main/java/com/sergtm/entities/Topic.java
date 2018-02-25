@@ -7,7 +7,8 @@ import javax.persistence.*;
 @Table(schema = "HEART_RATE", name = "TOPIC")
 public class Topic implements IEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @SequenceGenerator(name = "TOPIC_SEQ", sequenceName = "TOPIC_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "TOPIC_SEQ")
     @Column(name = "ID")
     private Long id;
 
