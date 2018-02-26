@@ -33,7 +33,7 @@ PERSON_ID INT NOT NULL
 );
 
 ALTER TABLE HEART_RATE ADD CONSTRAINT fk_heart_rate_person_id FOREIGN KEY(PERSON_ID) REFERENCES PERSON(ID) ON DELETE CASCADE ENABLE;
-alter table heart_rate add BPM int default 0 not null
+alter table heart_rate add BPM int default 0 not null;
 
 CREATE SEQUENCE HEART_RATE_SEQ;
 
