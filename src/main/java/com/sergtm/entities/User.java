@@ -1,7 +1,8 @@
 package com.sergtm.entities;
 
+import com.sergtm.Role;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table( name = "USER")
@@ -22,8 +23,6 @@ public class User implements IEntity{
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role role;
-
-
 
     @Override
     public Long getId() {
