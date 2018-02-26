@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class User implements IEntity{
 
     @Id
-    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USER_SEQ")
+    @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USERS_SEQ")
     @Column(name = "ID")
     private Long id;
 
