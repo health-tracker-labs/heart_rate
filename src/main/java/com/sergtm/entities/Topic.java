@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(schema = "HEART_RATE", name = "TOPIC")
+@Table(name = "TOPIC")
 public class Topic implements IEntity {
     @Id
     @SequenceGenerator(name = "TOPIC_SEQ", sequenceName = "TOPIC_SEQ", allocationSize = 1)

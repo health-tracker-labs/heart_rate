@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * Created by Sergey on 16.07.2017.
  */
 @Entity
-@Table(schema = "HEART_RATE", name = "PERSON")
+@Table(name = "PERSON")
 public class Person implements IEntity{
     @Id
     @SequenceGenerator(name = "PERSON_SEQ", sequenceName = "PERSON_SEQ", allocationSize = 1)

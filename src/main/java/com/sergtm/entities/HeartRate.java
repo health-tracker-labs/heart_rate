@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Sergey on 16.07.2017.
  */
 @Entity
-@Table(schema = "HEART_RATE", name = "HEART_RATE")
+@Table(name = "HEART_RATE")
 @XmlRootElement
 public class HeartRate implements IEntity{
     @Id

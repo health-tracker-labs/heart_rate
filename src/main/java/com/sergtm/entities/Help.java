@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "HEART_RATE", name = "HELP")
+@Table(name = "HELP")
 public class Help implements IEntity {
     @Id
     @SequenceGenerator(name = "HELP_SEQ", sequenceName = "HELP_SEQ", allocationSize = 1)
