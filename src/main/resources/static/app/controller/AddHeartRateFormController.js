@@ -25,6 +25,7 @@ Ext.define('app.controller.AddHeartRateFormController', {
                     var chart = Ext.ComponentQuery.query("#chart")[0];
                     chart.getStore().load();
                     chart.redraw();
+                    form.reset();
                 },
                 failure: function(form, action) {
                     Ext.Msg.alert('Failed', 'Save failed');

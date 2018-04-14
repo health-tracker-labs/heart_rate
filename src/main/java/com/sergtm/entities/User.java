@@ -1,16 +1,14 @@
 package com.sergtm.entities;
 
-import com.sergtm.Role;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table( name = "USERS")
+@Table(schema = "HEART_RATE", name = "USER")
 public class User implements IEntity{
 
     @Id
-    @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USERS_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
@@ -20,9 +18,17 @@ public class User implements IEntity{
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "ROLE")
+    /*@Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role;*/
+
+    @JoinTable(
+        name = "USER_ROLE",
+        joinColumns = @JoinColumn(name = "ROLE_ID"),
+        inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     @Override
     public Long getId() {
@@ -49,11 +55,11 @@ public class User implements IEntity{
         this.password = password;
     }
 
-
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
-    public void setRole(Role role) {
-        this.role = role;
+
+    public void setRoles(List<Role> role) {
+        this.roles = roles;
     }
 }

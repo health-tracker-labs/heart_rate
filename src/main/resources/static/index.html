@@ -1,23 +1,61 @@
 <html>
 <head>
-<title>Hear Rate application</title>
-<link rel="stylesheet" type="text/css" href="../webjars/extjs/6.2.0/build/classic/theme-neptune/resources/theme-neptune-all-debug.css">
-<link rel="stylesheet" type="text/css" href="../webjars/extjs/6.2.0/build/packages/charts/classic/neptune/resources/charts-all.css">
+    <title>Hear Rate application</title>
+    <link rel="stylesheet" type="text/css"
+          href="../webjars/extjs/6.2.0/build/classic/theme-neptune/resources/theme-neptune-all-debug.css">
+    <link rel="stylesheet" type="text/css"
+          href="../webjars/extjs/6.2.0/build/packages/charts/classic/neptune/resources/charts-all.css">
+    <script type="text/javascript"
+            src="../webjars/extjs/6.2.0/build/ext-all-debug.js"></script>
+    <script type="text/javascript"
+            src="../webjars/extjs/6.2.0/build/classic/theme-neptune/theme-neptune-debug.js"></script>
+    <script type="text/javascript" src="../webjars/extjs/6.2.0/build/packages/charts/classic/charts.js"></script>
 
-<script type="text/javascript" src="../webjars/extjs/6.2.0/build/ext-all-debug.js"></script>
-<script type="text/javascript" src="../webjars/extjs/6.2.0/build/classic/theme-neptune/theme-neptune-debug.js"></script>
-<script type="text/javascript" src="../webjars/extjs/6.2.0/build/packages/charts/classic/charts.js"></script>
-
-<script type="text/javascript">
-    Ext.application({
-        name: 'HeartRate',
-        launch: function() {
-            Ext.create('app.view.HeartRateChart');
-            Ext.create('app.view.AddHeartRateForm');
-        }
-    });
-</script>
+    <script type="text/javascript">
+        Ext.application({
+            name: 'HeartRate',
+            launch: function () {
+                Ext.create('app.view.HeartRateChart');
+                Ext.create('app.view.AddHeartRateForm');
+            }
+        });
+    </script>
+    <!--<script src="../webjars/angularjs/1.2.20/angular.js"></script>
+    <script src="js/controller.js"></script>
+    <link rel="stylesheet" href="../webjars/bootstrap/3.3.6/css/bootstrap.min.css"/>-->
 </head>
 <body>
+    <!--<div class="container" ng-app="app">
+
+        <h3 style="color:black">Enter login and password</h3>
+
+        <div ng-controller="postcontroller">
+            <form class="form-horizontal" name="customerForm" ng-submit="submitForm()" action="/login">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="firstnameID">Login:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="login" id="firstnameID"
+                               placeholder="Enter Login" ng-model="firstname"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="lastnameID">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="lastname" id="lastnameID"
+                               placeholder="Enter Password" ng-model="lastname"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-sm-offset-2 col-sm-10">
+                <p>{{postResultMessage}}</p>
+            </div>
+        </div>
+    </div>-->
 </body>
 </html>
