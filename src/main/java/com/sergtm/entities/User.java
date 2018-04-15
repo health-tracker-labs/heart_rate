@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(schema = "HEART_RATE", name = "USER")
+@Table( name = "USERS")
 public class User implements IEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "USERS_SEQ")
     @Column(name = "ID")
     private Long id;
 

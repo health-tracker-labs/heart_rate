@@ -5,11 +5,12 @@ import com.sergtm.entities.IEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "HEART_RATE", name = "ROLE")
+@Table(name = "ROLE")
 public class Role implements IEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "ROLE_SEQ", sequenceName = "ROLE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ROLE_SEQ")
     @Column(name = "ID")
     private Long id;
 
