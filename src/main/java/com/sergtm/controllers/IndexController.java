@@ -10,6 +10,6 @@ public class IndexController {
     public String home(Model model){
         //return "redirect:/static/index.html";
         //return "login";
-        return "redirect:/static/index.html";
+        return "redirect:/static/home/index.html";
     }
 }

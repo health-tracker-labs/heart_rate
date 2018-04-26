@@ -24,7 +24,7 @@ NAME varchar(20) not null
 create sequence ROLE_SEQ;
 
 create table heart_rate.USER_ROLE(
-ID bigint not null primary key auto_increment,
+ID bigint not null primary key,
 USER_ID bigint not null,
 ROLE_ID bigint not null
 );
