@@ -2,7 +2,8 @@ Ext.define('app.view.HeartRateChart', {
     extend: 'Ext.Panel',
 
     requires: [
-        'app.controller.HeartRateChartController'
+        'app.controller.HeartRateChartController',
+        'app.view.MainToolBar'
     ],
 
     controller: 'HeartRateChartController',
@@ -11,18 +12,11 @@ Ext.define('app.view.HeartRateChart', {
     renderTo: Ext.getBody(),
 
 
-    items: [{
-        xtype: 'component',
-        autoEl: {
-            tag: 'a',
-            href: '../logout',
-            html: 'logout',
-        },
+    items: [
+        {
+            xtype: 'view.myToolbar'
 
-    }, {
-        xtype: 'button',
-        text: 'button'
-    },
+        },
         {
             xtype: 'cartesian',
             itemId: 'chart',
@@ -49,7 +43,7 @@ Ext.define('app.view.HeartRateChart', {
             }],
             axes: [{
                 type: 'numeric',
-                fields: ['upper', 'lower', 'beatsPerMinute'],
+                fields: ['upper', 'lower', 'beatsPerMinute', 'weatherPressure'],
                 position: 'left',
                 grid: true
             }, {
@@ -113,6 +107,27 @@ Ext.define('app.view.HeartRateChart', {
                 type: 'line',
                 xField: 'date',
                 yField: 'beatsPerMinute',
+                smooth: true,
+                style: {
+                    lineWidth: 4
+                },
+                marker: {
+                    radius: 4
+                },
+                highlight: {
+                    fillStyle: '#000',
+                    radius: 5,
+                    lineWidth: 2,
+                    strokeStyle: '#fff'
+                },
+                tooltip: {
+                    trackMouse: true,
+                    renderer: 'onSeriesTooltipRender'
+                }
+            }, {
+                type: 'line',
+                xField: 'date',
+                yField: 'weatherPressure',
                 smooth: true,
                 style: {
                     lineWidth: 4

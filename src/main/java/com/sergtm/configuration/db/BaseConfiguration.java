@@ -1,6 +1,5 @@
 package com.sergtm.configuration.db;
 
-import com.sergtm.configuration.db.JacksonConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @EnableTransactionManagement
-@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service", "com.sergtm.configuration.security"})
+@ComponentScan({ "com.sergtm.controllers", "com.sergtm.dao", "com.sergtm.service", "com.sergtm.configuration.security", "com.sergtm.component"})
 //@EnableWebMvc
 @Import(JacksonConfiguration.class)
 public class BaseConfiguration{

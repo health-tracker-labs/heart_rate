@@ -1,4 +1,4 @@
-<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Login</title>
@@ -10,6 +10,13 @@
         <div class="form-group">
             <h3 style="color:black">Enter username and password</h3>
         </div>
+        <c:if test="${param.error != null}">
+            <div style="margin: auto; width: 65%">
+                <p style='color:red'>
+                    Invalid username or password.
+                </p>
+            </div>
+        </c:if>
         <div class="form-group">
             <label class="control-label col-sm-2" for="usernameID">Username:</label>
             <div class="col-sm-5">
@@ -32,11 +39,11 @@
     </form>
 </div>
 <%--<div class="container">
-&lt;%&ndash;<h2>LOGIN</h2>&ndash;%&gt;
+<h2>LOGIN</h2>
 <form action="login" method="post" class="centeredLoginForm">
     <c:if test="${param.error != null}">
         <p style='color:red'>
-            Invalid username and password.
+            Invalid username or password.
         </p>
     </c:if>
     <c:if test="${param.logout != null}">

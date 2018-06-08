@@ -3,6 +3,9 @@ DROP TABLE HEART_RATE.PERSON;
 DROP TABLE HEART_RATE.HELP;
 DROP TABLE HEART_RATE.TOPIC;
 DROP TABLE HEART_RATE.USER;
+DROP TABLE HEART_RATE.ROLE;
+DROP TABLE HEART_RATE.USER_ROLE;
+DROP TABLE HEART_RATE.PRESSURE;
 
 
 CREATE TABLE HEART_RATE.PERSON(
@@ -21,11 +24,29 @@ EMAIL VARCHAR(30)
 create table heart_rate.USER(
 ID bigint not null primary key auto_increment,
 USERNAME varchar(20) not null,
-PASSWORD varchar(20) not null,
-ROLE varchar(20) not null
+PASSWORD varchar(20) not null
 );
 
-insert into HEART_RATE.USER(username, password, role) values('admin', 'admin', 'ADMIN');
+create table heart_rate.ROLE(
+ID bigint not null primary key auto_increment,
+NAME varchar(20) not null
+);
+
+create table heart_rate.USER_ROLE(
+ID bigint not null primary key auto_increment,
+USER_ID bigint not null,
+ROLE_ID bigint not null
+);
+
+alter table HEART_RATE.USER_ROLE ADD CONSTRAINT fk_user_role_user_id FOREIGN KEY(USER_ID) REFERENCES heart_rate.USER(ID) ON DELETE CASCADE;
+alter table HEART_RATE.USER_ROLE ADD CONSTRAINT fk_user_role_role_id FOREIGN KEY(ROLE_ID) REFERENCES heart_rate.ROLE(ID) ON DELETE CASCADE;
+
+insert into heart_rate.USER(USERNAME, PASSWORD) values('admin', 'admin');
+insert into heart_rate.USER(USERNAME, PASSWORD) values('user', 'user');
+insert into HEART_RATE.ROLE(NAME) values ('ADMIN');
+insert into HEART_RATE.USER_ROLE(USER_ID, ROLE_ID) values(1,1);
+insert into HEART_RATE.USER_ROLE(USER_ID, ROLE_ID) values(2,1);
+
 
 CREATE TABLE HEART_RATE.HEART_RATE(
 ID bigint NOT NULL PRIMARY KEY auto_increment,
@@ -46,6 +67,11 @@ DESCRIPTION longtext NOT NULL,
 TOPIC_ID bigint NOT NULL
 );
 
+create table HEART_RATE.PRESSURE(
+ID bigint not null primary key auto_increment,
+concrete_date date not null,
+pressure double not null
+);
 
 CREATE TABLE HEART_RATE.TOPIC(
 ID bigint NOT NULL PRIMARY KEY auto_increment,

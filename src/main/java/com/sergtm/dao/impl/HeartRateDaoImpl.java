@@ -2,11 +2,15 @@ package com.sergtm.dao.impl;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 
+import com.sergtm.dto.StatisticOnDay;
+import com.sergtm.entities.HeartRateWithWeatherPressure;
+import com.sergtm.entities.Pressure;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,13 @@ import com.sergtm.entities.HeartRate;
 @Repository
 @Transactional
 public class HeartRateDaoImpl implements IHeartRateDao {
-    private static final String FIND_BY_DATE_RANGE = "FROM HeartRate h where h.date between :from and :to order by h.date";
-    private static final String FIND_BY_DATE_RANGE_AND_PERSON_ID = "FROM HeartRate h where h.date between :from and :to and h.person.id = :id order by h.date";
+    //private static final String FIND_BY_DATE_RANGE = "FROM HeartRate h where h.date between :from and :to order by h.date";
+    //private static final String FIND_BY_DATE_RANGE_AND_PERSON_ID = "FROM HeartRate h where h.date between :from and :to and h.person.id = :id order by h.date";
+    private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE =
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to order by h.date";
+    private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID =
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and h.person.id is null or h.person.id = :id  order by h.date";
+
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -54,11 +63,23 @@ public class HeartRateDaoImpl implements IHeartRateDao {
         return query.getResultList();
     }
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     @Override
     public Collection<HeartRate> findHeartRatesByDateRange(Date from, Date to, Long id) {
 
-        Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_BY_DATE_RANGE : FIND_BY_DATE_RANGE_AND_PERSON_ID);
+        *//*Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_BY_DATE_RANGE : FIND_BY_DATE_RANGE_AND_PERSON_ID);
+        query.setParameter("from", from, TemporalType.DATE);
+        query.setParameter("to", to, TemporalType.DATE);
+        if (id != null) {
+            query.setParameter("id", id);
+        }
+        return query.getResultList();*//*
+        return null;
+    }*/
+
+    @Override
+    public Collection<HeartRateWithWeatherPressure> getData(Date from, Date to, Long id){
+        Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE : FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID);
         query.setParameter("from", from, TemporalType.DATE);
         query.setParameter("to", to, TemporalType.DATE);
         if (id != null) {

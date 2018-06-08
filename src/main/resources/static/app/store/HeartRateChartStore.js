@@ -1,7 +1,7 @@
 Ext.define('app.store.HeartRateChartStore', {
     extend: 'Ext.data.Store',
 
-    fields: ['date', 'lower', 'upper', 'beatsPerMinute'],
+    fields: ['lower', 'upper', 'beatsPerMinute', 'weatherPressure'],
 
     proxy: {
         type: 'ajax',
