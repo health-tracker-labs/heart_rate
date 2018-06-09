@@ -1,13 +1,13 @@
-DROP TABLE HEART_RATE.HEART_RATE;
-DROP TABLE HEART_RATE.PERSON;
-DROP TABLE HEART_RATE.HELP;
-DROP TABLE HEART_RATE.TOPIC;
-DROP SEQUENCE HEART_RATE.PERSON_SEQ;
-DROP SEQUENCE HEART_RATE.HEART_RATE_SEQ;
-DROP SEQUENCE HEART_RATE.HELP_SEQ;
-DROP SEQUENCE HEART_RATE.TOPIC_SEQ;
+DROP TABLE HEART_RATE;
+DROP TABLE PERSON;
+DROP TABLE HELP;
+DROP TABLE TOPIC;
+DROP SEQUENCE PERSON_SEQ;
+DROP SEQUENCE HEART_RATE_SEQ;
+DROP SEQUENCE HELP_SEQ;
+DROP SEQUENCE TOPIC_SEQ;
 
-CREATE TABLE HEART_RATE.PERSON(
+CREATE TABLE PERSON(
 ID INT NOT NULL PRIMARY KEY,
 FIRST_NAME VARCHAR2(20) NOT NULL,
 MIDDLE_NAME VARCHAR2(20),
@@ -20,9 +20,9 @@ MOBILE_PHONE VARCHAR2(30),
 EMAIL VARCHAR2(30)
 );
 
-CREATE SEQUENCE HEART_RATE.PERSON_SEQ;
+CREATE SEQUENCE PERSON_SEQ;
 
-CREATE TABLE HEART_RATE.HEART_RATE(
+CREATE TABLE HEART_RATE(
 ID INT NOT NULL PRIMARY KEY,
 UPPER_PRESSURE INT NOT NULL,
 LOWER_PRESSURE INT NOT NULL,
@@ -30,36 +30,37 @@ CONCREATE_DATE DATE NOT NULL,
 PERSON_ID INT NOT NULL
 );
 
-ALTER TABLE HEART_RATE.HEART_RATE ADD CONSTRAINT fk_heart_rate_person_id FOREIGN KEY(PERSON_ID) REFERENCES heart_rate.PERSON(ID) ON DELETE CASCADE ENABLE;
+ALTER TABLE HEART_RATE ADD CONSTRAINT fk_heart_rate_person_id FOREIGN KEY(PERSON_ID) REFERENCES PERSON(ID) ON DELETE CASCADE ENABLE;
+alter table heart_rate add BPM int default 0 not null;
 
-CREATE SEQUENCE HEART_RATE.HEART_RATE_SEQ;
+CREATE SEQUENCE HEART_RATE_SEQ;
 
-CREATE TABLE HEART_RATE.HELP(
+CREATE TABLE HELP(
 ID INT NOT NULL PRIMARY KEY,
 NAME VARCHAR2(30) NOT NULL,
 DESCRIPTION CLOB NOT NULL,
 TOPIC_ID INT NOT NULL
 );
 
-CREATE SEQUENCE HEART_RATE.HELP_SEQ;
+CREATE SEQUENCE HELP_SEQ;
 
-CREATE TABLE HEART_RATE.TOPIC(
+CREATE TABLE TOPIC(
 ID INT NOT NULL PRIMARY KEY,
 NAME VARCHAR2(30) NOT NULL
 );
 
-CREATE SEQUENCE HEART_RATE.TOPIC_SEQ;
-ALTER TABLE HEART_RATE.HELP ADD CONSTRAINT fk_help_topic_id FOREIGN KEY(TOPIC_ID) REFERENCES heart_rate.TOPIC(ID) ON DELETE CASCADE ENABLE;
+CREATE SEQUENCE TOPIC_SEQ;
+ALTER TABLE HELP ADD CONSTRAINT fk_help_topic_id FOREIGN KEY(TOPIC_ID) REFERENCES TOPIC(ID) ON DELETE CASCADE ENABLE;
 
-insert into heart_rate.TOPIC(id, NAME) values(HEART_RATE.TOPIC_SEQ.nextval, 'PERSON');
-insert into heart_rate.TOPIC(id, NAME) values(HEART_RATE.TOPIC_SEQ.nextval, 'HEART_RATE');
+insert into TOPIC(id, NAME) values(TOPIC_SEQ.nextval, 'PERSON');
+insert into TOPIC(id, NAME) values(TOPIC_SEQ.nextval, 'HEART_RATE');
 
-insert into heart_rate.help (id, NAME, description, TOPIC_ID) values (HEART_RATE.HELP_SEQ.nextval, 'Add Heart Rate', 'Эта функция добавляет внесённое давление в базу данных '
-|| 'и возвращает добавленные данные на экран.'
-|| ' Параметры: upperPressure - Ваше верхнее давлениt, lowerPressure - Ваше нижнее давление, date - опциональный параметр который вставляет в базу даннных внесённую дату, 
-по умолчанию вставляет время внесения информации,'
-|| 'firstName - имя записи person, secondName - фамилия записи person', 2);
+insert into help (id, NAME, description, TOPIC_ID) values (HELP_SEQ.nextval, 'Add Heart Rate', 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ '
+|| 'пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.'
+|| ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: upperPressure - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅt, lowerPressure - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, date - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, 
+пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,'
+|| 'firstName - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ person, secondName - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ person', 2);
 
-insert into heart_rate.help (id, NAME, description, TOPIC_ID) values (HEART_RATE.HELP_SEQ.nextval, 'Add Heart Rate By Id', 'Эта функция внесённое давление в базу данных, её стоит использовать когда вы знаете ID вашей записи в PERSON.'
-|| ' Параметры: id - уникальный числовой идентификатор записи PERSON, upperPressure - Ваше верхнее давлениt, lowerPressure - Ваше нижнее давление, date - опциональный параметр который вставляет в базу даннных внесённую дату, 
-по умолчанию вставляет время внесения информации.', 2);
+insert into help (id, NAME, description, TOPIC_ID) values (HELP_SEQ.nextval, 'Add Heart Rate By Id', 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ PERSON.'
+|| ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: id - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ PERSON, upperPressure - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅt, lowerPressure - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, date - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, 
+пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.', 2);

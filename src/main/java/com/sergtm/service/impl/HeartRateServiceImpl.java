@@ -3,8 +3,9 @@ package com.sergtm.service.impl;
 import com.sergtm.dao.IHeartRateDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
-import com.sergtm.dto.HeartRateOnDay;
+import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.HeartRate;
+import com.sergtm.entities.HeartRateWithWeatherPressure;
 import com.sergtm.entities.IEntity;
 import com.sergtm.entities.Person;
 import com.sergtm.form.AddHeartRateForm;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -112,17 +114,17 @@ public class HeartRateServiceImpl implements IHeartRateService {
     }
 
     @Override
-    public Collection<HeartRateOnDay> getChartData() {
+    public Collection<StatisticOnDay> getChartData(Long personId) {
         LocalDate now = LocalDate.now();
         LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
         LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
 
-        Collection<HeartRate> heartRates = heartRateDao.findHeartRatesByDateRange(
+        Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateDao.getData(
                 Date.from(firstDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), 
-                Date.from(lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()));
+                Date.from(lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), personId);
 
-        return heartRates.stream()
-            .map(HeartRateOnDay::new)
+        return heartRateWithWeatherPressures.stream()
+            .map(StatisticOnDay::new)
             .collect(Collectors.toList());
     }
 }

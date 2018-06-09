@@ -1,7 +1,8 @@
 package com.sergtm.service;
 
-import com.sergtm.dto.HeartRateOnDay;
+import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.HeartRate;
+import com.sergtm.entities.HeartRateWithWeatherPressure;
 import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
 
@@ -17,5 +18,5 @@ public interface IHeartRateService {
     Collection<? extends IEntity> findByPage(int page);
     boolean deleteHeartRate(Long id);
 
-    Collection<HeartRateOnDay> getChartData();
+    Collection<StatisticOnDay> getChartData(Long id);
 }
