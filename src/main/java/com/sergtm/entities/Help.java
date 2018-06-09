@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "HELP")
+@Table(schema = "HEART_RATE", name = "HELP")
 public class Help implements IEntity {
     @Id
-    @SequenceGenerator(name = "HELP_SEQ", sequenceName = "HELP_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "HELP_SEQ")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     @JsonIgnore
     private Long id;

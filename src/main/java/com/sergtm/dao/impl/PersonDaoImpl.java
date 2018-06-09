@@ -29,6 +29,7 @@ public class PersonDaoImpl implements IPersonDao{
     @Override
     public Person getPersonById(Long personId) {
         return sessionFactory.getCurrentSession().get(Person.class, personId);
+
     }
 
     @Override

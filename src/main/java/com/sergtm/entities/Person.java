@@ -10,11 +10,10 @@ import java.time.LocalDateTime;
  * Created by Sergey on 16.07.2017.
  */
 @Entity
-@Table(name = "PERSON")
+@Table(schema = "HEART_RATE", name = "PERSON")
 public class Person implements IEntity{
     @Id
-    @SequenceGenerator(name = "PERSON_SEQ", sequenceName = "PERSON_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PERSON_SEQ")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
     @Column(name = "FIRST_NAME")

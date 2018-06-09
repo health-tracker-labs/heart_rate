@@ -9,12 +9,11 @@ import java.util.Date;
  * Created by Sergey on 16.07.2017.
  */
 @Entity
-@Table(name = "HEART_RATE")
+@Table(schema = "HEART_RATE", name = "HEART_RATE")
 @XmlRootElement
 public class HeartRate implements IEntity{
     @Id
-    @SequenceGenerator(name = "HEART_RATE_SEQ", sequenceName = "HEART_RATE_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "HEART_RATE_SEQ")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID")
     @XmlTransient
     private Long id;
