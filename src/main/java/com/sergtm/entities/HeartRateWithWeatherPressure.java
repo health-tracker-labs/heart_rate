@@ -21,6 +21,7 @@ public class HeartRateWithWeatherPressure {
     @Column(name = "concrete_date")
     private LocalDate date;
 
+    @Column(columnDefinition = "BINARY_DOUBLE")
     private Double weatherPressure;
 
     @ManyToOne

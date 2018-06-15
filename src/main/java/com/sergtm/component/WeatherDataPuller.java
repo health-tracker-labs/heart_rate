@@ -4,6 +4,8 @@ import com.sergtm.model.List;
 import com.sergtm.model.RestPostsModel;
 import com.sergtm.service.IPressureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -23,16 +25,18 @@ public class WeatherDataPuller {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String EXTERNAL_REST_URL = "http://api.openweathermap.org/data/2.5/forecast?id=703448&appid=41a379bb03ac781ec6c814b80f49c0b4";
+    @Value("${openWhetherMapUrl}")
+    private String openWhetherMapUrl;
 
-    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "${WhetherDataPullerDelay}")
     public void pull() {
+        System.out.println("Entered");
         Map<LocalDate, Double> map = new TreeMap<>();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         ResponseEntity<RestPostsModel> response = restTemplate.exchange(
-                EXTERNAL_REST_URL,
+                openWhetherMapUrl,
                 HttpMethod.GET,
                 entity,
                 RestPostsModel.class
