@@ -16,7 +16,9 @@ public class Pressure implements IEntity {
     @Column(name = "CONCRETE_DATE")
     private LocalDate date;
 
-    @Column(name = "PRESSURE")
+    @Column(name = "PRESSURE",
+            columnDefinition = "BINARY_DOUBLE"
+    )
     private double pressure;
 
     public LocalDate getDate() {

@@ -60,7 +60,7 @@ public class User implements IEntity{
         return roles;
     }
 
-    public void setRoles(List<Role> role) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }
