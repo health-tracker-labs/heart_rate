@@ -51,7 +51,7 @@ Ext.define('app.view.HeartRateChart', {
                 fields: ['weatherPressure'],
                 position: 'right',
                 grid: false,
-                minimum: 500
+                minimum: 700
             }, {
                 type: 'category',
                 title: 'Date',
