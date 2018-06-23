@@ -17,6 +17,8 @@ import java.util.TreeMap;
 
 @Component
 public class WeatherDataPuller {
+    private static final double MM_HG_TRANSLATION = 1.33322387415;
+
     @Autowired
     private IPressureService pressureService;
 
@@ -62,7 +64,7 @@ public class WeatherDataPuller {
             final LocalDate ld = entry.getKey();
             double avg = entry.getValue().stream().reduce(0d, Double::sum);
             //System.out.println(avg/entry.getValue().size());
-            res.put(ld, avg/entry.getValue().size());
+            res.put(ld, (avg/entry.getValue().size())/MM_HG_TRANSLATION);
         }
         return res;
     }

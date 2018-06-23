@@ -43,8 +43,13 @@ Ext.define('app.view.HeartRateChart', {
             }],
             axes: [{
                 type: 'numeric',
-                fields: ['upper', 'lower', 'beatsPerMinute', 'weatherPressure'],
+                fields: ['upper', 'lower', 'beatsPerMinute'],
                 position: 'left',
+                grid: true
+            }, {
+                type: 'numeric',
+                fields: ['weatherPressure'],
+                position: 'right',
                 grid: true
             }, {
                 type: 'category',
