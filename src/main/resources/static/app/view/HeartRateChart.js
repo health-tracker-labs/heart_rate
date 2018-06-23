@@ -45,12 +45,13 @@ Ext.define('app.view.HeartRateChart', {
                 type: 'numeric',
                 fields: ['upper', 'lower', 'beatsPerMinute'],
                 position: 'left',
-                grid: true
+                grid: false
             }, {
                 type: 'numeric',
                 fields: ['weatherPressure'],
                 position: 'right',
-                grid: true
+                grid: false,
+                minimum: 500
             }, {
                 type: 'category',
                 title: 'Date',
