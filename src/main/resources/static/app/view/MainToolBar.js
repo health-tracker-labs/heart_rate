@@ -9,13 +9,33 @@ Ext.define('app.view.MainToolBar', {
 
     items: [{
         xtype: 'toolbar',
-        dock: 'right',
-        items: [
-            //'',
-            {
-                text: 'logout',
-                handler: 'onLogoutClick'
-            }
-        ]
+        items: [{
+            xtype: 'datefield',
+            anchor: '100%',
+            reference: 'from_date',
+            name: 'from_date',
+            emptyText: 'from'
+        }, {
+            xtype: 'datefield',
+            anchor: '100%',
+            reference: 'to_date',
+            emptyText: 'to',
+            name: 'to_date'
+        }, '-', {
+            xtype: 'combobox',
+            reference: 'personCombobox',
+            emptyText: 'person',
+            store: Ext.create('app.store.PersonStore'),
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'id',
+            name: 'personId'
+        }, '-',{
+            text: 'Apply',
+            handler: 'onSearchClick'
+        }, '->', {
+            text: 'logout',
+            handler: 'onLogoutClick'
+        }]
     }]
 });

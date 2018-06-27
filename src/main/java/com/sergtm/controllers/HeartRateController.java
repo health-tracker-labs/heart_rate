@@ -52,8 +52,8 @@ public class HeartRateController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "chart.json", produces = "application/json")
-    public Collection<StatisticOnDay> getChartData(Long personId) {
-        return heartRateService.getChartData(personId);
+    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
+        return heartRateService.getChartData(personId, from, to);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "save.do")

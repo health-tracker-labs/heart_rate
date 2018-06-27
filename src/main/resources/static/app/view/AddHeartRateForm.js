@@ -39,9 +39,6 @@ Ext.define('app.view.AddHeartRateForm', {
         name: 'personId'
     }],
     buttons: [{
-        text: 'Reset',
-        handler: 'onResetButtonClick'
-    }, {
         text: 'Submit',
         formBind: true, //only enabled once the form is valid
         disabled: true,
