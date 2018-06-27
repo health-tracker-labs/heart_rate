@@ -3,13 +3,30 @@ package com.sergtm.util;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 public class DateUtils {
-    public static LocalDateTime parseDate(String date, LocalDateTime defaultDate){
-        if (date == null || StringUtils.isEmpty(date)) {
-            return defaultDate;
-        } else {
-            return LocalDateTime.parse(date);
+    //TODO: write unit test
+    public static LocalDateTime parseDate(String date, LocalDateTime ldt){
+        LocalDateTime defaultDate = ldt;
+        if (defaultDate == null) {
+            defaultDate = LocalDateTime.now();
         }
+
+        if (StringUtils.isEmpty(date)){
+            return defaultDate;
+        }
+
+        LocalDateTime parsed = null;
+        try{
+             parsed = LocalDateTime.parse(date);
+        }catch (DateTimeParseException e){
+            //nop
+        }
+
+        if (parsed == null){
+            return defaultDate;
+        }
+        return parsed;
     }
 }

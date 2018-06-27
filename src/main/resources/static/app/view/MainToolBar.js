@@ -31,7 +31,7 @@ Ext.define('app.view.MainToolBar', {
             valueField: 'id',
             name: 'personId'
         }, '-',{
-            text: 'sort',
+            text: 'Apply',
             handler: 'onSearchClick'
         }, '->', {
             text: 'logout',
