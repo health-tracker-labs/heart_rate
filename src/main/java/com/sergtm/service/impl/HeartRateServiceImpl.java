@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -38,38 +37,40 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
     @Override
     @Transactional
-    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, String firstName, String secondName) {
+    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, String firstName, String secondName) {
         List<Person> people = personDao.getPersonByName(firstName, secondName);
 
         if (people.size() == 1) {
-            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, people.get(0));
+            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, people.get(0));
 
             return Arrays.asList(hr);
         } else if (people.size() == 0) {
             Person person = Person.createPerson(firstName, secondName);
             personDao.savePerson(person);
 
-            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
+            HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, person);
             return Arrays.asList(hr);
         } else {
             return people;
         }
     }
+
     //Rewrite
     @Override
     @Transactional
     public HeartRate createHeartRate(AddHeartRateForm form) {
         Person person = personDao.getPersonById(form.getPersonId());
-        HeartRate hr = createAndSaveHeartRate(form.getUpperPressure(), 
-                form.getLowerPressure(), form.getBeatsPerMinute() ,new Date(), person);
+        HeartRate hr = createAndSaveHeartRate(form.getUpperPressure(),
+                form.getLowerPressure(), form.getBeatsPerMinute(), new Date(), person);
         return hr;
     }
+
     //Rewrite
     @Override
     @Transactional
-    public void addHeartRateById(Long id, int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime) {
+    public void addHeartRateById(Long id, int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime) {
         Person person = personDao.getPersonById(id);
-        HeartRate heartRate = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
+        HeartRate heartRate = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, person);
         heartRateDao.addHeartRate(heartRate);
     }
 
@@ -84,7 +85,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
     @Transactional
     public Collection<? extends IEntity> findByPage(final int page) {
         int pageNumber = page;
-        if(page <= 0){
+        if (page <= 0) {
             pageNumber = 1;
         }
         int firstResult = (pageNumber * RECORD_COUNT_ON_PAGE) - RECORD_COUNT_ON_PAGE;
@@ -95,36 +96,50 @@ public class HeartRateServiceImpl implements IHeartRateService {
     @Transactional
     public boolean deleteHeartRate(Long id) {
         HeartRate heartRate = heartRateDao.getById(id);
-        if(heartRate==null){
+        if (heartRate == null) {
             return false;
         }
         try {
             heartRateDao.deleteHeartRate(heartRate);
             return true;
-        }catch (HibernateException e){
+        } catch (HibernateException e) {
 
         }
         return false;
     }
 
-    private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, Person person) {
-        HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute,datetime, person);
+    private HeartRate createAndSaveHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, Person person) {
+        HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, person);
         heartRateDao.addHeartRate(hr);
         return hr;
     }
 
     @Override
-    public Collection<StatisticOnDay> getChartData(Long personId) {
+    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
         LocalDate now = LocalDate.now();
+        LocalDateTime fromDate;
+        LocalDateTime toDate;
         LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
         LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
 
+        if (from == null || from.equals("")) {
+            fromDate = firstDayOfMonth;
+        } else {
+            fromDate = LocalDateTime.parse(from);
+        }
+
+        if (to == null || to.equals("")) {
+            toDate = lastDayOfMonth;
+        } else {
+            toDate = LocalDateTime.parse(to);
+        }
+
         Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateDao.getData(
-                Date.from(firstDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), 
-                Date.from(lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant()), personId);
+                Date.from(fromDate.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(toDate.atZone(ZoneId.systemDefault()).toInstant()), personId);
 
         return heartRateWithWeatherPressures.stream()
-            .map(StatisticOnDay::new)
-            .collect(Collectors.toList());
+                .map(StatisticOnDay::new)
+                .collect(Collectors.toList());
     }
 }

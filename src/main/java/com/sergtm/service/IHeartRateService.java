@@ -18,5 +18,5 @@ public interface IHeartRateService {
     Collection<? extends IEntity> findByPage(int page);
     boolean deleteHeartRate(Long id);
 
-    Collection<StatisticOnDay> getChartData(Long id);
+    Collection<StatisticOnDay> getChartData(Long id, String from, String to);
 }
