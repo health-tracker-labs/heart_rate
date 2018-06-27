@@ -10,6 +10,7 @@ import com.sergtm.entities.IEntity;
 import com.sergtm.entities.Person;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
+import com.sergtm.util.DateUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,22 +118,11 @@ public class HeartRateServiceImpl implements IHeartRateService {
     @Override
     public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
         LocalDate now = LocalDate.now();
-        LocalDateTime fromDate;
-        LocalDateTime toDate;
         LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
         LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
 
-        if (from == null || from.equals("")) {
-            fromDate = firstDayOfMonth;
-        } else {
-            fromDate = LocalDateTime.parse(from);
-        }
-
-        if (to == null || to.equals("")) {
-            toDate = lastDayOfMonth;
-        } else {
-            toDate = LocalDateTime.parse(to);
-        }
+        LocalDateTime fromDate = DateUtils.parseDate(from, firstDayOfMonth);
+        LocalDateTime toDate = DateUtils.parseDate(to, lastDayOfMonth);
 
         Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateDao.getData(
                 Date.from(fromDate.atZone(ZoneId.systemDefault()).toInstant()),
