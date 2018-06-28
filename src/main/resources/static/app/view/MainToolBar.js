@@ -4,7 +4,8 @@ Ext.define('app.view.MainToolBar', {
     requires: [
         'app.controller.MainToolBarController'
     ],
-    alias: 'widget.view.myToolbar',
+    renderTo: Ext.getBody(),
+    //alias: 'widget.view.myToolbar',
     controller: 'MainToolBarController',
 
     items: [{
@@ -29,6 +30,7 @@ Ext.define('app.view.MainToolBar', {
             queryMode: 'local',
             displayField: 'name',
             valueField: 'id',
+            editable: false,
             name: 'personId'
         }, '-',{
             text: 'Apply',
