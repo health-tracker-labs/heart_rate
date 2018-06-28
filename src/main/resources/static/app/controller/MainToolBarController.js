@@ -12,13 +12,17 @@ Ext.define('app.controller.MainToolBarController', {
         var to = toolBar.getReferences().to_date.getValue();
         var chart = Ext.ComponentQuery.query("#chart")[0];
         var personId = toolBar.getReferences().personCombobox.getValue();
-        chart.getStore().load({
-            params:{
-                personId: personId,
-                from: from,
-                to: to
-            }
-        });
-        chart.redraw();
+        if (toolBar.isValid()) {
+            chart.getStore().load({
+                params: {
+                    personId: personId,
+                    from: from,
+                    to: to
+                }
+            });
+            chart.redraw();
+        } else {
+            Ext.Msg.alert('Failed', 'You entered invalid dates');
+        }
     }
 });
