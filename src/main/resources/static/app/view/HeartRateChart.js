@@ -8,8 +8,8 @@ Ext.define('app.view.HeartRateChart', {
     controller: 'HeartRateChartController',
 
     width: 1440,
-    renderTo: Ext.getBody(),
-
+    //renderTo: Ext.getBody(),
+    alias: 'widget.view.HeartRateChart',
 
     items: [{
         xtype: 'cartesian',

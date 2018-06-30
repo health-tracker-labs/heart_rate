@@ -4,8 +4,9 @@ Ext.define('app.view.MainToolBar', {
     requires: [
         'app.controller.MainToolBarController'
     ],
-    renderTo: Ext.getBody(),
+    //renderTo: Ext.getBody(),
     controller: 'MainToolBarController',
+    alias: 'widget.view.MainToolBar',
 
     items: [{
         xtype: 'toolbar',

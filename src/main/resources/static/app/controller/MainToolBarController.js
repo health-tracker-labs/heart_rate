@@ -7,6 +7,8 @@ Ext.define('app.controller.MainToolBarController', {
     },
 
     onSearchClick: function () {
+        var me = this;
+
         var toolBar = this.getView();
         var fromDateField = toolBar.getReferences().from_date;
         var toDateField = toolBar.getReferences().to_date;
@@ -14,14 +16,10 @@ Ext.define('app.controller.MainToolBarController', {
         var to = toDateField.getValue();
         var chart = Ext.ComponentQuery.query("#chart")[0];
         var personId = toolBar.getReferences().personCombobox.getValue();
-        var redraw = true;
 
         if (from > to) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
-            redraw = false;
-        }
-
-        if (toolBar.isValid() && redraw) {
+        } else if (toolBar.isValid()) {
             chart.getStore().load({
                 params: {
                     personId: personId,
@@ -31,6 +29,12 @@ Ext.define('app.controller.MainToolBarController', {
             });
             chart.redraw();
         } else {
+            me.validateRangeDates(fromDateField, toDateField);
+        }
+    },
+
+    privates: {
+        validateRangeDates: function (fromDateField, toDateField) {
             if (!fromDateField.isValid() && !toDateField.isValid()) {
                 Ext.Msg.alert('Failed', 'You entered invalid from and to dates');
             } else if (!fromDateField.isValid()) {
