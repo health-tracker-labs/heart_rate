@@ -1,0 +1,117 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="1" author="sergtm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pressure" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        <createTable tableName="pressure">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="CONCRETE_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="PRESSURE" type="binary_double">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="PRESSURE_SEQ"/>
+    </changeSet>
+
+    <changeSet id="2" author="sergtm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="USER_ROLE" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_ROLE">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="USER_ROLE_SEQ"/>
+    </changeSet>
+
+    <changeSet id="3" author="sergtm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USERNAME" type="varchar2(20)">
+                    <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="varchar2(20)">
+                    <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="USERS_SEQ"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_user_role_user_id"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="4" author="sergtm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ROLE" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ROLE">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar2(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="ROLE_SEQ"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="ROLE_ID"
+                                 constraintName="fk_user_role_role_id"
+                                 referencedTableName="ROLE"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="5" author="sergtm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <viewExists viewName="heart_rate_with_atm_pressure" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        
+        <createView viewName="heart_rate_with_atm_pressure" schemaName="heart_rate">
+            SELECT
+            concat(p.id,coalesce(h.id,0) ) AS id,
+            coalesce(h.upper_pressure,0) AS upperpressure,
+            coalesce(h.lower_pressure,0) AS lowerpressure,
+            coalesce(h.bpm,0) AS beatsperminute,
+            coalesce(p.pressure, 0) AS weatherpressure,
+            COALESCE (p.CONCRETE_DATE, h.CONCREATE_DATE) as concrete_date,
+            h.person_id AS person_id
+            FROM
+            heart_rate h
+            FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date);
+        </createView>
+    </changeSet>
+</databaseChangeLog>
