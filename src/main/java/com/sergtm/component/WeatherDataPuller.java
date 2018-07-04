@@ -30,7 +30,7 @@ public class WeatherDataPuller {
     @Value("${openWhetherMapUrl}")
     private String openWhetherMapUrl;
 
-    @Scheduled(cron = "${WhetherDataPullerDelay}")
+    @Scheduled(cron = "${whetherDataPullerDelay}")
     public void pull() {
         System.out.println("Entered");
         Map<LocalDate, Double> map = new TreeMap<>();

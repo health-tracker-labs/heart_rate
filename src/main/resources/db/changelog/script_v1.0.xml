@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="1" author="sergtm">
+    <changeSet id="addPressureTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="pressure" schemaName="heart_rate"/>
@@ -26,7 +26,7 @@
         <createSequence sequenceName="PRESSURE_SEQ"/>
     </changeSet>
 
-    <changeSet id="2" author="sergtm">
+    <changeSet id="addUserRoleTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="USER_ROLE" schemaName="heart_rate"/>
@@ -46,7 +46,7 @@
         <createSequence sequenceName="USER_ROLE_SEQ"/>
     </changeSet>
 
-    <changeSet id="3" author="sergtm">
+    <changeSet id="addUsersTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="users" schemaName="heart_rate"/>
@@ -71,7 +71,7 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="4" author="sergtm">
+    <changeSet id="addRoleTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="ROLE" schemaName="heart_rate"/>
@@ -93,7 +93,7 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="5" author="sergtm">
+    <changeSet id="addHeartRateWithAtmPressureView" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <viewExists viewName="heart_rate_with_atm_pressure" schemaName="heart_rate"/>
