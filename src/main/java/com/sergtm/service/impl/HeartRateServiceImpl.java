@@ -61,9 +61,8 @@ public class HeartRateServiceImpl implements IHeartRateService {
     @Transactional
     public HeartRate createHeartRate(AddHeartRateForm form) {
         Person person = personDao.getPersonById(form.getPersonId());
-        HeartRate hr = createAndSaveHeartRate(form.getUpperPressure(),
-                form.getLowerPressure(), form.getBeatsPerMinute(), new Date(), person);
-        return hr;
+        return createAndSaveHeartRate(form.getUpperPressure(),
+                form.getLowerPressure(), form.getBeatsPerMinute(), form.getDate(), person);
     }
 
     //Rewrite

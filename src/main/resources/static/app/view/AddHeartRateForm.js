@@ -38,6 +38,13 @@ Ext.define('app.view.AddHeartRateForm', {
         displayField: 'name',
         valueField: 'id',
         name: 'personId'
+    }, {
+        xtype: 'datefield',
+        anchor: '100%',
+        fieldLabel: 'Date',
+        reference: 'date',
+        maxValue: new Date(),
+        name: 'date'
     }],
     buttons: [{
         text: 'Submit',
