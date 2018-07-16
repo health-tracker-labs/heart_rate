@@ -1,0 +1,116 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+<changeSet author="svetatim" id="createTablePerson">
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="PERSON" schemaName="heart_rate"/>
+        </not>
+    </preConditions>
+    <createTable  tableName="PERSON">
+	<column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+         </column>
+	 <column name="FIRST_NAME" type="VARCHAR2(20)"/>
+	 <column name="MIDDLE_NAME" type="VARCHAR2(20)"/>
+	 <column name="SECOND_NAME" type="VARCHAR2(20)"/>
+	 <column name="COUNTRY" type="VARCHAR2 (30)"/>
+	 <column name="CITY" type="VARCHAR2 (30)"/>
+	 <column name="BIRTHDATE" type="DATE"/>
+	 <column name="PHONE" type="VARCHAR2(30)"/>
+	 <column name="MOBILE_PHONE" type="VARCHAR2(30)"/>
+	 <column name="EMAIL" type="VARCHAR2(30)"/>
+    </createTable>
+    <createSequence sequenceName="PERSON_SEQ"/>
+ </changeSet>
+
+<changeSet author="svetatim" id="createTableHeartRate">
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="HEART_RATE" schemaName="heart_rate"/>
+        </not>
+    </preConditions>
+    <createTable  tableName="HEART_RATE">
+	<column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+         </column>
+	 <column name="UPPER_PRESSURE" type="INT"/>
+	 <column name="LOWER_PRESSURE" type="INT"/>
+	 <column name="BPM" type="INT"/>
+	 <column name="CONCREATE_DATE" type="DATE"/>
+	 <column name="PERSON_ID" type="INT"/>
+    </createTable>
+    <createSequence sequenceName="HEART_RATE_SEQ"/>
+    <addNotNullConstraint columnName="UPPER_PRESSURE" tableName="HEART_RATE"/>
+    <addNotNullConstraint columnName="LOWER_PRESSURE" tableName="HEART_RATE"/>
+    <addNotNullConstraint columnName="CONCREATE_DATE" tableName="HEART_RATE"/>
+    <addNotNullConstraint columnName="BPM" tableName="HEART_RATE"/>
+    <addNotNullConstraint columnName="PERSON_ID" tableName="HEART_RATE"/>
+    <addForeignKeyConstraint baseTableName="HEART_RATE"
+                                 baseColumnNames="PERSON_ID"
+                                 constraintName="fk_heart_rate_person_id"
+                                 referencedTableName="PERSON"
+                                 referencedColumnNames="ID"/>
+</changeSet>
+
+<changeSet author="svetatim" id="createTableHelp">
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="HELP" schemaName="heart_rate"/>
+        </not>
+    </preConditions>
+    <createTable  tableName="HELP">
+         <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+         </column>
+	 <column name="NAME" type="VARCHAR2(30)"/>
+	 <column name="DESCRIPTION" type="CLOB"/>
+	 <column name="TOPIC_ID" type="INT"/>
+    </createTable>
+    <createSequence sequenceName="HELP_SEQ"/>
+    <addNotNullConstraint columnName="NAME" tableName="HELP"/>
+    <addNotNullConstraint columnName="DESCRIPTION" tableName="HELP"/>
+    <addNotNullConstraint columnName="TOPIC_ID" tableName="HELP"/>
+</changeSet>
+
+<changeSet author="svetatim" id="createTableTopic">
+    <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="TOPIC" schemaName="heart_rate"/>
+        </not>
+    </preConditions>
+    <createTable  tableName="TOPIC">
+         <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+         </column>
+	 <column name="NAME" type="VARCHAR2(30)">
+		<constraints nullable="false"/>
+	 </column>
+    </createTable>
+    <createSequence sequenceName="TOPIC_SEQ"/>
+    <addForeignKeyConstraint baseTableName="HELP"
+                                 baseColumnNames="TOPIC_ID"
+                                 constraintName="fk_help_topic_id"
+                                 referencedTableName="TOPIC"
+                                 referencedColumnNames="ID"/>
+</changeSet>
+
+<changeSet author="svetatim" id="insertTopicsIntoTopicTable">
+    <preConditions onFail="MARK_RAN">
+        <and>
+            <sqlCheck expectedResult="0">select count(*) from topic</sqlCheck>
+        </and>
+    </preConditions>
+    <insert tableName="TOPIC">
+         <column name="id" valueSequenceNext="TOPIC_SEQ"/>
+         <column name="NAME" value="PERSON"/>
+    </insert>
+    <insert tableName="TOPIC">
+         <column name="id" valueSequenceNext="TOPIC_SEQ"/>
+         <column name="NAME" value="HEART_RATE"/>
+    </insert>
+</changeSet>
+</databaseChangeLog>
