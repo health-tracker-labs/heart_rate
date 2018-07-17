@@ -113,7 +113,7 @@
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from user_role</sqlCheck>
-                <sqlCheck expectedResult="0">select count(*) from user</sqlCheck>
+                <sqlCheck expectedResult="0">select count(*) from users</sqlCheck>
                 <sqlCheck expectedResult="0">select count(*) from role</sqlCheck>
             </and>
         </preConditions>
@@ -128,7 +128,7 @@
         </insert>
         <insert tableName="USER_ROLE">
             <column name="ID" valueSequenceNext="USER_ROLE_SEQ"/>
-            <column name="USER_ID" valueComputed="(select id from USER where USERNAME = 'admin')"/>
+            <column name="USER_ID" valueComputed="(select id from USERS where USERNAME = 'admin')"/>
             <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'ROLE_ADMIN')"/>
         </insert>
     </changeSet>
