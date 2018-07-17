@@ -8,6 +8,14 @@
     <name>heart_rate Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <!-- Repository for ORACLE ojdbc7. -->
+        <repository>
+            <id>codelds</id>
+            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+        </repository>
+    </repositories>
+
     <properties>
         <spring.version>4.3.9.RELEASE</spring.version>
         <spring.security.version>4.2.4.RELEASE</spring.security.version>
@@ -35,7 +43,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>update</goal>
                         </goals>
@@ -52,6 +59,11 @@
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.2</version>
+        </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angularjs</artifactId>
@@ -96,11 +108,6 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
             <version>7.0.55</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.noraui</groupId>
-            <artifactId>ojdbc7</artifactId>
-            <version>12.1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
