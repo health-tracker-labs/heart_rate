@@ -4,10 +4,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="addPressureTable" author="sergtm">
+    <changeSet id="addPressureTable" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="pressure" schemaName="heart_rate"/>
+                <tableExists tableName="PRESSURE" schemaName="heart_rate"/>
             </not>
         </preConditions>
         <createTable tableName="pressure">
@@ -26,7 +26,7 @@
         <createSequence sequenceName="PRESSURE_SEQ"/>
     </changeSet>
 
-    <changeSet id="addUserRoleTable" author="sergtm">
+    <changeSet id="addUserRoleTable" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="USER_ROLE" schemaName="heart_rate"/>
@@ -46,21 +46,21 @@
         <createSequence sequenceName="USER_ROLE_SEQ"/>
     </changeSet>
 
-    <changeSet id="addUsersTable" author="sergtm">
+    <changeSet id="addUsersTable" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="users" schemaName="heart_rate"/>
+                <tableExists tableName="USERS" schemaName="heart_rate"/>
             </not>
         </preConditions>
-        <createTable tableName="users">
+        <createTable tableName="USERS">
             <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="USERNAME" type="varchar2(20)">
-                    <constraints nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="PASSWORD" type="varchar2(20)">
-                    <constraints nullable="false"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <createSequence sequenceName="USERS_SEQ"/>
@@ -71,7 +71,7 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="addRoleTable" author="sergtm">
+    <changeSet id="addRoleTable" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="ROLE" schemaName="heart_rate"/>
@@ -93,13 +93,13 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="addHeartRateWithAtmPressureView" author="sergtm">
+    <changeSet id="addHeartRateWithAtmPressureView" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
                 <viewExists viewName="heart_rate_with_atm_pressure" schemaName="heart_rate"/>
             </not>
         </preConditions>
-        
+
         <createView viewName="heart_rate_with_atm_pressure" schemaName="heart_rate">
             SELECT
             concat(p.id,coalesce(h.id,0) ) AS id,
@@ -114,4 +114,29 @@
             FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date);
         </createView>
     </changeSet>
+
+    <changeSet id="insertIntoUsersAndRoleAndUser_RoleTables" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <sqlCheck expectedResult="0">select count(*) from user_role</sqlCheck>
+                <sqlCheck expectedResult="0">select count(*) from user</sqlCheck>
+                <sqlCheck expectedResult="0">select count(*) from role</sqlCheck>
+            </and>
+        </preConditions>
+        <insert tableName="ROLE">
+            <column name="ID" valueSequenceNext="ROLE_SEQ"/>
+            <column name="NAME" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USERS_SEQ"/>
+            <column name="USERNAME" value="admin"/>
+            <column name="PASSWORD" value="admin"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="ID" valueSequenceNext="USER_ROLE_SEQ"/>
+            <column name="USER_ID" value="1"/>
+            <column name="ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
