@@ -128,8 +128,8 @@
         </insert>
         <insert tableName="USER_ROLE">
             <column name="ID" valueSequenceNext="USER_ROLE_SEQ"/>
-            <column name="USER_ID" value="1"/>
-            <column name="ROLE_ID" value="1"/>
+            <column name="USER_ID" valueComputed="(select id from USER where USERNAME = 'admin')"/>
+            <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'ROLE_ADMIN')"/>
         </insert>
     </changeSet>
 
