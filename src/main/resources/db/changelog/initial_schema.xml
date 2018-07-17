@@ -11,7 +11,7 @@
             </not>
         </preConditions>
         <createTable tableName="PERSON">
-            <column name="id" type="int">
+            <column name="ID" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="FIRST_NAME" type="VARCHAR2(20)"/>
@@ -36,7 +36,7 @@
             </not>
         </preConditions>
         <createTable tableName="HEART_RATE">
-            <column name="id" type="int">
+            <column name="ID" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="UPPER_PRESSURE" type="INT"/>
@@ -65,7 +65,7 @@
             </not>
         </preConditions>
         <createTable tableName="HELP">
-            <column name="id" type="int">
+            <column name="ID" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="NAME" type="VARCHAR2(30)"/>
@@ -85,7 +85,7 @@
             </not>
         </preConditions>
         <createTable tableName="TOPIC">
-            <column name="id" type="int">
+            <column name="ID" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="NAME" type="VARCHAR2(30)">
@@ -107,12 +107,32 @@
             </and>
         </preConditions>
         <insert tableName="TOPIC">
-            <column name="id" valueSequenceNext="TOPIC_SEQ"/>
+            <column name="ID" valueSequenceNext="TOPIC_SEQ"/>
             <column name="NAME" value="PERSON"/>
         </insert>
         <insert tableName="TOPIC">
-            <column name="id" valueSequenceNext="TOPIC_SEQ"/>
+            <column name="ID" valueSequenceNext="TOPIC_SEQ"/>
             <column name="NAME" value="HEART_RATE"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="svetatim" id="insertHelpsIntoHelpTable">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <sqlCheck expectedResult="0">select count(*) from help</sqlCheck>
+            </and>
+        </preConditions>
+        <insert tableName="HELP">
+            <column name="ID" valueSequenceNext="HELP_SEQ"/>
+            <column name="NAME" value="Add Heart Rate"/>
+            <column name="DESCRIPTION" value="addHeartRate"/>
+            <column name="TOPIC_ID" value="2"/>
+        </insert>
+        <insert tableName="TOPIC">
+            <column name="ID" valueSequenceNext="HELP_SEQ"/>
+            <column name="NAME" value="Add Heart Rate By Id"/>
+            <column name="DESCRIPTION" value="addHeartRateById"/>
+            <column name="TOPIC_ID" value="2"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
