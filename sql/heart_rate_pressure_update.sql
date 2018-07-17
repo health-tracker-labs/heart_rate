@@ -1,1 +1,0 @@
-update PRESSURE set pressure = pressure / 1.33322387415;

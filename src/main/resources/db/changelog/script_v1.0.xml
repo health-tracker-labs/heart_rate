@@ -94,13 +94,7 @@
     </changeSet>
 
     <changeSet id="addHeartRateWithAtmPressureView" author="sergtm" dbms="oracle">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <viewExists viewName="heart_rate_with_atm_pressure" schemaName="heart_rate"/>
-            </not>
-        </preConditions>
-
-        <createView viewName="heart_rate_with_atm_pressure" schemaName="heart_rate">
+        <createView viewName="heart_rate_with_atm_pressure" schemaName="heart_rate" replaceIfExists="true">
             SELECT
             concat(p.id,coalesce(h.id,0) ) AS id,
             coalesce(h.upper_pressure,0) AS upperpressure,
@@ -111,7 +105,7 @@
             h.person_id AS person_id
             FROM
             heart_rate h
-            FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date);
+            FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date)
         </createView>
     </changeSet>
 
