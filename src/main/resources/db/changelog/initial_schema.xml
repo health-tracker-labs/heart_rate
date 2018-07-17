@@ -128,11 +128,11 @@
             <column name="DESCRIPTION" value="addHeartRate"/>
             <column name="TOPIC_ID" valueComputed="(select id from TOPIC where NAME = 'HEART_RATE')"/>
         </insert>
-        <insert tableName="TOPIC">
+        <insert tableName="HELP">
             <column name="ID" valueSequenceNext="HELP_SEQ"/>
             <column name="NAME" value="Add Heart Rate By Id"/>
             <column name="DESCRIPTION" value="addHeartRateById"/>
-            <column name="TOPIC_ID" valueComputed="(select id from USER where NAME = 'HEART_RATE')"/>
+            <column name="TOPIC_ID" valueComputed="(select id from TOPIC where NAME = 'HEART_RATE')"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
