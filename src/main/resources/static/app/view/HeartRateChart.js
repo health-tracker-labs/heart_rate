@@ -7,15 +7,13 @@ Ext.define('app.view.HeartRateChart', {
 
     controller: 'HeartRateChartController',
 
-    width: 1440,
-    //renderTo: Ext.getBody(),
     alias: 'widget.view.HeartRateChart',
 
     items: [{
         xtype: 'cartesian',
         itemId: 'chart',
         width: '100%',
-        height: 540,
+        height: '100%',
         store: Ext.create('app.store.HeartRateChartStore'),
         insetPadding: {
             top: 40,
