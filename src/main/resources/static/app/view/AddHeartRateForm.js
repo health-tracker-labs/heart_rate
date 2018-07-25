@@ -9,7 +9,6 @@ Ext.define('app.view.AddHeartRateForm', {
 
     width: 1440,
     title: 'Add Heart Rate',
-    //renderTo: Ext.getBody(),
     alias: 'widget.view.AddHeartRateForm',
 
     url: '../heartRate/save.do',
