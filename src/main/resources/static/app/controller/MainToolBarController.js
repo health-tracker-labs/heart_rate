@@ -6,6 +6,25 @@ Ext.define('app.controller.MainToolBarController', {
         window.open("../logout", "_self");
     },
 
+    onRefreshClick: function () {
+        var me = this;
+        var button = me.getView().getReferences().refreshButton;
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/heart_rate/pressure/pull.do',
+            method: 'POST',
+            success: function (transport) {
+                alert("entered");
+                me.fireEvent('onRefresh');
+                setTimeout(function () {
+                    button.enable()
+                }, 1000 * 60 * 5);
+            },
+            failure: function (transport) {
+                alert("Error: " - transport.responseText);
+            }
+        });
+    },
+
     onSearchClick: function () {
         var me = this;
 
@@ -14,20 +33,12 @@ Ext.define('app.controller.MainToolBarController', {
         var toDateField = toolBar.getReferences().to_date;
         var from = fromDateField.getValue();
         var to = toDateField.getValue();
-        var chart = Ext.ComponentQuery.query("#chart")[0];
         var personId = toolBar.getReferences().personCombobox.getValue();
 
         if (from > to) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
-            chart.getStore().load({
-                params: {
-                    personId: personId,
-                    from: from,
-                    to: to
-                }
-            });
-            chart.redraw();
+            this.fireEvent('onRefresh', personId, from, to);
         } else {
             me.validateRangeDates(fromDateField, toDateField);
         }
