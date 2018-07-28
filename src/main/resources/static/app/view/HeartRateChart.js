@@ -11,7 +11,6 @@ Ext.define('app.view.HeartRateChart', {
 
     items: [{
         xtype: 'cartesian',
-        reference: 'chart',
         itemId: 'chart',
         width: '100%',
         height: '100%',
