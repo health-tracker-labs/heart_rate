@@ -18,7 +18,6 @@ Ext.define('app.view.MainView', {
         {
             region: 'center',
             layout: 'fit',
-            reference: 'chartView',
             xtype: 'view.HeartRateChart'
         },
         {
