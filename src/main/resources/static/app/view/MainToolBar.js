@@ -34,6 +34,10 @@ Ext.define('app.view.MainToolBar', {
         }, '-',{
             text: 'Apply',
             handler: 'onSearchClick'
+        }, '-', {
+            text: 'Refresh',
+            reference: 'refreshButton',
+            handler: 'onRefreshClick'
         }, '->', {
             text: 'logout',
             handler: 'onLogoutClick'
