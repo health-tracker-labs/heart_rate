@@ -11,32 +11,41 @@ Ext.define('app.controller.HeartRateChartController', {
     listen: {
         controller: {
             '*': {
-                onRefresh: 'refresh'
+                onReloadChartStore: 'reloadChartStore'
             },
             'MainToolBarController': {
-                onRefreshWithButton: 'refreshWithButton'
+                onReloadChartStoreAndDisableRefreshButton: 'reloadChartStoreAndDisableRefreshButton'
             }
         }
     },
 
-    refresh: function (personId, from, to){
-        var chart = this.getView().getReferences().chart;
-        chart.getStore().load({
+    reloadChartStore: function (personId, from, to) {
+        this.refreshChart({
             params: {
                 personId: personId,
                 from: from,
                 to: to
             }
         });
-        chart.redraw();
     },
 
-    refreshWithButton: function (button){
-        var chart = this.getView().getReferences().chart;
+    reloadChartStoreAndDisableRefreshButton: function (toolBar) {
+        var button = toolBar.getView().getReferences().refreshButton;
+        this.refreshChart();
         setTimeout(function () {
-            button.enable()
-        }, 1000 * 60 * 5);
-        chart.getStore().load();
-        chart.redraw();
+            button.enable();
+        }, 1000 * 60 * 10);
+    },
+
+    privates: {
+        refreshChart: function (args) {
+            var chart = this.getView().getReferences().chart;
+            if (!args) {
+                chart.getStore().load();
+            } else {
+                chart.getStore().load(args)
+            }
+            chart.redraw();
+        }
     }
 });

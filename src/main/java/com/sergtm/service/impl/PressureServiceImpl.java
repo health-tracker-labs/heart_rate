@@ -1,16 +1,20 @@
 package com.sergtm.service.impl;
 
+import com.sergtm.component.WeatherDataPuller;
 import com.sergtm.dao.IPressureDao;
 import com.sergtm.entities.Pressure;
 import com.sergtm.service.IPressureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +22,15 @@ import java.util.stream.Collectors;
 public class PressureServiceImpl implements IPressureService {
     @Autowired
     private IPressureDao pressureDao;
+
+    @Autowired
+    private WeatherDataPuller weatherDataPuller;
+
+    @Override
+    @Transactional
+    public void pull() {
+        weatherDataPuller.pull();
+    }
 
     @Override
     @Transactional

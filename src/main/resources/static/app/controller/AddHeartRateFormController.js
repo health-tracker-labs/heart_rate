@@ -9,7 +9,7 @@ Ext.define('app.controller.AddHeartRateFormController', {
             form.submit({
                 success: function (form, action) {
                     Ext.Msg.alert('Success', 'Save success');
-                    me.fireEvent('onRefresh');
+                    me.fireEvent('onReloadChartStore');
                     form.reset();
                 },
                 failure: function (form, action) {

@@ -8,20 +8,24 @@ Ext.define('app.controller.MainToolBarController', {
 
     onRefreshClick: function () {
         var me = this;
+        var text = "Refresh button will be disabled for 10 minutes and filters will be disabled. Do you want to refresh pressure data?";
         var button = me.getView().getReferences().refreshButton;
-        button.disable();
-        Ext.Ajax.request({
-            url: 'http://localhost:8080/heart_rate/pressure/pull.do',
-            method: 'POST',
-            success: function (transport) {
-                //alert("entered");
-                me.fireEvent('onRefreshWithButton', button);
-            },
-            failure: function (transport) {
-                button.enable();
-                alert("Error: " - transport.responseText);
+        Ext.Msg.confirm("Confirmation", text, function (btnText) {
+            if (btnText === "yes") {
+                button.disable();
+                Ext.Ajax.request({
+                    url: 'http://localhost:8080/heart_rate/pressure/pull.do',
+                    method: 'POST',
+                    success: function (response) {
+                        me.fireEvent('onReloadChartStoreAndDisableRefreshButton', me);
+                    },
+                    failure: function (response) {
+                        button.enable();
+                        alert("Error: " - response.responseText);
+                    }
+                });
             }
-        });
+        }, this);
     },
 
     onSearchClick: function () {
@@ -37,7 +41,7 @@ Ext.define('app.controller.MainToolBarController', {
         if (from > to) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
-            this.fireEvent('onRefresh', personId, from, to);
+            this.fireEvent('onReloadChartStore', personId, from, to);
         } else {
             me.validateRangeDates(fromDateField, toDateField);
         }
