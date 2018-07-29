@@ -6,6 +6,28 @@ Ext.define('app.controller.MainToolBarController', {
         window.open("../logout", "_self");
     },
 
+    onRefreshClick: function () {
+        var me = this;
+        var text = "Refresh button will be disabled for 10 minutes and filters will be disabled. Do you want to refresh pressure data?";
+        var button = me.getView().getReferences().refreshButton;
+        Ext.Msg.confirm("Confirmation", text, function (btnText) {
+            if (btnText === "yes") {
+                button.disable();
+                Ext.Ajax.request({
+                    url: 'http://localhost:8080/heart_rate/pressure/pull.do',
+                    method: 'POST',
+                    success: function (response) {
+                        me.fireEvent('onReloadChartStoreAndDisableRefreshButton', me);
+                    },
+                    failure: function (response) {
+                        button.enable();
+                        alert("Error: " - response.responseText);
+                    }
+                });
+            }
+        }, this);
+    },
+
     onSearchClick: function () {
         var me = this;
 
@@ -14,20 +36,12 @@ Ext.define('app.controller.MainToolBarController', {
         var toDateField = toolBar.getReferences().to_date;
         var from = fromDateField.getValue();
         var to = toDateField.getValue();
-        var chart = Ext.ComponentQuery.query("#chart")[0];
         var personId = toolBar.getReferences().personCombobox.getValue();
 
         if (from > to) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
-            chart.getStore().load({
-                params: {
-                    personId: personId,
-                    from: from,
-                    to: to
-                }
-            });
-            chart.redraw();
+            this.fireEvent('onReloadChartStore', personId, from, to);
         } else {
             me.validateRangeDates(fromDateField, toDateField);
         }

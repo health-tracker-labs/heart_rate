@@ -11,7 +11,7 @@ Ext.define('app.view.HeartRateChart', {
 
     items: [{
         xtype: 'cartesian',
-        itemId: 'chart',
+        reference: 'chart',
         width: '100%',
         height: '100%',
         store: Ext.create('app.store.HeartRateChartStore'),

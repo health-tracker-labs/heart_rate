@@ -31,9 +31,13 @@ Ext.define('app.view.MainToolBar', {
             valueField: 'id',
             editable: false,
             name: 'personId'
-        }, '-',{
+        }, '-', {
             text: 'Apply',
             handler: 'onSearchClick'
+        }, '-', {
+            text: 'Refresh',
+            reference: 'refreshButton',
+            handler: 'onRefreshClick'
         }, '->', {
             text: 'logout',
             handler: 'onLogoutClick'
