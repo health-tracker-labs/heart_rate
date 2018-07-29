@@ -14,7 +14,7 @@ Ext.define('app.controller.MainToolBarController', {
         Ext.Msg.confirm("Confirmation", text, function (btnText) {
             if (btnText === "yes") {
                 button.disable();
-                toolBar.cleanToolBarComponents();
+                me.cleanToolBarComponents();
                 Ext.Ajax.request({
                     url: 'http://localhost:8080/heart_rate/pressure/pull.do',
                     method: 'POST',
