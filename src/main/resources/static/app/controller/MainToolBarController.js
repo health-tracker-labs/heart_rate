@@ -44,7 +44,6 @@ Ext.define('app.controller.MainToolBarController', {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
             this.fireEvent('onReloadChartStore', personId, from, to);
-            toolBar.cleanToolBarComponents();
         } else {
             me.validateRangeDates(fromDateField, toDateField);
         }
