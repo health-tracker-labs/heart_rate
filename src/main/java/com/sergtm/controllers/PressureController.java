@@ -17,19 +17,13 @@ import java.util.logging.Logger;
 @RequestMapping("/pressure")
 public class PressureController {
 
-    private static final Logger LOG = Logger.getLogger(PressureController.class.getName());
-
     @Autowired
     private IPressureService pressureService;
 
     @RequestMapping(path = "/pull.do", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void pull() {
-        try {
-            pressureService.pull();
-        } catch (RestClientException e) {
-            LOG.log(Level.SEVERE, e.getMessage(), e);
-        }
+        pressureService.pull();
     }
 
 }
