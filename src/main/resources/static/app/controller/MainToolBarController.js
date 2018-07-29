@@ -23,7 +23,6 @@ Ext.define('app.controller.MainToolBarController', {
                     },
                     failure: function (response) {
                         button.enable();
-                        alert("Error: " - response.responseText);
                     }
                 });
             }
