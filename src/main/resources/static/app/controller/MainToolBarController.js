@@ -8,11 +8,13 @@ Ext.define('app.controller.MainToolBarController', {
 
     onRefreshClick: function () {
         var me = this;
-        var text = "Refresh button will be disabled for 10 minutes and filters will be disabled. Do you want to refresh pressure data?";
+        var toolBar = this.getView();
+        var text = "Refresh button will be disabled for 10 minutes. Do you want to refresh pressure data?";
         var button = me.getView().getReferences().refreshButton;
         Ext.Msg.confirm("Confirmation", text, function (btnText) {
             if (btnText === "yes") {
                 button.disable();
+                toolBar.cleanToolBarComponents();
                 Ext.Ajax.request({
                     url: 'http://localhost:8080/heart_rate/pressure/pull.do',
                     method: 'POST',
@@ -42,6 +44,7 @@ Ext.define('app.controller.MainToolBarController', {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
             this.fireEvent('onReloadChartStore', personId, from, to);
+            toolBar.cleanToolBarComponents();
         } else {
             me.validateRangeDates(fromDateField, toDateField);
         }
@@ -56,6 +59,12 @@ Ext.define('app.controller.MainToolBarController', {
             } else if (!toDateField.isValid()) {
                 Ext.Msg.alert('Failed', 'You entered invalid to date');
             }
+        },
+        cleanToolBarComponents: function () {
+            var toolBar = this.getView();
+            toolBar.getReferences().from_date.reset();
+            toolBar.getReferences().to_date.reset();
+            toolBar.getReferences().personCombobox.reset();
         }
     }
 });
