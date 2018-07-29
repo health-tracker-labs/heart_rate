@@ -9,17 +9,16 @@ Ext.define('app.controller.MainToolBarController', {
     onRefreshClick: function () {
         var me = this;
         var button = me.getView().getReferences().refreshButton;
+        button.disable();
         Ext.Ajax.request({
             url: 'http://localhost:8080/heart_rate/pressure/pull.do',
             method: 'POST',
             success: function (transport) {
-                alert("entered");
-                me.fireEvent('onRefresh');
-                setTimeout(function () {
-                    button.enable()
-                }, 1000 * 60 * 5);
+                //alert("entered");
+                me.fireEvent('onRefreshWithButton', button);
             },
             failure: function (transport) {
+                button.enable();
                 alert("Error: " - transport.responseText);
             }
         });

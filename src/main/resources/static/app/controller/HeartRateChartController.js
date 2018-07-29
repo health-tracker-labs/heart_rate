@@ -12,6 +12,9 @@ Ext.define('app.controller.HeartRateChartController', {
         controller: {
             '*': {
                 onRefresh: 'refresh'
+            },
+            'MainToolBarController': {
+                onRefreshWithButton: 'refreshWithButton'
             }
         }
     },
@@ -25,6 +28,15 @@ Ext.define('app.controller.HeartRateChartController', {
                 to: to
             }
         });
+        chart.redraw();
+    },
+
+    refreshWithButton: function (button){
+        var chart = this.getView().getReferences().chart;
+        setTimeout(function () {
+            button.enable()
+        }, 1000 * 60 * 5);
+        chart.getStore().load();
         chart.redraw();
     }
 });
