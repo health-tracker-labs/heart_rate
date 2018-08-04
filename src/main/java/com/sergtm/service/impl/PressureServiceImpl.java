@@ -3,6 +3,9 @@ package com.sergtm.service.impl;
 import com.sergtm.component.WeatherDataPuller;
 import com.sergtm.dao.IPressureDao;
 import com.sergtm.entities.Pressure;
+import com.sergtm.model.WeatherResponse;
+import com.sergtm.model.weatherModel.Weather;
+import com.sergtm.model.weatherModel.WeatherModel;
 import com.sergtm.service.IPressureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class PressureServiceImpl implements IPressureService {
+
     @Autowired
     private IPressureDao pressureDao;
 
@@ -29,7 +33,16 @@ public class PressureServiceImpl implements IPressureService {
     @Override
     @Transactional
     public void pull() {
-        weatherDataPuller.pull();
+        weatherDataPuller.pullFiveDaysWeatherData();
+    }
+
+    @Override
+    public WeatherResponse getTodayWeather() {
+        WeatherModel weatherModel = weatherDataPuller.pullTodayWeatherData();
+        WeatherResponse.Builder builder = new WeatherResponse.Builder();
+        return builder.setDescription(weatherModel.getWeather()[0].getDescription())
+                .setIconUrl(weatherModel.getWeather()[0].getIcon())
+                .setTemperature(weatherModel.getMain().getTemp()).build();
     }
 
     @Override
