@@ -1,4 +1,4 @@
-package com.sergtm.model;
+package com.sergtm.model.pressureModel;
 
 public class List {
     private String dt_txt;

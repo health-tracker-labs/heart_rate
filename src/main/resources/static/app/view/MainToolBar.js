@@ -2,7 +2,8 @@ Ext.define('app.view.MainToolBar', {
     extend: 'Ext.form.Panel',
 
     requires: [
-        'app.controller.MainToolBarController'
+        'app.controller.MainToolBarController',
+        'app.view.WeatherStatePanel'
     ],
     controller: 'MainToolBarController',
     alias: 'widget.view.MainToolBar',
@@ -38,6 +39,8 @@ Ext.define('app.view.MainToolBar', {
             text: 'Refresh',
             reference: 'refreshButton',
             handler: 'onRefreshClick'
+        }, {
+            xtype: 'view.WeatherStatePanel'
         }, '->', {
             text: 'logout',
             handler: 'onLogoutClick'
