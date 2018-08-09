@@ -30,16 +30,24 @@ Ext.define('app.controller.HeartRateChartController', {
     },
 
     reloadChartStoreAndDisableRefreshButton: function (toolBar) {
-        var button = toolBar.getView().getReferences().refreshButton;
-        this.refreshChart();
-        setTimeout(function () {
-            button.enable();
-        }, 1000 * 60 * 10);
+        var me = this;
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/heart_rate/pressure/pull.do',
+            method: 'POST',
+            success: function (response) {
+                var button = toolBar.getView().lookupReference('refreshButton');
+                me.refreshChart();
+                button.enable();
+            },
+            failure: function (response) {
+                button.enable();
+            }
+        });
     },
 
     privates: {
         refreshChart: function (args) {
-            var chart = this.getView().getReferences().chart;
+            var chart = this.getView().lookupReference('chart');
             if (!args) {
                 chart.getStore().load();
             } else {

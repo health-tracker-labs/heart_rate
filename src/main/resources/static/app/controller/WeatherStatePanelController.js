@@ -2,6 +2,30 @@ Ext.define('app.controller.WeatherStatePanelController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.WeatherStatePanelController',
 
+    listen: {
+        controller: {
+            'MainToolBarController': {
+                onRedrawWithButton: 'redrawWithButton'
+            }
+        }
+    },
+
+    redrawWithButton: function (toolBar) {
+        var me = this;
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/heart_rate/pressure/getTodayWeatherUrl.json',
+            method: 'GET',
+            success: function (response) {
+                var button = toolBar.getView().lookupReference('refreshButton');
+                me.update(response);
+                button.enable();
+            },
+            failure: function (response) {
+                Ext.Msg.alert('Error!', 'Can not get today weather data');
+            }
+        });
+    },
+
     onRender: function () {
         var me = this;
         Ext.Ajax.request({
@@ -19,17 +43,18 @@ Ext.define('app.controller.WeatherStatePanelController', {
     privates: {
         update: function (response) {
             var panel = this.getView();
-            var image = panel.lookupReference('weatherStateImg');
-            var label = panel.lookupReference('temperatureLabel');
             var weatherResponse = JSON.parse(response.responseText);
-
             var description = weatherResponse.description;
-            image.setSrc(weatherResponse.iconUrl);
+
+            var label = panel.lookupReference('temperatureLabel');
             label.setHtml(weatherResponse.temperature);
-            Ext.create('Ext.tip.ToolTip', {
-                target: image.getEl(),
-                html: description
-            });
+
+            var image = panel.lookupReference('weatherStateImg');
+            image.setSrc(weatherResponse.iconUrl);
+            //image.setTooltip(description);
+
+            var descriptionLabel = panel.lookupReference('weatherDescription');
+            descriptionLabel.setHtml(description);
         }
     }
 });

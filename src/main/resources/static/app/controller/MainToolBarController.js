@@ -8,36 +8,31 @@ Ext.define('app.controller.MainToolBarController', {
 
     onRefreshClick: function () {
         var me = this;
-        var toolBar = this.getView();
-        var text = "Refresh button will be disabled for 10 minutes. Do you want to refresh pressure data?";
-        var button = me.getView().getReferences().refreshButton;
-        Ext.Msg.confirm("Confirmation", text, function (btnText) {
-            if (btnText === "yes") {
-                button.disable();
-                me.cleanToolBarComponents();
-                Ext.Ajax.request({
-                    url: 'http://localhost:8080/heart_rate/pressure/pull.do',
-                    method: 'POST',
-                    success: function (response) {
-                        me.fireEvent('onReloadChartStoreAndDisableRefreshButton', me);
-                    },
-                    failure: function (response) {
-                        button.enable();
-                    }
-                });
+        var button = me.getView().lookupReference('refreshButton');
+        button.disable();
+        me.cleanToolBarComponents();
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/heart_rate/status/getService',
+            method: 'GET',
+            success: function (response) {
+                var resText = response.responseText.replace(/\"/g, "");
+                me.callService(resText);
+            },
+            failure: function (response) {
+                button.enable();
             }
-        }, this);
+        });
     },
 
     onSearchClick: function () {
         var me = this;
 
         var toolBar = this.getView();
-        var fromDateField = toolBar.getReferences().from_date;
-        var toDateField = toolBar.getReferences().to_date;
+        var fromDateField = toolBar.lookupReference('from_date');
+        var toDateField = toolBar.lookupReference('to_date');
         var from = fromDateField.getValue();
         var to = toDateField.getValue();
-        var personId = toolBar.getReferences().personCombobox.getValue();
+        var personId = toolBar.lookupReference('personCombobox').getValue();
 
         if (from > to) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
@@ -60,9 +55,19 @@ Ext.define('app.controller.MainToolBarController', {
         },
         cleanToolBarComponents: function () {
             var toolBar = this.getView();
-            toolBar.getReferences().from_date.reset();
-            toolBar.getReferences().to_date.reset();
-            toolBar.getReferences().personCombobox.reset();
+            toolBar.lookupReference('from_date').reset();
+            toolBar.lookupReference('to_date').reset();
+            toolBar.lookupReference('personCombobox').reset();
+        },
+        callService: function (response) {
+            if (response === "None") {
+                Ext.Msg.alert('Failed', "Service is unavailable now. Try in 10 minutes");
+                this.getView().lookupReference('refreshButton').enable();
+            } else if (response === 'WeatherService') {
+                this.fireEvent('onRedrawWithButton', this);
+            } else {
+                this.fireEvent('onReloadChartStoreAndDisableRefreshButton', this);
+            }
         }
     }
 });

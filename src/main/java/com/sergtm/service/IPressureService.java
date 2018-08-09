@@ -1,10 +1,8 @@
 package com.sergtm.service;
 
 import com.sergtm.model.WeatherResponse;
-import com.sergtm.model.weatherModel.WeatherModel;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Map;
 
 public interface IPressureService {

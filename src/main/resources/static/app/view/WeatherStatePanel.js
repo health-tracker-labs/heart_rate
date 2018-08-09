@@ -7,6 +7,7 @@ Ext.define('app.view.WeatherStatePanel', {
 
     layout: {
         type: 'table',
+        columns: 2,
         tableAttrs: {
             style: {
                 width: '100%',
@@ -19,7 +20,7 @@ Ext.define('app.view.WeatherStatePanel', {
     },
 
     width: 120,
-    height: 40,
+    height: 65,
 
     alias: 'widget.view.WeatherStatePanel',
     controller: 'WeatherStatePanelController',
@@ -39,13 +40,16 @@ Ext.define('app.view.WeatherStatePanel', {
         },
         items: [{
             xtype: 'label',
-            style: 'font-size: 30px;',
+            style: 'font-size: 25px;',
             reference: 'temperatureLabel'
         }, {
             xtype: 'label',
             html: '&deg;C'
         }]
-
+    }, {
+        colspan: 2,
+        style: 'text-align: center; font-style: oblique',
+        reference: 'weatherDescription'
     }],
 
     listeners: {
