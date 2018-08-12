@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "STATS")
+@Table(name = "SERVICE_STATUS")
 public class ServiceStatus implements IEntity, Comparable<ServiceStatus> {
     @Id
     @SequenceGenerator(name = "SERVICE_STATUS_SEQ", sequenceName = "SERVICE_STATUS_SEQ", allocationSize = 1)
