@@ -161,7 +161,7 @@
             <column name="ID" valueSequenceNext="SERVICE_STATUS_SEQ"/>
             <column name="SERVICE_NAME" value="PressureService"/>
         </insert>
-        <insert tableName="HELP">
+        <insert tableName="SERVICE_STATUS">
             <column name="ID" valueSequenceNext="SERVICE_STATUS_SEQ"/>
             <column name="SERVICE_NAME" value="WeatherService"/>
         </insert>
