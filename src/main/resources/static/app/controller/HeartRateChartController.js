@@ -14,7 +14,7 @@ Ext.define('app.controller.HeartRateChartController', {
                 onReloadChartStore: 'reloadChartStore'
             },
             'MainToolBarController': {
-                pressureServiceRefresh: 'callServiceAndReloadChartStore'
+                onPressureServiceRefresh: 'pressureServiceRefresh'
             }
         }
     },
@@ -29,7 +29,7 @@ Ext.define('app.controller.HeartRateChartController', {
         });
     },
 
-    callServiceAndReloadChartStore: function (toolBar) {
+    pressureServiceRefresh: function (toolBar) {
         var me = this;
         Ext.Ajax.request({
             url: 'http://localhost:8080/heart_rate/pressure/pull.do',

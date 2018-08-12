@@ -34,7 +34,7 @@ Ext.define('app.controller.MainToolBarController', {
         var to = toDateField.getValue();
         var personId = toolBar.getReferences().personCombobox.getValue();
 
-        if (from > to & to != null) {
+        if (from > to && to != null) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
             this.fireEvent('onReloadChartStore', personId, from, to);
@@ -60,7 +60,7 @@ Ext.define('app.controller.MainToolBarController', {
             toolBar.getReferences().personCombobox.reset();
         },
         callService: function (response) {
-            var eventName = response.charAt(0).toLowerCase() + response.slice(1) + 'Refresh';
+            var eventName = 'on' + response + 'Refresh';
             if (response === "None") {
                 Ext.Msg.alert('Failed', "Service is unavailable now. Try in 10 minutes");
                 this.getView().lookupReference('refreshButton').enable();

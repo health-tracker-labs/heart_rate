@@ -5,12 +5,12 @@ Ext.define('app.controller.WeatherStatePanelController', {
     listen: {
         controller: {
             'MainToolBarController': {
-                weatherServiceRefresh: 'redrawWithButton'
+                onWeatherServiceRefresh: 'weatherServiceRefresh'
             }
         }
     },
 
-    redrawWithButton: function (toolBar) {
+    weatherServiceRefresh: function (toolBar) {
         var me = this;
         Ext.Ajax.request({
             url: 'http://localhost:8080/heart_rate/pressure/getTodayWeatherUrl.json',
