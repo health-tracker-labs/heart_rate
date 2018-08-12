@@ -1,10 +1,11 @@
 package com.sergtm.component;
 
+import com.sergtm.model.ServiceName;
 import com.sergtm.model.pressureModel.List;
 import com.sergtm.model.pressureModel.RestPostsModel;
-import com.sergtm.model.weatherModel.Weather;
 import com.sergtm.model.weatherModel.WeatherModel;
 import com.sergtm.service.IPressureService;
+import com.sergtm.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -13,11 +14,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Component
 public class WeatherDataPuller {
     private static final double MM_HG_TRANSLATION = 1.33322387415;
+
+    @Autowired
+    private IStatusService statusService;
 
     @Autowired
     private IPressureService pressureService;
@@ -32,12 +39,14 @@ public class WeatherDataPuller {
     private String currentWeatherUrl;
 
     @Scheduled(cron = "${whetherDataPullerDelay}")
-    public void pullFiveDaysWeatherData() {
+    public synchronized void pullFiveDaysWeatherData() {
         System.out.println("Entered");
         Map<LocalDate, Double> map = new TreeMap<>();
         ResponseEntity<RestPostsModel> response = exchange(openWhetherMapUrl, RestPostsModel.class);
         map = groupPage(response.getBody());
         pressureService.addAll(map);
+
+        statusService.updateAndSave(ServiceName.PressureService);
     }
 
     public WeatherModel pullTodayWeatherData() {
