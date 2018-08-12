@@ -159,11 +159,11 @@
         </preConditions>
         <insert tableName="SERVICE_STATUS">
             <column name="ID" valueSequenceNext="SERVICE_STATUS_SEQ"/>
-            <column name="NAME" value="PressureService"/>
+            <column name="SERVICE_NAME" value="PressureService"/>
         </insert>
         <insert tableName="HELP">
             <column name="ID" valueSequenceNext="SERVICE_STATUS_SEQ"/>
-            <column name="NAME" value="WeatherService"/>
+            <column name="SERVICE_NAME" value="WeatherService"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
