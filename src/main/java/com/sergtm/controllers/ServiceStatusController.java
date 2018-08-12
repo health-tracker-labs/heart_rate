@@ -14,6 +14,6 @@ public class ServiceStatusController {
 
     @RequestMapping(path = "/getService", method = RequestMethod.GET)
     public String getService() {
-        return statusService.serviceToCall();
+        return statusService.identifyLastModifiedService();
     }
 }

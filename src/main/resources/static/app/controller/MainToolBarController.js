@@ -28,13 +28,13 @@ Ext.define('app.controller.MainToolBarController', {
         var me = this;
 
         var toolBar = this.getView();
-        var fromDateField = toolBar.lookupReference('from_date');
-        var toDateField = toolBar.lookupReference('to_date');
+        var fromDateField = toolBar.getReferences().from_date;
+        var toDateField = toolBar.getReferences().to_date;
         var from = fromDateField.getValue();
         var to = toDateField.getValue();
-        var personId = toolBar.lookupReference('personCombobox').getValue();
+        var personId = toolBar.getReferences().personCombobox.getValue();
 
-        if (from > to) {
+        if (from > to & to != null) {
             Ext.Msg.alert('Failed', 'From date is later than to date');
         } else if (toolBar.isValid()) {
             this.fireEvent('onReloadChartStore', personId, from, to);
@@ -55,18 +55,17 @@ Ext.define('app.controller.MainToolBarController', {
         },
         cleanToolBarComponents: function () {
             var toolBar = this.getView();
-            toolBar.lookupReference('from_date').reset();
-            toolBar.lookupReference('to_date').reset();
-            toolBar.lookupReference('personCombobox').reset();
+            toolBar.getReferences().from_date.reset();
+            toolBar.getReferences().to_date.reset();
+            toolBar.getReferences().personCombobox.reset();
         },
         callService: function (response) {
+            var eventName = response.charAt(0).toLowerCase() + response.slice(1) + 'Refresh';
             if (response === "None") {
                 Ext.Msg.alert('Failed', "Service is unavailable now. Try in 10 minutes");
                 this.getView().lookupReference('refreshButton').enable();
-            } else if (response === 'WeatherService') {
-                this.fireEvent('onRedrawWithButton', this);
             } else {
-                this.fireEvent('onReloadChartStoreAndDisableRefreshButton', this);
+                this.fireEvent(eventName, this);
             }
         }
     }

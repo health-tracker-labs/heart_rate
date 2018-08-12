@@ -2,6 +2,7 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IServiceStatusDao;
 import com.sergtm.entities.ServiceStatus;
+import com.sergtm.model.ServiceName;
 import com.sergtm.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class StatusServiceImpl implements IStatusService {
     private IServiceStatusDao serviceStatusDao;
 
     @Override
-    public String serviceToCall() {
+    public String identifyLastModifiedService() {
         Collection<ServiceStatus> serviceStatuses = serviceStatusDao.getAll();
 
         if (serviceStatuses.isEmpty()) {
@@ -44,5 +45,14 @@ public class StatusServiceImpl implements IStatusService {
             return NONE;
         }
         return serviceStatusesSorted.get(serviceStatuses.size() - 1).getServiceName().name();
+    }
+
+    @Override
+    public void updateAndSave(ServiceName serviceName) {
+        ServiceStatus serviceStatus = serviceStatusDao.getByName(serviceName);
+        assert serviceName!=null : "Service status is null";
+
+        serviceStatus.setLastModificationTime(LocalDateTime.now());
+        serviceStatusDao.update(serviceStatus);
     }
 }

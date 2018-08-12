@@ -4,7 +4,6 @@ import com.sergtm.dao.IServiceStatusDao;
 import com.sergtm.entities.ServiceStatus;
 import com.sergtm.model.ServiceName;
 import com.sergtm.service.IStatusService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,7 +29,7 @@ public class StatusServiceImplTest {
     @Test
     public void shouldReturnNoneIfGetAllReturnEmptyCollection(){
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList());
-        assertEquals(NONE, statusService.serviceToCall());
+        assertEquals(NONE, statusService.identifyLastModifiedService());
     }
 
     @Test
@@ -43,7 +42,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(weatherServiceStatus, pressureServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.serviceToCall());
+        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
     }
 
     @Test
@@ -56,7 +55,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(weatherServiceStatus, pressureServiceStatus));
 
-        assertEquals(NONE, statusService.serviceToCall());
+        assertEquals(NONE, statusService.identifyLastModifiedService());
     }
 
     @Test
@@ -69,7 +68,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(pressureServiceStatus, weatherServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.serviceToCall());
+        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
     }
 
     @Test
@@ -82,7 +81,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(pressureServiceStatus, weatherServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.serviceToCall());
+        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
     }
 
     private ServiceStatus createServiceStatusEntity(ServiceName serviceName, LocalDateTime localDateTime){

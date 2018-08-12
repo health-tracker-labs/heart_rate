@@ -5,7 +5,7 @@ Ext.define('app.controller.WeatherStatePanelController', {
     listen: {
         controller: {
             'MainToolBarController': {
-                onRedrawWithButton: 'redrawWithButton'
+                weatherServiceRefresh: 'redrawWithButton'
             }
         }
     },
