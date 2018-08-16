@@ -2,10 +2,8 @@ package com.sergtm.service.impl;
 
 import com.sergtm.component.WeatherDataPuller;
 import com.sergtm.dao.IPressureDao;
-import com.sergtm.dao.IWeatherDao;
 import com.sergtm.entities.Pressure;
 import com.sergtm.service.IPressureService;
-import com.sergtm.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +20,6 @@ public class PressureServiceImpl implements IPressureService {
 
     @Autowired
     private WeatherDataPuller weatherDataPuller;
-
-    @Autowired
-    private IStatusService statusService;
-
-    @Autowired
-    private IWeatherDao weatherDao;
 
     @Override
     @Transactional
