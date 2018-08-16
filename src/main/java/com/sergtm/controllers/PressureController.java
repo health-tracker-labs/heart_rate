@@ -1,6 +1,5 @@
 package com.sergtm.controllers;
 
-import com.sergtm.model.WeatherResponse;
 import com.sergtm.service.IPressureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,4 @@ public class PressureController {
         pressureService.pull();
     }
 
-
-    @RequestMapping(path = "/getTodayWeatherUrl.json", method = RequestMethod.GET, produces = "application/json")
-    public WeatherResponse getWeather() {
-        return pressureService.getTodayWeather();
-    }
 }

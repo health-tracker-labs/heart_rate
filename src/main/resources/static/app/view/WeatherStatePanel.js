@@ -53,6 +53,6 @@ Ext.define('app.view.WeatherStatePanel', {
     }],
 
     listeners: {
-        //render: 'onRender'
+        render: 'onRender'
     }
 });
