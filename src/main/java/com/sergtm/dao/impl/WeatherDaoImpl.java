@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
@@ -18,14 +19,14 @@ public class WeatherDaoImpl implements IWeatherDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public Weather getLatestWeather() {
+    public Optional<Weather> getLatestWeather() {
         String sql = "FROM Weather";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         List<Weather> weatherList = query.getResultList();
         if (weatherList.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
-        return weatherList.get(0);
+        return Optional.of(weatherList.get(0));
     }
 
     @Override

@@ -12,7 +12,7 @@ Ext.define('app.controller.MainToolBarController', {
         button.disable();
         me.cleanToolBarComponents();
         Ext.Ajax.request({
-            url: 'http://localhost:8080/heart_rate/status/getService',
+            url: '../status/getService',
             method: 'GET',
             success: function (response) {
                 var resText = response.responseText.replace(/\"/g, "");
