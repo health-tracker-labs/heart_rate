@@ -50,7 +50,7 @@ public class StatusServiceImpl implements IStatusService {
     @Override
     public void updateAndSave(ServiceName serviceName) {
         ServiceStatus serviceStatus = serviceStatusDao.getByName(serviceName);
-        assert serviceName!=null : "Service status is null";
+        //assert serviceName!=null : "Service status is null";
 
         serviceStatus.setLastModificationTime(LocalDateTime.now());
         serviceStatusDao.update(serviceStatus);
