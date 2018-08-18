@@ -32,7 +32,7 @@ Ext.define('app.controller.HeartRateChartController', {
     pressureServiceRefresh: function (toolBar) {
         var me = this;
         Ext.Ajax.request({
-            url: 'http://localhost:8080/heart_rate/pressure/pull.do',
+            url: '../pressure/pull.do',
             method: 'POST',
             success: function (response) {
                 var button = toolBar.getView().lookupReference('refreshButton');

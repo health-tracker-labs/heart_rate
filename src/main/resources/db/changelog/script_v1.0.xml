@@ -133,7 +133,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="sergtm" id="createTableServiceStatus">
+    <changeSet author="sergtm" id="createTableServiceStatus" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="SERVICE_STATUS" schemaName="heart_rate"/>
@@ -151,7 +151,7 @@
         <createSequence sequenceName="SERVICE_STATUS_SEQ"/>
     </changeSet>
 
-    <changeSet author="sergtm" id="insertServiceStatusesIntoServiceStatusTable">
+    <changeSet author="sergtm" id="insertServiceStatusesIntoServiceStatusTable" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from SERVICE_STATUS</sqlCheck>
@@ -165,5 +165,31 @@
             <column name="ID" valueSequenceNext="SERVICE_STATUS_SEQ"/>
             <column name="SERVICE_NAME" value="WeatherService"/>
         </insert>
+    </changeSet>
+
+    <changeSet author="sergtm" id="createTableWeather" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="WEATHER" schemaName="heart_rate"/>
+            </not>
+        </preConditions>
+        <createTable tableName="WEATHER">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ICON_URL" type="VARCHAR2(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEMPERATURE" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONCRETE_DATE" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="WEATHER_SEQ"/>
     </changeSet>
 </databaseChangeLog>
