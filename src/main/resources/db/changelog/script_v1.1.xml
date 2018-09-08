@@ -11,7 +11,7 @@
             </not>
         </preConditions>
         <addColumn tableName="USERS">
-            <column name="STATE" defaultValueBoolean="true" type="Number(1)">
+            <column name="STATE" defaultValue="1" type="Number(1)">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
