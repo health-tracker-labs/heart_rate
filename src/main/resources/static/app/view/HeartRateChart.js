@@ -36,6 +36,7 @@ Ext.define('app.view.HeartRateChart', {
         axes: [{
             type: 'numeric',
             fields: ['upper', 'lower', 'beatsPerMinute'],
+            title: ['upper', 'lower', 'beats Per Minute'],
             position: 'left',
             grid: false
         }, {
@@ -104,6 +105,7 @@ Ext.define('app.view.HeartRateChart', {
         }, {
             type: 'line',
             xField: 'date',
+            title: 'beats per minute',
             yField: 'beatsPerMinute',
             smooth: true,
             style: {
@@ -125,6 +127,7 @@ Ext.define('app.view.HeartRateChart', {
         }, {
             type: 'line',
             xField: 'date',
+            title: 'weather pressure',
             yField: 'weatherPressure',
             smooth: true,
             style: {

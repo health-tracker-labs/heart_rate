@@ -1,6 +1,7 @@
 package com.sergtm.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -19,14 +20,17 @@ public class User implements IEntity{
     @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "STATE")
+    private boolean state;
+
     /*@Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role role;*/
 
     @JoinTable(
         name = "USER_ROLE",
-        joinColumns = @JoinColumn(name = "ROLE_ID"),
-        inverseJoinColumns = @JoinColumn(name = "USER_ID")
+        joinColumns = @JoinColumn(name = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
     @OneToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
@@ -44,8 +48,8 @@ public class User implements IEntity{
         return username;
     }
 
-    public void setUsername(String nickname) {
-        this.username = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -54,6 +58,14 @@ public class User implements IEntity{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public List<Role> getRoles() {

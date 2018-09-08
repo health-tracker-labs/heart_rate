@@ -22,16 +22,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
+        http.csrf().disable().
+                authorizeRequests()
+                    .antMatchers("/", "/static/index.html").hasAnyAuthority("USER", "ADMIN")
+                    .antMatchers("/admin/**").hasAuthority("ADMIN")
+                    .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll(true)
-                .and()
+                    .loginPage("/login")
+                    .permitAll(true)
+                    .and()
                 .httpBasic()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
+                    .and()
+                .logout()
+                    .deleteCookies("remove")
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll();
     }
 
     @Override

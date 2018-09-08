@@ -1,0 +1,53 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="addStateColumnToUsersTable" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="USERS" columnName="STATE"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USERS">
+            <column name="STATE" defaultValue="1" type="Number(1)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="sergtm" id="changeRoleNameToAdmin" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from role where NAME = "ROLE_ADMIN"</sqlCheck>
+        </preConditions>
+        <update tableName="ROLE">
+            <column name="NAME" value="ADMIN"/>
+            <where>NAME = 'ROLE_ADMIN'</where>
+        </update>
+    </changeSet>
+
+    <changeSet author="sergtm" id="changeRoleNameToAdmin" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <sqlCheck expectedResult="0">select count(*) from role where NAME = "ROLE_USER" or name = "USER"
+                </sqlCheck>
+                <sqlCheck expectedResult="0">select count(*) from users where USERNAME = "user"</sqlCheck>
+            </and>
+        </preConditions>
+        <insert tableName="ROLE">
+            <column name="ID" valueSequenceNext="ROLE_SEQ"/>
+            <column name="NAME" value="USER"/>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USERS_SEQ"/>
+            <column name="USERNAME" value="user"/>
+            <column name="PASSWORD" value="user"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="ID" valueSequenceNext="USER_ROLE_SEQ"/>
+            <column name="USER_ID" valueComputed="(select id from USERS where USERNAME = 'user')"/>
+            <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'USER')"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
