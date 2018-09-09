@@ -30,9 +30,9 @@
     <changeSet author="sergtm" id="insertUserRole" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <and>
-                <sqlCheck expectedResult="0">select count(*) from role where NAME = "ROLE_USER" or name = "USER"
+                <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ROLE_USER'
                 </sqlCheck>
-                <sqlCheck expectedResult="0">select count(*) from users where USERNAME = "user"</sqlCheck>
+                <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'user'</sqlCheck>
             </and>
         </preConditions>
         <insert tableName="ROLE">
