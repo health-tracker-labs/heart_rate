@@ -1,6 +1,9 @@
 package com.sergtm.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,7 +23,9 @@ public class User implements IEntity{
     @Column(name = "PASSWORD")
     private String password;
 
+    @Type(type= "boolean")
     @Column(name = "STATE")
+    @NotNull
     private boolean state;
 
     /*@Column(name = "ROLE")
