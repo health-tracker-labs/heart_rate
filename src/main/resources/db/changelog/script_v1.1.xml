@@ -27,7 +27,7 @@
         </update>
     </changeSet>
 
-    <changeSet author="sergtm" id="changeRoleNameToAdmin" dbms="oracle">
+    <changeSet author="sergtm" id="insertUserRole" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from role where NAME = "ROLE_USER" or name = "USER"
