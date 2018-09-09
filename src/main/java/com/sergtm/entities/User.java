@@ -23,7 +23,7 @@ public class User implements IEntity{
     @Column(name = "PASSWORD")
     private String password;
 
-    @Type(type= "boolean")
+    @Type(type= "org.hibernate.type.NumericBooleanType")
     @Column(name = "STATE")
     @NotNull
     private boolean state;
