@@ -19,7 +19,7 @@
 
     <changeSet author="sergtm" id="changeRoleNameToAdmin" dbms="oracle">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from role where NAME = "ROLE_ADMIN"</sqlCheck>
+            <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ROLE_ADMIN'</sqlCheck>
         </preConditions>
         <update tableName="ROLE">
             <column name="NAME" value="ADMIN"/>
