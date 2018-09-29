@@ -2,6 +2,7 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IServiceStatusDao;
 import com.sergtm.entities.ServiceStatus;
+import com.sergtm.model.Response;
 import com.sergtm.model.ServiceName;
 import com.sergtm.service.IStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class StatusServiceImpl implements IStatusService {
-    public static final String NONE = "None";
 
     @Autowired
     private IServiceStatusDao serviceStatusDao;
 
     @Override
-    public String identifyLastModifiedService() {
+    public Response identifyLastModifiedService() {
         Collection<ServiceStatus> serviceStatuses = serviceStatusDao.getAll();
 
         if (serviceStatuses.isEmpty()) {
-            return NONE;
+            return new Response(ServiceName.None, Duration.of(0, ChronoUnit.MINUTES));
         }
 
         List<ServiceStatus> serviceStatusesSorted = serviceStatuses
@@ -35,23 +35,26 @@ public class StatusServiceImpl implements IStatusService {
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 
-        if (serviceStatusesSorted.get(0).getLastModificationTime() == null){
-            return serviceStatusesSorted.get(0).getServiceName().name();
+        if (serviceStatusesSorted.get(0).getLastModificationTime() == null) {
+            return new Response(serviceStatusesSorted.get(0).getServiceName(), Duration.of(0, ChronoUnit.MINUTES));
         }
 
-        Duration duration = Duration.between(serviceStatusesSorted.get(0).getLastModificationTime(), LocalDateTime.now());
-        Duration dur = Duration.of(10, ChronoUnit.MINUTES);
-        if (duration.minus(dur).isNegative()) {
-            return NONE;
+        Duration durationBetweenLastMod =
+                Duration.between(serviceStatusesSorted.get(0).getLastModificationTime(), LocalDateTime.now());
+        Duration durationBetweenCalls =
+                Duration.of(10, ChronoUnit.MINUTES);
+
+        Duration deference = durationBetweenLastMod.minus(durationBetweenCalls);
+        if (deference.isNegative()) {
+            return new Response(ServiceName.None, deference);
         }
-        return serviceStatusesSorted.get(serviceStatuses.size() - 1).getServiceName().name();
+        return new Response(serviceStatusesSorted.get(serviceStatuses.size() - 1).getServiceName(),
+                Duration.of(0, ChronoUnit.MINUTES));
     }
 
     @Override
     public void updateAndSave(ServiceName serviceName) {
         ServiceStatus serviceStatus = serviceStatusDao.getByName(serviceName);
-        //assert serviceName!=null : "Service status is null";
-
         serviceStatus.setLastModificationTime(LocalDateTime.now());
         serviceStatusDao.update(serviceStatus);
     }

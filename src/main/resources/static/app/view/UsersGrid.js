@@ -6,7 +6,8 @@ Ext.define('app.view.UsersGrid', {
     requires: [
         'app.store.UserStore',
         'app.controller.UserGridController',
-        'app.model.UserModel'
+        'app.model.UserModel',
+        'app.view.UserAdditionForm'
     ],
 
     plugins: {
@@ -23,13 +24,9 @@ Ext.define('app.view.UsersGrid', {
 
     store: Ext.create('app.store.UserStore'),
     columns: [{
-        header: 'id',
-        dataIndex: 'id'
-    }, {
         header: 'username',
         dataIndex: 'username',
         editor: {
-            // defaults to textfield if no xtype is supplied
             xtype: 'textfield',
             allowBlank: false
         }
@@ -40,12 +37,12 @@ Ext.define('app.view.UsersGrid', {
         editor: {
             allowBlank: false
         }
-    },{
+    }, {
         xtype: 'checkcolumn',
         header: 'Active?',
         dataIndex: 'state',
         listeners: {
-            beforecheckchange: function() {
+            beforecheckchange: function () {
                 return false;
             }
         },
@@ -59,8 +56,9 @@ Ext.define('app.view.UsersGrid', {
     }],
     tbar: [{
         text: 'Add User',
-        handler: 'onAddUserClick'
-    }, {
+        handler: 'onAddUserClick',
+        reference: 'addUserButton'
+    },{
         text: 'Remove User',
         handler: 'onRemoveUserClick'
     }],

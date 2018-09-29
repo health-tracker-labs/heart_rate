@@ -1,5 +1,6 @@
 package com.sergtm.controllers;
 
+import com.sergtm.dto.UserDTO;
 import com.sergtm.entities.User;
 import com.sergtm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping(path = "/getAll.json", produces = "application/json")
-    public Collection<User> getUsers() {
+    public Collection<UserDTO> getUsers() {
         return userService.getAll();
     }
 
@@ -24,7 +25,12 @@ public class UserController {
     }
 
     @PostMapping(path = "update")
-    public void update(@RequestBody User user){
-       userService.update(user);
+    public void update(@RequestBody UserDTO userDTO){
+       userService.update(userDTO);
+    }
+
+    @PostMapping(path = "save")
+    public void save(@RequestBody User user){
+        userService.save(user);
     }
 }

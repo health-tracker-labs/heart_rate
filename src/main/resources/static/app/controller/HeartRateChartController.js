@@ -31,13 +31,14 @@ Ext.define('app.controller.HeartRateChartController', {
 
     pressureServiceRefresh: function (toolBar) {
         var me = this;
+        var button = toolBar.getView().lookupReference('refreshButton');
         Ext.Ajax.request({
             url: 'http://localhost:8080/heart_rate/pressure/pull.do',
             method: 'POST',
             success: function (response) {
-                var button = toolBar.getView().lookupReference('refreshButton');
                 me.refreshChart();
                 button.enable();
+                Ext.Msg.alert('Refreshed!', 'Pressure data refreshed');
             },
             failure: function (response) {
                 button.enable();

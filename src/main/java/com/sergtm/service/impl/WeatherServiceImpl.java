@@ -29,7 +29,7 @@ public class WeatherServiceImpl implements IWeatherService {
     @Transactional
     @Override
     public Weather getWeather() {
-        if (statusService.identifyLastModifiedService().equals("None")) {
+        if (statusService.identifyLastModifiedService().getServiceName().equals(ServiceName.None)) {
             return weatherDao.getLatestWeather();
         } else {
             return getTodayWeather();

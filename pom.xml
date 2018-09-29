@@ -20,6 +20,7 @@
         <spring.version>4.3.9.RELEASE</spring.version>
         <spring.security.version>4.2.4.RELEASE</spring.security.version>
         <liquibase.version>3.5.3</liquibase.version>
+        <log4j.version>2.11.1</log4j.version>
     </properties>
 
     <build>
@@ -59,6 +60,21 @@
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.1.1</version>
+        </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc7</artifactId>

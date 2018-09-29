@@ -3,8 +3,9 @@ Ext.define('app.model.UserModel', {
     alias: 'UserModel',
 
     fields: [
-        'username',
-        'password',
-        { name: 'state', type: 'bool' }
+        {name: 'username', type: 'string'},
+        {name: 'password', type: 'string'},
+        {name: 'state', type: 'bool'},
+        {name: 'roles', type: 'auto'}
     ]
 });

@@ -11,4 +11,5 @@ public interface IUserDao {
     Optional<User> getUserById(long id);
     void deleteUser(User user);
     void update(User user);
+    void save(User user);
 }
