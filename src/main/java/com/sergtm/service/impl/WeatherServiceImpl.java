@@ -31,14 +31,15 @@ public class WeatherServiceImpl implements IWeatherService {
     public Weather getWeather() {
         if (statusService.identifyLastModifiedService().getServiceName().equals(ServiceName.None)) {
             return weatherDao.getLatestWeather();
+
         } else {
-            return getTodayWeather();
+            return getCurrentWeather();
         }
     }
 
     @Override
     @Transactional
-    public Weather getTodayWeather() {
+    public Weather getCurrentWeather() {
         WeatherModel weatherModel = weatherDataPuller.pullTodayWeatherData();
 
         statusService.updateAndSave(ServiceName.WeatherService);
@@ -47,11 +48,7 @@ public class WeatherServiceImpl implements IWeatherService {
     }
 
     private Weather getAndUpdateWeather(WeatherModel weatherModel){
-        Weather weather = weatherDao.getLatestWeather();
-
-        if (weather == null){
-            weather = new Weather();
-        }
+        Weather weather = weatherDao.getLatestWeather().orElse(new Weather());
 
         weather.setIconUrl(String.format(OPEN_WEATHER_MAP_URL, weatherModel.getWeather()[0].getIcon()));
         weather.setTemperature(weatherModel.getMain().getTemp());

@@ -15,7 +15,7 @@ public class WeatherController {
 
     @RequestMapping(path = "/getTodayWeatherUrl.json", method = RequestMethod.GET, produces = "application/json")
     public Weather getWeather() {
-        return weatherService.getTodayWeather();
+        return weatherService.getCurrentWeather();
     }
 
     @RequestMapping(path = "/getOnRender.json", method = RequestMethod.GET, produces = "application/json")

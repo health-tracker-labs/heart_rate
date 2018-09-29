@@ -14,7 +14,7 @@ Ext.define('app.controller.WeatherStatePanelController', {
         var me = this;
         var button = toolBar.getView().lookupReference('refreshButton');
         Ext.Ajax.request({
-            url: 'http://localhost:8080/heart_rate/weather/getTodayWeatherUrl.json',
+            url: '../weather/getTodayWeatherUrl.json',
             method: 'GET',
             success: function (response) {
                 me.update(response);
@@ -31,7 +31,7 @@ Ext.define('app.controller.WeatherStatePanelController', {
     onRender: function () {
         var me = this;
         Ext.Ajax.request({
-            url: 'http://localhost:8080/heart_rate/weather/getOnRender.json',
+            url: '../weather/getOnRender.json',
             method: 'GET',
             success: function (response) {
                 me.update(response);

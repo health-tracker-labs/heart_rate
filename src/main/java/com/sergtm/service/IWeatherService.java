@@ -4,5 +4,5 @@ import com.sergtm.entities.Weather;
 
 public interface IWeatherService {
     Weather getWeather();
-    Weather getTodayWeather();
+    Weather getCurrentWeather();
 }
