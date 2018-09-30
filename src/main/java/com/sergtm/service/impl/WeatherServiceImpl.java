@@ -30,8 +30,7 @@ public class WeatherServiceImpl implements IWeatherService {
     @Override
     public Weather getWeather() {
         if (statusService.identifyLastModifiedService().getServiceName().equals(ServiceName.None)) {
-            return weatherDao.getLatestWeather();
-
+            return weatherDao.getLatestWeather().orElseGet(this::getCurrentWeather);
         } else {
             return getCurrentWeather();
         }
