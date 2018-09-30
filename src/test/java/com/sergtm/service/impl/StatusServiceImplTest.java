@@ -12,6 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
@@ -19,8 +20,6 @@ import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StatusServiceImplTest {
-    public static final String NONE = "None";
-
     @Mock
     private IServiceStatusDao serviceStatusDao;
     @InjectMocks
@@ -28,8 +27,8 @@ public class StatusServiceImplTest {
 
     @Test
     public void shouldReturnNoneIfGetAllReturnEmptyCollection(){
-        when(serviceStatusDao.getAll()).thenReturn(Arrays.asList());
-        assertEquals(NONE, statusService.identifyLastModifiedService());
+        when(serviceStatusDao.getAll()).thenReturn(Collections.EMPTY_LIST);
+        assertEquals(ServiceName.None, statusService.identifyLastModifiedService().getServiceName());
     }
 
     @Test
@@ -42,7 +41,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(weatherServiceStatus, pressureServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
+        assertEquals(ServiceName.PressureService, statusService.identifyLastModifiedService().getServiceName());
     }
 
     @Test
@@ -55,7 +54,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(weatherServiceStatus, pressureServiceStatus));
 
-        assertEquals(NONE, statusService.identifyLastModifiedService());
+        assertEquals(ServiceName.None, statusService.identifyLastModifiedService().getServiceName());
     }
 
     @Test
@@ -68,7 +67,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(pressureServiceStatus, weatherServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
+        assertEquals(ServiceName.PressureService, statusService.identifyLastModifiedService().getServiceName());
     }
 
     @Test
@@ -81,7 +80,7 @@ public class StatusServiceImplTest {
 
         when(serviceStatusDao.getAll()).thenReturn(Arrays.asList(pressureServiceStatus, weatherServiceStatus));
 
-        assertEquals(ServiceName.PressureService.name(), statusService.identifyLastModifiedService());
+        assertEquals(ServiceName.PressureService, statusService.identifyLastModifiedService().getServiceName());
     }
 
     private ServiceStatus createServiceStatusEntity(ServiceName serviceName, LocalDateTime localDateTime){
