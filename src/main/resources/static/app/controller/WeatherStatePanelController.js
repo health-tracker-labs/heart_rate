@@ -12,16 +12,18 @@ Ext.define('app.controller.WeatherStatePanelController', {
 
     weatherServiceRefresh: function (toolBar) {
         var me = this;
+        var button = toolBar.getView().lookupReference('refreshButton');
         Ext.Ajax.request({
             url: '../weather/getTodayWeatherUrl.json',
             method: 'GET',
             success: function (response) {
-                var button = toolBar.getView().lookupReference('refreshButton');
                 me.update(response);
                 button.enable();
+                Ext.Msg.alert('Refreshed!', 'Whether data refreshed');
             },
             failure: function (response) {
                 Ext.Msg.alert('Error!', 'Can not get today weather data');
+                button.enable();
             }
         });
     },

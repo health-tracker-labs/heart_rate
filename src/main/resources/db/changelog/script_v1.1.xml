@@ -50,4 +50,44 @@
             <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'USER')"/>
         </insert>
     </changeSet>
+
+    <changeSet author="sergtm" id="re-createUserRoleTable" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="USER_ROLE"/>
+        </preConditions>
+        <dropSequence sequenceName="USER_ROLE_SEQ"/>
+        <dropTable tableName="USER_ROLE"/>
+        <createTable tableName="USER_ROLE">
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ROLE_ID" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_user_role_user_id"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="ROLE_ID"
+                                 constraintName="fk_user_role_role_id"
+                                 referencedTableName="ROLE"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet author="sergtm" id="insertDataIntoUserRole" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from USER_ROLE</sqlCheck>
+        </preConditions>
+        <insert tableName="USER_ROLE">
+            <column name="USER_ID" valueComputed="(select id from USERS where USERNAME = 'user')"/>
+            <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'USER')"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="USER_ID" valueComputed="(select id from USERS where USERNAME = 'admin')"/>
+            <column name="ROLE_ID" valueComputed="(select id from ROLE where NAME = 'ADMIN')"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

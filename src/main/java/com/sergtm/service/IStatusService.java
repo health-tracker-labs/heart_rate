@@ -1,8 +1,9 @@
 package com.sergtm.service;
 
+import com.sergtm.model.Response;
 import com.sergtm.model.ServiceName;
 
 public interface IStatusService {
-    String identifyLastModifiedService();
+    Response identifyLastModifiedService();
     void updateAndSave(ServiceName serviceName);
 }

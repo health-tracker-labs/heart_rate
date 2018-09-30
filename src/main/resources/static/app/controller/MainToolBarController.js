@@ -15,8 +15,8 @@ Ext.define('app.controller.MainToolBarController', {
             url: '../status/getService',
             method: 'GET',
             success: function (response) {
-                var resText = response.responseText.replace(/\"/g, "");
-                me.callService(resText);
+                var obj = JSON.parse(response.responseText);
+                me.callService(obj);
             },
             failure: function (response) {
                 button.enable();
@@ -60,9 +60,9 @@ Ext.define('app.controller.MainToolBarController', {
             toolBar.getReferences().personCombobox.reset();
         },
         callService: function (response) {
-            var eventName = 'on' + response + 'Refresh';
-            if (response === "None") {
-                Ext.Msg.alert('Failed', "Service is unavailable now. Try in 10 minutes");
+            var eventName = 'on' + response.serviceName + 'Refresh';
+            if (response.serviceName === "None") {
+                Ext.Msg.alert('Failed', "You will be able to refresh data in " + response.timeBeforeAvailability);
                 this.getView().lookupReference('refreshButton').enable();
             } else {
                 this.fireEvent(eventName, this);
