@@ -3,12 +3,13 @@ Ext.define('app.controller.UserAdditionFormController', {
     alias: 'controller.UserAdditionFormController',
 
     onSubmitClick: function () {
+        var me = this;
         var form = this.getView();
 
         if (this.validateForm(form)) {
             var roles = this.formRolesArray(form);
             var user = Ext.create('UserModel', {
-                'id': 0,
+                'id': -1,
                 'username': form.getReferences().user.getValue(),
                 'password': form.getReferences().password.getValue(),
                 'state': form.getReferences().state.getValue(),
@@ -20,8 +21,8 @@ Ext.define('app.controller.UserAdditionFormController', {
                 method: 'POST',
                 jsonData: user.data,
                 success: function (response) {
-                    this.fireEvent('onRefreshStore');
-                    this.destroyFormAndEnableAddUserButton();
+                    me.fireEvent('onRefreshStore');
+                    me.destroyFormAndEnableAddUserButton();
                 },
                 failure: function (response) {
                 }
