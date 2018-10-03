@@ -12,6 +12,7 @@ Ext.define('app.controller.UserGridController', {
     },
 
     onRemoveUserClick: function () {
+        var me = this;
         var sm = this.getView().getSelectionModel();
         var id = sm.getSelection()[0].data.id;
         var roles = sm.getSelection()[0].data.roles;
@@ -30,7 +31,7 @@ Ext.define('app.controller.UserGridController', {
                         id: id
                     },
                     success: function (response) {
-                        this.refreshStore();
+                        me.refreshStore();
                     },
                     failure: function (response) {
                     }

@@ -81,7 +81,7 @@
         <preConditions onFail="MARK_RAN">
             <not>
                 <and>
-                    <sqlCheck expectedResult="0">select count(*) from user where USERNAME = 'user'</sqlCheck>
+                    <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'user'</sqlCheck>
                     <sqlCheck expectedResult="0">select count(*) from role where NAME = 'USER'</sqlCheck>
                 </and>
             </not>
@@ -96,7 +96,7 @@
         <preConditions onFail="MARK_RAN">
             <not>
                 <and>
-                    <sqlCheck expectedResult="0">select count(*) from user where USERNAME = 'admin'</sqlCheck>
+                    <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'admin'</sqlCheck>
                     <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ADMIN'</sqlCheck>
                 </and>
             </not>
