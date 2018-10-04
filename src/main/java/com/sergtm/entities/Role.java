@@ -1,7 +1,5 @@
 package com.sergtm.entities;
 
-import com.sergtm.entities.IEntity;
-
 import javax.persistence.*;
 
 @Entity

@@ -1,5 +1,7 @@
 package com.sergtm.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -20,8 +22,9 @@ public class User implements IEntity{
     @Column(name = "PASSWORD")
     private String password;
 
+    @Type(type= "org.hibernate.type.NumericBooleanType")
     @Column(name = "STATE")
-    private boolean state;
+    private Boolean state;
 
     @JoinTable(
         name = "USER_ROLE",
