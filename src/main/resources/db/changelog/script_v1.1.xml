@@ -79,12 +79,14 @@
 
     <changeSet author="sergtm" id="insertUserIntoUserRole" dbms="oracle">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <and>
+            <and>
+                <not>
                     <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'user'</sqlCheck>
+                </not>
+                <not>
                     <sqlCheck expectedResult="0">select count(*) from role where NAME = 'USER'</sqlCheck>
-                </and>
-            </not>
+                </not>
+            </and>
         </preConditions>
         <insert tableName="USER_ROLE">
             <column name="USER_ID" valueComputed="(select id from USERS where USERNAME = 'user')"/>
@@ -96,8 +98,12 @@
         <preConditions onFail="MARK_RAN">
             <not>
                 <and>
-                    <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'admin'</sqlCheck>
-                    <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ADMIN'</sqlCheck>
+                    <not>
+                        <sqlCheck expectedResult="0">select count(*) from users where USERNAME = 'admin'</sqlCheck>
+                    </not>
+                    <not>
+                        <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ADMIN'</sqlCheck>
+                    </not>
                 </and>
             </not>
         </preConditions>
