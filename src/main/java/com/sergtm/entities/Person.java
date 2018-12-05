@@ -35,6 +35,8 @@ public class Person implements IEntity{
     private String mobilePhone;
     @Column(name = "EMAIL")
     private String email;
+    @ManyToOne
+    private User user;
 
     @Override
     public Long getId() {
@@ -123,10 +125,19 @@ public class Person implements IEntity{
         this.email = email;
     }
 
-    public static Person createPerson(String firstName, String secondName){
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public static Person createPerson(String firstName, String secondName, User user){
         Person person = new Person();
         person.setFirstName(firstName);
         person.setSecondName(secondName);
+        person.setUser(user);
         return person;
     }
 }

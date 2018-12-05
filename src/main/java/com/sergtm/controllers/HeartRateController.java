@@ -6,6 +6,7 @@ import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -22,9 +23,9 @@ public class HeartRateController {
     public Collection<? extends IEntity> addHeartRate(@RequestParam int upperPressure, @RequestParam int lowerPressure,
                                                       @RequestParam int beatsPerMinute,
                                                       @RequestParam(value = "datetime", required = false) Date datetime,
-                                                      @RequestParam String firstName, @RequestParam String secondName) {
+                                                      @RequestParam String firstName, @RequestParam String secondName, Authentication authentication) {
         Date dt = checkParam(datetime);
-        return heartRateService.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, dt, firstName, secondName);
+        return heartRateService.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, dt, firstName, secondName, authentication.getName());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "addById")
@@ -52,8 +53,8 @@ public class HeartRateController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "chart.json", produces = "application/json")
-    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
-        return heartRateService.getChartData(personId, from, to);
+    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to, Authentication authentication) {
+        return heartRateService.getChartData(personId, from, to, authentication.getName());
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "save.do")

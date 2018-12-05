@@ -2,6 +2,7 @@ package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
+import com.sergtm.entities.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,16 @@ public class PersonDaoImpl implements IPersonDao{
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("firstName", firstName);
         query.setParameter("secondName", secondName);
+        return query.getResultList();
+    }
+
+    @Override
+    public Collection<Person> getByUser(User user) {
+        String sql = "FROM Person p where (p.person.id is null or p.person.id in (select person.id " +
+                "from Person pr " +
+                "where pr.user.id = :user_id)) order by h.date";
+        Query query = sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("user_id", user.getId());
         return query.getResultList();
     }
 }
