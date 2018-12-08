@@ -55,9 +55,7 @@ public class PersonDaoImpl implements IPersonDao{
 
     @Override
     public Collection<Person> getByUser(User user) {
-        String sql = "FROM Person p where (p.person.id is null or p.person.id in (select person.id " +
-                "from Person pr " +
-                "where pr.user.id = :user_id)) order by h.date";
+        String sql = "FROM Person p where (p.user.id = 0 or p.user.id = :user_id)";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("user_id", user.getId());
         return query.getResultList();

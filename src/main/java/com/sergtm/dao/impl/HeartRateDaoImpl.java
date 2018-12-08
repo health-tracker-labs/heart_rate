@@ -32,7 +32,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE =
             "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id in (select person.id " +
                     "from HeartRateWithWeatherPressure hp " +
-                    "where hp.person.user.id = :user_id)) order by h.date";
+                    "where hp.person.user.id = 0 or hp.person.user.id = :user_id)) order by h.date";
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID =
             "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id)";
 
