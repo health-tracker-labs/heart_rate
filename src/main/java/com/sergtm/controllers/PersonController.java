@@ -20,8 +20,11 @@ public class PersonController {
 
     @RequestMapping(method = RequestMethod.GET, path = "add.json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Person addPerson(@RequestParam String firstName, @RequestParam String secondName, Authentication authentication) {
-        return personService.addPerson(firstName, secondName, authentication.getName());
+    public Person addPerson(@RequestParam String firstName, @RequestParam String secondName, String username, Authentication authentication) {
+        if (username == null) {
+            username = authentication.getName();
+        }
+        return personService.addPerson(firstName, secondName, username);
     }
     @RequestMapping(method = RequestMethod.GET, path = "getAll.xml", produces = "application/xml")
     public Collection<Person> getAll(){

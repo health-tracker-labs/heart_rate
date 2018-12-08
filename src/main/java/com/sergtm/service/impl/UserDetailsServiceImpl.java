@@ -21,7 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findUserByUsername(username);
+        User user = null;
+        if (!(username.equals("unauthorized"))) {
+            user = userService.findUserByUsername(username);
+        }
         if (user != null && user.isState()){
             return buildUserFromUserEntity(user);
         }else{
