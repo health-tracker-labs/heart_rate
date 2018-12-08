@@ -7,4 +7,5 @@
     <include file="changelog/initial_schema.xml" relativeToChangelogFile="true"/>
     <include file="changelog/script_v1.0.xml" relativeToChangelogFile="true"/>
     <include file="changelog/script_v1.1.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/script_v1.2.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

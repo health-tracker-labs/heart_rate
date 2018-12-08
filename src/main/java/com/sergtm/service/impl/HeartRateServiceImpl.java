@@ -4,12 +4,10 @@ import com.sergtm.dao.IHeartRateDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.dto.StatisticOnDay;
-import com.sergtm.entities.HeartRate;
-import com.sergtm.entities.HeartRateWithWeatherPressure;
-import com.sergtm.entities.IEntity;
-import com.sergtm.entities.Person;
+import com.sergtm.entities.*;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
+import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +33,12 @@ public class HeartRateServiceImpl implements IHeartRateService {
     private IPersonDao personDao;
     @Autowired
     private IHelpDao helpDao;
+    @Autowired
+    private IUserService userService;
 
     @Override
     @Transactional
-    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, String firstName, String secondName) {
+    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, String firstName, String secondName, String userName) {
         List<Person> people = personDao.getPersonByName(firstName, secondName);
 
         if (people.size() == 1) {
@@ -46,7 +46,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
             return Arrays.asList(hr);
         } else if (people.size() == 0) {
-            Person person = Person.createPerson(firstName, secondName);
+            Person person = Person.createPerson(firstName, secondName, userService.findUserByUsername(userName));
             personDao.savePerson(person);
 
             HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, person);
@@ -115,7 +115,9 @@ public class HeartRateServiceImpl implements IHeartRateService {
     }
 
     @Override
-    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
+    public Collection<StatisticOnDay> getChartData(Long personId, String from, String to, String userName) {
+        User user = userService.findUserByUsername(userName);
+
         LocalDate now = LocalDate.now();
         LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
         LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
@@ -125,7 +127,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
         Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateDao.getData(
                 Date.from(fromDate.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(toDate.atZone(ZoneId.systemDefault()).toInstant()), personId);
+                Date.from(toDate.atZone(ZoneId.systemDefault()).toInstant()), personId, user);
 
         return heartRateWithWeatherPressures.stream()
                 .map(StatisticOnDay::new)

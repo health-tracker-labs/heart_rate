@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="addUserColumnToPersonTable" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="PERSON" schemaName="heart_rate" columnName="DOCTOR"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="PERSON">
+            <column name="USER_ID" defaultValue="null" type="Number">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="PERSON"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_person_user_id"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

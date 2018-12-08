@@ -12,7 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.SpringSecurityCoreVersion;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
 @EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class})
@@ -33,5 +35,10 @@ public class SpringBootConfiguration extends SpringBootServletInitializer {
     @Bean
     public RestTemplate RestTemplate(){
         return new RestTemplate();
+    }
+
+    @Bean
+    public Authentication Authentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface IHeartRateService {
-    Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, String firstName, String secondName);
+    Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, String firstName, String secondName, String userName);
     HeartRate createHeartRate(AddHeartRateForm form);
 
     void addHeartRateById(Long id, int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime);
@@ -18,5 +18,5 @@ public interface IHeartRateService {
     Collection<? extends IEntity> findByPage(int page);
     boolean deleteHeartRate(Long id);
 
-    Collection<StatisticOnDay> getChartData(Long id, String from, String to);
+    Collection<StatisticOnDay> getChartData(Long id, String from, String to, String userName);
 }
