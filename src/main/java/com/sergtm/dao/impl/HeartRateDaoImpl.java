@@ -71,9 +71,10 @@ public class HeartRateDaoImpl implements IHeartRateDao {
         Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE : FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID);
         query.setParameter("from", from, TemporalType.DATE);
         query.setParameter("to", to, TemporalType.DATE);
-        query.setParameter("user_id", user.getId());
         if (id != null) {
             query.setParameter("id", id);
+        } else {
+            query.setParameter("user_id", user.getId());
         }
         return query.getResultList();
     }
