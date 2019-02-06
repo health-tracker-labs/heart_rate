@@ -75,6 +75,7 @@
                                  constraintName="fk_user_role_role_id"
                                  referencedTableName="ROLE"
                                  referencedColumnNames="ID"/>
+        <createSequence sequenceName="USER_ROLE_SEQ"/>
     </changeSet>
 
     <changeSet author="sergtm" id="insertUserIntoUserRole" dbms="oracle">

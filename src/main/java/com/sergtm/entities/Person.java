@@ -2,9 +2,13 @@ package com.sergtm.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sergey on 16.07.2017.
@@ -17,26 +21,42 @@ public class Person implements IEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PERSON_SEQ")
     @Column(name = "ID")
     private Long id;
+
     @Column(name = "FIRST_NAME")
     private String firstName;
+
     @Column(name = "MIDDLE_NAME")
     private String middleName;
+
     @Column(name = "SECOND_NAME")
     private String secondName;
+
     @Column(name = "COUNTRY")
     private String country;
+
     @Column(name = "CITY")
     private String city;
+
     @Column(name = "BIRTHDATE")
     private LocalDateTime birthdate;
+
     @Column(name = "PHONE")
     private String phone;
+
     @Column(name = "MOBILE_PHONE")
     private String mobilePhone;
+
     @Column(name = "EMAIL")
     private String email;
-    @ManyToOne
-    private User user;
+
+    @JoinTable(
+            name = "PATIENT_DOCTOR",
+            joinColumns = @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "ID")
+    )
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<StaffMember> staffMembers;
 
     @Override
     public Long getId() {
@@ -125,19 +145,11 @@ public class Person implements IEntity{
         this.email = email;
     }
 
-    public User getUser() {
-        return user;
+    public Set<StaffMember> getStaffMembers() {
+        return staffMembers;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public static Person createPerson(String firstName, String secondName, User user){
-        Person person = new Person();
-        person.setFirstName(firstName);
-        person.setSecondName(secondName);
-        person.setUser(user);
-        return person;
+    public void setStaffMembers(Set<StaffMember> staffMembers) {
+        this.staffMembers = staffMembers;
     }
 }

@@ -30,11 +30,14 @@ public class HeartRateDaoImpl implements IHeartRateDao {
     //private static final String FIND_BY_DATE_RANGE = "FROM HeartRate h where h.date between :from and :to order by h.date";
     //private static final String FIND_BY_DATE_RANGE_AND_PERSON_ID = "FROM HeartRate h where h.date between :from and :to and h.person.id = :id order by h.date";
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE =
-            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id in (select person.id " +
-                    "from HeartRateWithWeatherPressure hp " +
-                    "where hp.person.user.id = 0 or hp.person.user.id = :user_id)) order by h.date";
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id not in (select hp.person.id " +
+                    "from HeartRateWithWeatherPressure hp join hp.person.staffMembers s " +
+                    "where s.user.id != :user_id)) order by h.date";
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID =
-            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id)";
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id) order by h.date"; /* and " +
+                    "(h.person.id is null or h.person.id not in (select hp.person.id " +
+                    "from HeartRateWithWeatherPressure hp join hp.person.staffMembers s " +
+                    "where s.user.id != :user_id)) order by h.date)";*/
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -71,9 +74,10 @@ public class HeartRateDaoImpl implements IHeartRateDao {
         Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE : FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID);
         query.setParameter("from", from, TemporalType.DATE);
         query.setParameter("to", to, TemporalType.DATE);
-        query.setParameter("user_id", user.getId());
         if (id != null) {
             query.setParameter("id", id);
+        } else {
+            query.setParameter("user_id", user.getId());
         }
         return query.getResultList();
     }

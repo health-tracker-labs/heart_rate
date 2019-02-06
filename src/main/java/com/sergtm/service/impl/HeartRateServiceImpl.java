@@ -38,7 +38,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
     @Override
     @Transactional
-    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, String firstName, String secondName, String userName) {
+    public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, String firstName, String secondName) {
         List<Person> people = personDao.getPersonByName(firstName, secondName);
 
         if (people.size() == 1) {
@@ -46,7 +46,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
             return Arrays.asList(hr);
         } else if (people.size() == 0) {
-            Person person = Person.createPerson(firstName, secondName, userService.findUserByUsername(userName));
+            Person person = Person.createPerson(firstName, secondName);
             personDao.savePerson(person);
 
             HeartRate hr = createAndSaveHeartRate(upperPressure, lowerPressure, beatsPerMinute, datetime, person);

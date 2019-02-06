@@ -1,0 +1,69 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="dropColumn" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="PERSON" schemaName="heart_rate" columnName="USER_ID"/>
+        </preConditions>
+        <dropColumn tableName="person" columnName="user_id"/>
+    </changeSet>
+
+    <changeSet id="createTableStaffMember" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="STAFF_MEMBER"/>
+            </not>
+        </preConditions>
+        <createTable tableName="STAFF_MEMBER">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PERSON_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="STAFF_MEMBER"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_staffMember_user_id"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+        <addForeignKeyConstraint baseTableName="STAFF_MEMBER"
+                                 baseColumnNames="PERSON_ID"
+                                 constraintName="fk_staffMember_person_id"
+                                 referencedTableName="PERSON"
+                                 referencedColumnNames="ID"/>
+        <createSequence sequenceName="STAFF_MEMBER_SEQ"/>
+    </changeSet>
+
+    <changeSet id="createTablePatientDoctor" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PATIENT_DOCTOR"/>
+            </not>
+        </preConditions>
+        <createTable tableName="PATIENT_DOCTOR">
+            <column name="DOCTOR_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PERSON_ID" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="PATIENT_DOCTOR"
+                                 baseColumnNames="DOCTOR_ID"
+                                 constraintName="fk_patientDoctor_staffMember_id"
+                                 referencedTableName="STAFF_MEMBER"
+                                 referencedColumnNames="ID"/>
+        <addForeignKeyConstraint baseTableName="PATIENT_DOCTOR"
+                                 baseColumnNames="PERSON_ID"
+                                 constraintName="fk_patientDoctor_person_id"
+                                 referencedTableName="PERSON"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>
