@@ -1,14 +1,25 @@
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <changeSet id="dropColumn" author="sergtm" dbms="oracle">
         <preConditions onFail="MARK_RAN">
             <columnExists tableName="PERSON" schemaName="heart_rate" columnName="USER_ID"/>
         </preConditions>
         <dropColumn tableName="person" columnName="user_id"/>
+    </changeSet>
+
+    <changeSet id="addUnauthorizedUserRecord" author="sergtm" dbms="oracle">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from users where id = 0</sqlCheck>
+        </preConditions>
+        <insert tableName="USERS">
+            <column name="ID" value="0"/>
+            <column name="username" value="unauthorized"/>
+            <column name="PASSWORD" value="unauthorized"/>
+            <column name="state" value="0"/>
+        </insert>
     </changeSet>
 
     <changeSet id="addUserColumnToPersonTableWithDefaultUnauthorizedUser" author="sergtm" dbms="oracle">
@@ -27,17 +38,5 @@
                                  constraintName="fk_person_user_id"
                                  referencedTableName="USERS"
                                  referencedColumnNames="ID"/>
-    </changeSet>
-
-    <changeSet id="addUnauthorizedUserRecord" author="sergtm" dbms="oracle">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">select count(*) from users where id = 0</sqlCheck>
-        </preConditions>
-        <insert tableName="USERS">
-            <column name="ID" value="0"/>
-            <column name="username" value="unauthorized"/>
-            <column name="PASSWORD" value="unauthorized"/>
-            <column name="state" value="0"/>
-        </insert>
     </changeSet>
 </databaseChangeLog>

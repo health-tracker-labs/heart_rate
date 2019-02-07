@@ -34,7 +34,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
                     "from HeartRateWithWeatherPressure hp " +
                     "where hp.person.user.id = 0 or hp.person.user.id = :user_id)) order by h.date";
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID =
-            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id)";
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id) order by h.date";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -71,9 +71,10 @@ public class HeartRateDaoImpl implements IHeartRateDao {
         Query query = sessionFactory.getCurrentSession().createQuery(id == null? FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE : FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID);
         query.setParameter("from", from, TemporalType.DATE);
         query.setParameter("to", to, TemporalType.DATE);
-        query.setParameter("user_id", user.getId());
         if (id != null) {
             query.setParameter("id", id);
+        } else {
+            query.setParameter("user_id", user.getId());
         }
         return query.getResultList();
     }
