@@ -23,9 +23,9 @@ public class HeartRateController {
     public Collection<? extends IEntity> addHeartRate(@RequestParam int upperPressure, @RequestParam int lowerPressure,
                                                       @RequestParam int beatsPerMinute,
                                                       @RequestParam(value = "datetime", required = false) Date datetime,
-                                                      @RequestParam String firstName, @RequestParam String secondName, Authentication authentication) {
+                                                      @RequestParam String firstName, @RequestParam String secondName/*, Authentication authentication*/) {
         Date dt = checkParam(datetime);
-        return heartRateService.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, dt, firstName, secondName, authentication.getName());
+        return heartRateService.createHeartRate(upperPressure, lowerPressure, beatsPerMinute, dt, firstName, secondName/*, authentication.getName()*/);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "addById")

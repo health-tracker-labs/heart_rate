@@ -2,14 +2,20 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
+import com.sergtm.entities.StaffMember;
 import com.sergtm.entities.User;
 import com.sergtm.service.IPersonService;
+import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class PersonServiceImpl implements IPersonService{
@@ -17,6 +23,8 @@ public class PersonServiceImpl implements IPersonService{
     private IPersonDao personDao;
     @Autowired
     private IUserService userService;
+    @Resource
+    private IStaffMemberService staffMemberService;
 
     @Override
     public boolean deletePerson(Long id) {
@@ -27,7 +35,7 @@ public class PersonServiceImpl implements IPersonService{
         try {
             personDao.deletePerson(person);
             return true;
-        }catch (HibernateException e){
+        }catch (HibernateException ignored){
 
         }
         return false;
@@ -35,7 +43,7 @@ public class PersonServiceImpl implements IPersonService{
 
     @Override
     public Person addPerson(String firstName, String secondName, String userName) {
-        Person person = Person.createPerson(firstName, secondName, userService.findUserByUsername(userName));
+        Person person = createPerson(firstName, secondName, userService.findUserByUsername(userName));
         personDao.savePerson(person);
         return person;
     }
@@ -49,5 +57,25 @@ public class PersonServiceImpl implements IPersonService{
     public Collection<Person> getByUser(String userName) {
         User user = userService.findUserByUsername(userName);
         return personDao.getByUser(user);
+    }
+
+    @Override
+    //TODO: rewrite
+    public Person getByName(String firstName, String secondName) {
+
+        return personDao.getPersonByName(firstName, secondName).get(0);
+    }
+
+    private Person createPerson(String firstName, String secondName, User user){
+        Set<StaffMember> staffMembers = new HashSet<>();
+        StaffMember staffMember = staffMemberService.getByUser(user);
+        if (staffMember != null)
+            staffMembers.add(staffMember);
+
+        Person person = new Person();
+        person.setFirstName(firstName);
+        person.setSecondName(secondName);
+        person.setStaffMembers(staffMembers);
+        return person;
     }
 }

@@ -24,7 +24,6 @@ public class PersonDaoImpl implements IPersonDao{
     @Override
     public void savePerson(Person person) {
         sessionFactory.getCurrentSession().saveOrUpdate(person);
-
     }
 
     @Override
@@ -55,7 +54,7 @@ public class PersonDaoImpl implements IPersonDao{
 
     @Override
     public Collection<Person> getByUser(User user) {
-        String sql = "FROM Person p where (p.user.id = 0 or p.user.id = :user_id)";
+        String sql = "from Person pr where pr.id not in (select p.id FROM Person p join p.staffMembers s where s.user.id != :user_id)";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("user_id", user.getId());
         return query.getResultList();
