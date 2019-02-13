@@ -34,10 +34,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
                     "from HeartRateWithWeatherPressure hp join hp.person.staffMembers s " +
                     "where s.user.id != :user_id)) order by h.date";
     private static final String FIND_HEART_RATE_WEATHER_PRESSURE_BY_DATE_RANGE_AND_PERSON_ID =
-            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id) order by h.date"; /* and " +
-                    "(h.person.id is null or h.person.id not in (select hp.person.id " +
-                    "from HeartRateWithWeatherPressure hp join hp.person.staffMembers s " +
-                    "where s.user.id != :user_id)) order by h.date)";*/
+            "FROM HeartRateWithWeatherPressure h where h.date between :from and :to and (h.person.id is null or h.person.id = :id) order by h.date";
 
     @Autowired
     private SessionFactory sessionFactory;
