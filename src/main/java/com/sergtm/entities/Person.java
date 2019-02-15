@@ -152,4 +152,11 @@ public class Person implements IEntity{
     public void setStaffMembers(Set<StaffMember> staffMembers) {
         this.staffMembers = staffMembers;
     }
+
+    public static Person createPerson(String firstName, String secondName){
+        Person person = new Person();
+        person.setFirstName(firstName);
+        person.setSecondName(secondName);
+        return person;
+    }
 }
