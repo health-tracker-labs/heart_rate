@@ -6,7 +6,7 @@
     <groupId>heart_rate</groupId>
     <artifactId>heart_rate</artifactId>
     <packaging>war</packaging>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
 
     <name>heart_rate Maven Webapp</name>
 
