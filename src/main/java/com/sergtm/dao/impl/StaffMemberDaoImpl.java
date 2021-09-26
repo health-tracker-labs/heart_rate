@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,7 +24,8 @@ public class StaffMemberDaoImpl implements IStaffMemberDao {
         String sql = "FROM StaffMember s WHERE s.user.id = :user_id";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("user_id", user.getId());
-        return Optional.ofNullable((StaffMember) query.getResultList().get(0));
+
+        return query.getResultList().stream().findFirst();
     }
 
     @Override

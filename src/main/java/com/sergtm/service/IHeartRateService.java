@@ -1,22 +1,26 @@
 package com.sergtm.service;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.HeartRate;
-import com.sergtm.entities.HeartRateWithWeatherPressure;
 import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
 
-import java.util.Collection;
-import java.util.Date;
-
 public interface IHeartRateService {
-    Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime, String firstName, String secondName);
-    HeartRate createHeartRate(AddHeartRateForm form);
+	Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, LocalDateTime dt, String firstName, String secondName);
 
-    void addHeartRateById(Long id, int upperPressure, int lowerPressure, int beatsPerMinute,Date datetime);
-    Collection<? extends IEntity> getHelp(String query, String topicName);
-    Collection<? extends IEntity> findByPage(int page);
-    boolean deleteHeartRate(Long id);
+	HeartRate createHeartRate(Long id, AddHeartRateForm form);
+	void addHeartRateByPersonId(Long id, int upperPressure, int lowerPressure, int beatsPerMinute, LocalDateTime dt);
 
-    Collection<StatisticOnDay> getChartData(Long id, String from, String to, String userName);
+	boolean deleteHeartRate(Long id);
+
+	Collection<StatisticOnDay> getChartData(Long id, String from, String to, String userName);
+
+	Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to, String userName);
+	Collection<? extends IEntity> findByPage(int page);
+	HeartRate findById(Long id);
+
+	Collection<? extends IEntity> getHelp(String query, String topicName);
 }

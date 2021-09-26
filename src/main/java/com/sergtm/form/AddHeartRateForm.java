@@ -1,26 +1,28 @@
 package com.sergtm.form;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class AddHeartRateForm {
     private int lowerPressure;
     private int upperPressure;
     private int beatsPerMinute;
     private long personId;
-    private Date date;
 
-    public Date getDate() {
+    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+    private LocalDateTime date;
+
+    public LocalDateTime getDate() {
         return date;
     }
-
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
     public int getLowerPressure() {
         return lowerPressure;
     }
-
     public void setLowerPressure(int lowerPressure) {
         this.lowerPressure = lowerPressure;
     }
@@ -28,7 +30,6 @@ public class AddHeartRateForm {
     public int getUpperPressure() {
         return upperPressure;
     }
-
     public void setUpperPressure(int upperPressure) {
         this.upperPressure = upperPressure;
     }
@@ -36,7 +37,6 @@ public class AddHeartRateForm {
     public int getBeatsPerMinute() {
         return beatsPerMinute;
     }
-
     public void setBeatsPerMinute(int beatsPerMinute) {
         this.beatsPerMinute = beatsPerMinute;
     }
@@ -44,7 +44,6 @@ public class AddHeartRateForm {
     public long getPersonId() {
         return personId;
     }
-
     public void setPersonId(long personId) {
         this.personId = personId;
     }
