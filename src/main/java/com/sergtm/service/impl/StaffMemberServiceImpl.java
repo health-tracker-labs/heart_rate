@@ -7,11 +7,14 @@ import com.sergtm.entities.User;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Optional;
 
+@Service
 public class StaffMemberServiceImpl implements IStaffMemberService {
     @Resource
     private IStaffMemberDao staffMemberDao;

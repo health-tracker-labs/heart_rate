@@ -1,5 +1,15 @@
 package com.sergtm.service.impl;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.StaffMember;
@@ -7,15 +17,6 @@ import com.sergtm.entities.User;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
-import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class PersonServiceImpl implements IPersonService{
