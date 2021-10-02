@@ -9,7 +9,6 @@ import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 	"com.sergtm.configuration.security",
 	"com.sergtm.configuration.swagger",
 	"com.sergtm.component"})
-@Import(JacksonConfiguration.class)
 @EnableJpaRepositories(basePackages= {"com.sergtm.repository"})
 public class BaseConfiguration{
     @Autowired

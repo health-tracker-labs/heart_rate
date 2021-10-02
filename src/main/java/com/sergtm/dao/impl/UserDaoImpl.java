@@ -1,17 +1,18 @@
 package com.sergtm.dao.impl;
 
-import com.sergtm.dao.IUserDao;
-import com.sergtm.entities.Role;
-import com.sergtm.entities.User;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.Query;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import com.sergtm.dao.IUserDao;
+import com.sergtm.entities.User;
 
 @Repository
 @Transactional(readOnly = true)

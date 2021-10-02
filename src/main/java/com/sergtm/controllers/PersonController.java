@@ -1,13 +1,18 @@
 package com.sergtm.controllers;
 
-import com.sergtm.entities.Person;
-import com.sergtm.service.IPersonService;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import com.sergtm.entities.Person;
+import com.sergtm.service.IPersonService;
 
 /**
  * Created by Sergey on 14.07.2017.
