@@ -1,17 +1,18 @@
 package com.sergtm.controllers;
 
-import com.sergtm.dao.IHelpDao;
-import com.sergtm.entities.Help;
-import com.sergtm.entities.IEntity;
-import com.sergtm.service.IHeartRateService;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.List;
+import com.sergtm.dao.IHelpDao;
+import com.sergtm.entities.Help;
+import com.sergtm.entities.IEntity;
+import com.sergtm.service.IHeartRateService;
 
 @RestController
 @RequestMapping("/help")

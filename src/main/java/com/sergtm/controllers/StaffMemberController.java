@@ -1,15 +1,17 @@
 package com.sergtm.controllers;
 
-import com.sergtm.entities.StaffMember;
-import com.sergtm.service.IStaffMemberService;
+import javax.annotation.Resource;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import com.sergtm.entities.StaffMember;
+import com.sergtm.service.IStaffMemberService;
 
-@RestController("/staffMember")
+@RestController
+@RequestMapping("/staffMember")
 public class StaffMemberController {
     @Resource
     private IStaffMemberService staffMemberService;

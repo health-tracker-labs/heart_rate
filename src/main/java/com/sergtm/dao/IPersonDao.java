@@ -1,11 +1,10 @@
 package com.sergtm.dao;
 
-import com.sergtm.entities.Person;
-import com.sergtm.entities.User;
-import org.springframework.security.access.method.P;
-
 import java.util.Collection;
 import java.util.List;
+
+import com.sergtm.entities.Person;
+import com.sergtm.entities.User;
 
 /**
  * Created by Sergey on 18.07.2017.

@@ -1,13 +1,15 @@
 package com.sergtm.controllers;
 
-import com.sergtm.entities.Role;
-import com.sergtm.service.IRoleService;
+import java.util.Collection;
+
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.Collection;
+import com.sergtm.entities.Role;
+import com.sergtm.service.IRoleService;
 
 @RestController
 @RequestMapping("/role")

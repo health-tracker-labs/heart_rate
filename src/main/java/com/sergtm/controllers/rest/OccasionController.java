@@ -1,4 +1,4 @@
-package com.sergtm.controllers;
+package com.sergtm.controllers.rest;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
