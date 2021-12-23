@@ -1,6 +1,6 @@
 package com.sergtm.entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -29,6 +31,10 @@ public class Occasion implements IEntity {
 	@JoinColumn(name = "DISEASE_ID")
 	private Disease disease;
 
+	@OneToOne
+	@JoinColumn(name = "PERSON_ID")
+	private Person person;
+
 	@Column(name = "OCCASION_LEVEL")
 	@Enumerated(EnumType.STRING)
 	private OccasionLevel occasionLevel;
@@ -38,7 +44,8 @@ public class Occasion implements IEntity {
 	private boolean convulsion;
 
 	@Column(name = "OCCASION_DATE")
-	private LocalDateTime occasionDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date occasionDate;
 
 	@Override
 	public Long getId() {
@@ -55,6 +62,13 @@ public class Occasion implements IEntity {
 		this.disease = disease;
 	}
 
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 	public OccasionLevel getOccasionLevel() {
 		return occasionLevel;
 	}
@@ -69,10 +83,10 @@ public class Occasion implements IEntity {
 		this.convulsion = convulsion;
 	}
 
-	public LocalDateTime getOccasionDate() {
+	public Date getOccasionDate() {
 		return occasionDate;
 	}
-	public void setOccasionDate(LocalDateTime occasionDate) {
+	public void setOccasionDate(Date occasionDate) {
 		this.occasionDate = occasionDate;
 	}
 }

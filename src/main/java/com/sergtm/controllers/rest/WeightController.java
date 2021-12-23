@@ -3,6 +3,7 @@ package com.sergtm.controllers.rest;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,28 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sergtm.controllers.rest.dto.OccasionDto;
-import com.sergtm.service.IOccasionService;
+import com.sergtm.controllers.rest.dto.WeightDto;
+import com.sergtm.service.IWeightService;
 
 @RestController
-@RequestMapping("/occasion")
-public class OccasionController {
+@RequestMapping("/weight")
+public class WeightController {
 	@Resource
-	private IOccasionService occasionService;
+	private IWeightService weightService;
 
 	@GetMapping
-	public List<OccasionDto> occasions() {
-		return occasionService.findOccasions();
+	public List<WeightDto> weights() {
+		return weightService.findWeights();
 	}
 
 	@PutMapping("/{personId}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void occasion(@PathVariable Long personId, OccasionDto occasionDto) {
-		occasionService.addOccasion(personId, occasionDto);
+	public void weight(@PathVariable Long personId, @Valid WeightDto weightDto) {
+		weightService.addWeight(personId, weightDto);
 	}
 
-	@DeleteMapping("/{occasionId}")
-	public void occasion(@PathVariable Long occasionId) {
-		occasionService.removeOccasion(occasionId);
+	@DeleteMapping("/{weightId}")
+	public void weight(@PathVariable Long weightId) {
+		weightService.removeWeight(weightId);
 	}
 }

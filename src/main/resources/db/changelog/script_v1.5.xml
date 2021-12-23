@@ -2,10 +2,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-	<changeSet id="createDiseaseTable" author="alextim" dbms="oracle">
+	<changeSet id="createDiseaseTable" author="alextim">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="DISEASE" schemaName="heart_rate" />
+				<tableExists tableName="DISEASE"/>
 			</not>
 		</preConditions>
 		<createTable tableName="DISEASE">
@@ -22,10 +22,10 @@
 		<createSequence sequenceName="DISEASE_SEQ"/>
 	</changeSet>
 
-	<changeSet id="createOccasionTable" author="alextim" dbms="oracle">
+	<changeSet id="createOccasionTable" author="alextim">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="OCCASION" schemaName="heart_rate" />
+				<tableExists tableName="OCCASION"/>
 			</not>
 		</preConditions>
 		<createTable tableName="OCCASION">
@@ -34,6 +34,9 @@
 			</column>
 			<column name="DISEASE_ID" type="NUMBER">
 				<constraints nullable="false" />
+			</column>
+			<column name="PERSON_ID" type="NUMBER">
+				<constraints nullable="false"/>
 			</column>
 			<column name="OCCASION_DATE" type="DATE">
 				<constraints nullable="false" />
@@ -46,13 +49,18 @@
 			</column>
 		</createTable>
 		<createSequence sequenceName="OCCASION_SEQ"/>
+
 		<addForeignKeyConstraint
 			baseTableName="OCCASION" baseColumnNames="DISEASE_ID"
 			constraintName="OCCASION_DISEASE_ID_FK" referencedTableName="DISEASE"
 			referencedColumnNames="ID" />
+		<addForeignKeyConstraint
+			baseTableName="OCCASION" baseColumnNames="PERSON_ID"
+			constraintName="OCCASION_PERSON_ID_FK" referencedTableName="PERSON"
+			referencedColumnNames="ID" />
 	</changeSet>
 
-	<changeSet  id="insertEpilepsyDataIntoDiseaseTable" author="alextim" dbms="oracle">
+	<changeSet  id="insertEpilepsyDataIntoDiseaseTable" author="alextim">
 		<preConditions onFail="MARK_RAN">
 			<and>
 				<sqlCheck expectedResult="0">select count(*) from DISEASE where NAME = 'epilepsy'</sqlCheck>
@@ -64,4 +72,33 @@
 			<column name="NAME" value="epilepsy" />
 		</insert>
 	</changeSet>
+
+	<changeSet id="createWeightTable" author="alextim">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="WEIGHT"/>
+			</not>
+		</preConditions>
+		<createTable tableName="WEIGHT">
+			<column name="ID" type="NUMBER">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="PERSON_ID" type="NUMBER">
+				<constraints nullable="false"/>
+			</column>
+			<column name="WEIGHT" type="NUMBER(6, 3)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CONCRETE_DATE" type="DATE">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="WEIGHT_SEQ"/>
+
+		<addForeignKeyConstraint
+			baseTableName="WEIGHT" baseColumnNames="PERSON_ID"
+			constraintName="WEIGHT_PERSON_ID_FK" referencedTableName="PERSON"
+			referencedColumnNames="ID" />
+	</changeSet>
+
 </databaseChangeLog>
