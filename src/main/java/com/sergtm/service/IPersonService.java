@@ -10,4 +10,5 @@ public interface IPersonService {
     Collection<Person> findAll();
     Collection<Person> getByUser(String userName);
     Person getByName(String firstName, String secondName);
+	Person findByIdOrThrowException(Long personId);
 }
