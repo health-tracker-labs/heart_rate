@@ -1,16 +1,16 @@
 package com.sergtm.controllers;
 
-import com.sergtm.treeView.Root;
-import com.sergtm.treeView.TreeNode;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+import java.util.Arrays;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import com.sergtm.treeView.Root;
+import com.sergtm.treeView.TreeNode;
 
 @Controller
 @RequestMapping("/admin")

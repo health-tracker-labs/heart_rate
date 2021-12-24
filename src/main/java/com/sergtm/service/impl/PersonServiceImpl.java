@@ -14,18 +14,23 @@ import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.StaffMember;
 import com.sergtm.entities.User;
+import com.sergtm.repository.PersonRepository;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
 
 @Service
 public class PersonServiceImpl implements IPersonService{
+	private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
+
     @Autowired
     private IPersonDao personDao;
     @Autowired
     private IUserService userService;
     @Resource
     private IStaffMemberService staffMemberService;
+    @Resource
+    private PersonRepository personRepository;
 
     @Override
     public boolean deletePerson(Long id) {
@@ -79,4 +84,10 @@ public class PersonServiceImpl implements IPersonService{
         person.setStaffMembers(staffMembers);
         return person;
     }
+
+	@Override
+	public Person findByIdOrThrowException(Long personId) {
+		return personRepository.findById(personId)
+			.orElseThrow(() -> new IllegalArgumentException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
+	}
 }
