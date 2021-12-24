@@ -11,6 +11,18 @@ Ext.define('app.view.MainToolBar', {
     items: [{
         xtype: 'toolbar',
         items: [{
+            xtype: 'combobox',
+            reference: 'chartTypeCombobox',
+            store: Ext.create('app.store.ChartTypeStore'),
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'id',
+            editable: false,
+            name: 'chartTypeId',
+			listeners: {
+				select: 'onSelectChartType'
+			}
+		}, {
             xtype: 'datefield',
             anchor: '100%',
             reference: 'from_date',
@@ -25,7 +37,7 @@ Ext.define('app.view.MainToolBar', {
         }, '-', {
             xtype: 'combobox',
             reference: 'personCombobox',
-            emptyText: 'person',
+            emptyText: 'select person',
             store: Ext.create('app.store.PersonStore'),
             queryMode: 'local',
             displayField: 'name',

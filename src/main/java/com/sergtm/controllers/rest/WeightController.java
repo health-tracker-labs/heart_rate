@@ -23,7 +23,7 @@ public class WeightController {
 	@Resource
 	private IWeightService weightService;
 
-	@GetMapping
+	@GetMapping("/weights")
 	public List<WeightDto> weights() {
 		return weightService.findWeights();
 	}
