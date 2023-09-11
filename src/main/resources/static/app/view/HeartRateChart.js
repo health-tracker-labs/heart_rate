@@ -9,6 +9,10 @@ Ext.define('app.view.HeartRateChart', {
 
     alias: 'widget.view.HeartRateChart',
 
+	listeners : {
+		onReloadChartStore : 'onReloadChartStore'
+	},
+
     items: [{
         xtype: 'cartesian',
         reference: 'chart',

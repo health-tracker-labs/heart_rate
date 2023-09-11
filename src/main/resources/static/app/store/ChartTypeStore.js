@@ -10,5 +10,5 @@ Ext.define('app.store.ChartTypeStore', {
 			rootProperty: 'data'
 		}
 	},
-	autoLoad: true
+	autoLoad: false
 });

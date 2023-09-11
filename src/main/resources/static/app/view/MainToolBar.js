@@ -3,7 +3,8 @@ Ext.define('app.view.MainToolBar', {
 
     requires: [
         'app.controller.MainToolBarController',
-        'app.view.WeatherStatePanel'
+        'app.view.WeatherStatePanel',
+		'app.view.ChartTypeCombobox'
     ],
     controller: 'MainToolBarController',
     alias: 'widget.view.MainToolBar',
@@ -11,17 +12,9 @@ Ext.define('app.view.MainToolBar', {
     items: [{
         xtype: 'toolbar',
         items: [{
-            xtype: 'combobox',
+            xtype: 'chartTypeCombobox',
             reference: 'chartTypeCombobox',
-            store: Ext.create('app.store.ChartTypeStore'),
-            queryMode: 'local',
-            displayField: 'name',
-            valueField: 'id',
-            editable: false,
-            name: 'chartTypeId',
-			listeners: {
-				select: 'onSelectChartType'
-			}
+            name: 'chartTypeId'
 		}, {
             xtype: 'datefield',
             anchor: '100%',

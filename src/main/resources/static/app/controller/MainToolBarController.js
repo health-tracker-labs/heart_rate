@@ -45,11 +45,6 @@ Ext.define('app.controller.MainToolBarController', {
         }
     },
 
-	onSelectChartType: function(combo, record, eOpts) {
-		var chartAlias = Ext.String.format('widget.view.{0}Chart', record.data.name);
-		var chart = Ext.create(chartAlias);
-	},
-
     privates: {
         validateRangeDates: function (fromDateField, toDateField) {
             if (!fromDateField.isValid() && !toDateField.isValid()) {
