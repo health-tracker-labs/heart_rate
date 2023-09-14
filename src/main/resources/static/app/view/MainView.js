@@ -3,7 +3,6 @@ Ext.define('app.view.MainView', {
 
     requires: [
         'app.view.MainToolBar',
-        'app.view.HeartRateChart',
         'app.view.AddHeartRateForm'
     ],
 
@@ -17,8 +16,7 @@ Ext.define('app.view.MainView', {
         },
         {
             region: 'center',
-            layout: 'fit',
-            xtype: 'view.HeartRateChart'
+            layout: 'fit'
         },
         {
             region: 'south',

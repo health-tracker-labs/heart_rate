@@ -28,11 +28,13 @@ Ext.define('app.controller.MainToolBarController', {
         var me = this;
 
         var toolBar = this.getView();
-        var fromDateField = toolBar.getReferences().from_date;
-        var toDateField = toolBar.getReferences().to_date;
+		var references = toolBar.getReferences();
+        var fromDateField = references.from_date;
+        var toDateField = references.to_date;
+
         var from = fromDateField.getValue();
         var to = toDateField.getValue();
-        var personId = toolBar.getReferences().personCombobox.getValue();
+        var personId = references.personCombobox.getValue();
 
         if (from > to && to != null) {
             Ext.Msg.alert('Failed', 'From date is later than to date');

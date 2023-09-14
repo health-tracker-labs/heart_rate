@@ -10,6 +10,7 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -23,6 +24,7 @@ import com.sergtm.service.IWeightService;
 @Service
 public class WeightServiceImpl implements IWeightService {
 	private static final String WEIGHT_MUST_NOT_BE_NULL = "The given weight must not be null!";
+	private static final Sort SORT_BY_DATE_ASC = Sort.by(Sort.Direction.ASC, "date");
 
 	@Resource
 	private WeightRepository weightRepository;
@@ -54,7 +56,7 @@ public class WeightServiceImpl implements IWeightService {
 
 	@Override
 	public List<WeightDto> findWeights() {
-		return StreamSupport.stream(weightRepository.findAll().spliterator(), false)
-				.map(WeightDto::new).collect(Collectors.toList());
+		return StreamSupport.stream(weightRepository.findAll(SORT_BY_DATE_ASC).spliterator(), false).map(WeightDto::new)
+				.collect(Collectors.toList());
 	}
 }
