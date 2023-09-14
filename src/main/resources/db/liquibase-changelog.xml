@@ -10,4 +10,5 @@
     <include file="changelog/script_v1.2.xml" relativeToChangelogFile="true"/>
     <include file="changelog/script_v1.3.xml" relativeToChangelogFile="true"/>
     <include file="changelog/script_v1.5.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/script_v1.6.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -1,0 +1,40 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet id="createChartTypeTable" author="alextim">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="CHART_TYPE"/>
+			</not>
+		</preConditions>
+		<createTable tableName="CHART_TYPE">
+			<column name="ID" type="NUMBER">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="NAME" type="VARCHAR2(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR2(100)"/>
+		</createTable>
+		<createSequence sequenceName="CHART_TYPE_SEQ"/>
+	</changeSet>
+
+	<changeSet id="addChartTypes" author="alextim">
+		<insert tableName="CHART_TYPE">
+			<column name="ID" valueSequenceNext="CHART_TYPE_SEQ" />
+			<column name="NAME" value="HeartRate" />
+			<column name="DESCRIPTION" value="Chart displays pressure, bpm for person and weather pressure" />
+		</insert>
+		<insert tableName="CHART_TYPE">
+			<column name="ID" valueSequenceNext="CHART_TYPE_SEQ" />
+			<column name="NAME" value="Weight" />
+			<column name="DESCRIPTION" value="Chart displays weight for person" />
+		</insert>
+		<insert tableName="CHART_TYPE">
+			<column name="ID" valueSequenceNext="CHART_TYPE_SEQ" />
+			<column name="NAME" value="Occasion" />
+			<column name="DESCRIPTION" value="Chart displays epilepsy occasions" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

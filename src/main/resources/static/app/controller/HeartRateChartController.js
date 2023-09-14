@@ -11,7 +11,7 @@ Ext.define('app.controller.HeartRateChartController', {
     listen: {
         controller: {
             '*': {
-                onReloadChartStore: 'reloadChartStore'
+                onReloadChartStore: 'onReloadChartStore'
             },
             'MainToolBarController': {
                 onPressureServiceRefresh: 'pressureServiceRefresh'
@@ -19,7 +19,7 @@ Ext.define('app.controller.HeartRateChartController', {
         }
     },
 
-    reloadChartStore: function (personId, from, to) {
+    onReloadChartStore: function (personId, from, to) {
         this.refreshChart({
             params: {
                 personId: personId,

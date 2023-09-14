@@ -114,7 +114,7 @@ Ext.define('app.controller.AddHeartRateFormController', {
                         Ext.Msg.alert('Success', 'Delete success');
 
                         me.fireEvent('onReloadChartStore');
-                        
+
                         me.loadDateDataCombobox();
                         me.formReset();
                     },
