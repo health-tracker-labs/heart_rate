@@ -1,15 +1,5 @@
 package com.sergtm.service.impl;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.StaffMember;
@@ -18,10 +8,21 @@ import com.sergtm.repository.PersonRepository;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
+import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.util.Collections.emptyList;
+import static java.util.Objects.nonNull;
 
 @Service
-public class PersonServiceImpl implements IPersonService{
-	private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
+public class PersonServiceImpl implements IPersonService {
+    private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
 
     @Autowired
     private IPersonDao personDao;
@@ -35,13 +36,13 @@ public class PersonServiceImpl implements IPersonService{
     @Override
     public boolean deletePerson(Long id) {
         Person person = personDao.getPersonById(id);
-        if(person==null){
+        if (person == null) {
             return false;
         }
         try {
             personDao.deletePerson(person);
             return true;
-        }catch (HibernateException ignored){
+        } catch (HibernateException ignored) {
 
         }
         return false;
@@ -62,7 +63,10 @@ public class PersonServiceImpl implements IPersonService{
     @Override
     public Collection<Person> getByUser(String userName) {
         User user = userService.findUserByUsername(userName);
-        return personDao.getByUser(user);
+        if (nonNull(user)) {
+            return personDao.getByUser(user);
+        }
+        return emptyList();
     }
 
     @Override
@@ -72,7 +76,7 @@ public class PersonServiceImpl implements IPersonService{
         return personDao.getPersonByName(firstName, secondName).get(0);
     }
 
-    private Person createPerson(String firstName, String secondName, User user){
+    private Person createPerson(String firstName, String secondName, User user) {
         Set<StaffMember> staffMembers = new HashSet<>();
         StaffMember staffMember = staffMemberService.getByUser(user);
         if (staffMember != null)
@@ -85,9 +89,9 @@ public class PersonServiceImpl implements IPersonService{
         return person;
     }
 
-	@Override
-	public Person findByIdOrThrowException(Long personId) {
-		return personRepository.findById(personId)
-			.orElseThrow(() -> new IllegalArgumentException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
-	}
+    @Override
+    public Person findByIdOrThrowException(Long personId) {
+        return personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
+    }
 }

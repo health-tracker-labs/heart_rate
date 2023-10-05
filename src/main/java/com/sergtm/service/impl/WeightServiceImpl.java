@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.sergtm.controllers.rest.dto.WeightDto;
+import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.Weight;
 import com.sergtm.repository.WeightRepository;
@@ -32,7 +32,7 @@ public class WeightServiceImpl implements IWeightService {
 	private IPersonService personService;
 
 	@Override
-	public void addWeight(Long personId, WeightDto weightDto) {
+	public void addWeight(Long personId, WeightRequest weightDto) {
 		Assert.notNull(weightDto, WEIGHT_MUST_NOT_BE_NULL);
 
 		Person person = personService.findByIdOrThrowException(personId);
@@ -55,8 +55,8 @@ public class WeightServiceImpl implements IWeightService {
 	}
 
 	@Override
-	public List<WeightDto> findWeights() {
-		return StreamSupport.stream(weightRepository.findAll(SORT_BY_DATE_ASC).spliterator(), false).map(WeightDto::new)
+	public List<WeightRequest> findWeights() {
+		return StreamSupport.stream(weightRepository.findAll(SORT_BY_DATE_ASC).spliterator(), false).map(WeightRequest::new)
 				.collect(Collectors.toList());
 	}
 }

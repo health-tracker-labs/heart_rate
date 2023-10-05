@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.sergtm.controllers.rest.dto.OccasionDto;
+import com.sergtm.controllers.rest.request.OccasionRequest;
 import com.sergtm.entities.Occasion;
 import com.sergtm.entities.Person;
 import com.sergtm.repository.DiseaseRepository;
@@ -37,19 +37,19 @@ public class OccasionServiceImpl implements IOccasionService {
 
 	@Override
 	@Transactional
-	public void addOccasion(Long personId, OccasionDto occasionDto) {
-		Assert.notNull(occasionDto, OCCASION_MUST_NOT_BE_NULL);
+	public void addOccasion(Long personId, OccasionRequest occasionRequest) {
+		Assert.notNull(occasionRequest, OCCASION_MUST_NOT_BE_NULL);
 
 		Person person = personService.findByIdOrThrowException(personId);
 
 		Occasion occasion = new Occasion();
 
 		occasion.setPerson(person);
-		occasion.setOccasionLevel(occasionDto.getOccasionLevel());
-		occasion.setConvulsion(occasionDto.isConvulsion());
+		occasion.setOccasionLevel(occasionRequest.getOccasionLevel());
+		occasion.setConvulsion(occasionRequest.isConvulsion());
 		occasion.setDisease(diseaseRepository.findOneByName(DISEASE_NAME));
 
-		LocalDateTime ldt = occasionDto.getOccasionDate();
+		LocalDateTime ldt = occasionRequest.getOccasionDate();
 		ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
 
 		occasion.setOccasionDate(Date.from(zdt.toInstant()));
@@ -63,8 +63,8 @@ public class OccasionServiceImpl implements IOccasionService {
 	}
 
 	@Override
-	public List<OccasionDto> findOccasions() {
+	public List<OccasionRequest> findOccasions() {
 		return StreamSupport.stream(occasionRepository.findAll().spliterator(), false)
-				.map(OccasionDto::new).collect(Collectors.toList());
+				.map(OccasionRequest::new).collect(Collectors.toList());
 	}
 }

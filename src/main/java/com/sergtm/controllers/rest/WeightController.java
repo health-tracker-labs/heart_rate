@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sergtm.controllers.rest.dto.WeightDto;
+import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.service.IWeightService;
 
 @RestController
@@ -24,13 +24,13 @@ public class WeightController {
 	private IWeightService weightService;
 
 	@GetMapping("/weights")
-	public List<WeightDto> weights() {
+	public List<WeightRequest> weights() {
 		return weightService.findWeights();
 	}
 
 	@PutMapping("/{personId}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void weight(@PathVariable Long personId, @Valid WeightDto weightDto) {
+	public void weight(@PathVariable Long personId, @Valid WeightRequest weightDto) {
 		weightService.addWeight(personId, weightDto);
 	}
 
