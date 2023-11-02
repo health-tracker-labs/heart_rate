@@ -1,24 +1,10 @@
 package com.sergtm.entities;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import lombok.*;
 import org.springframework.util.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by Sergey on 16.07.2017.
@@ -63,15 +49,6 @@ public class Person implements IEntity{
 
     @Column(name = "EMAIL")
     private String email;
-
-    @JoinTable(
-            name = "PATIENT_DOCTOR",
-            joinColumns = @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "ID")
-    )
-    @OneToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<StaffMember> staffMembers;
 
     public String getName() {
         final String middleName = getMiddleName();

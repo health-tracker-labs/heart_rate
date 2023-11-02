@@ -3,9 +3,7 @@ package com.sergtm.controllers.rest.request;
 import com.sergtm.OccasionLevel;
 import com.sergtm.entities.Occasion;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -14,7 +12,9 @@ import java.time.ZoneId;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class OccasionRequest {
     @ApiModelProperty(hidden = true)
     private Long id;

@@ -1,24 +1,22 @@
 package com.sergtm.controllers.rest;
 
-import com.sergtm.controllers.rest.response.PersonResponse;
 import com.sergtm.controllers.rest.request.PersonRequest;
+import com.sergtm.controllers.rest.response.PersonResponse;
 import com.sergtm.entities.Person;
 import com.sergtm.service.IPersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@RestController("person-controller-rest")
+@RestController
 @RequestMapping(path = "/persons", produces = "application/json")
 public class PersonController {
     @Resource
@@ -43,11 +41,10 @@ public class PersonController {
 
     @PutMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public PersonResponse createPerson(@RequestBody @Valid PersonRequest request) {
+    public PersonResponse createPerson(@Valid PersonRequest request) {
         Person person = personService.addPerson(
                 request.getFirstName(),
-                request.getSecondName(),
-                request.getUserName());
+                request.getSecondName());
         return new PersonResponse(person);
     }
 
