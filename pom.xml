@@ -22,6 +22,7 @@
 
     <properties>
         <spring.fox.swagger2.version>3.0.0</spring.fox.swagger2.version>
+        <docker.image.name>health-tracker/heart_rate</docker.image.name>
     </properties>
 
     <build>
@@ -36,15 +37,27 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.40.1</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.sergtm.Application</mainClass>
-                        </manifest>
-                    </archive>
+                    <images>
+                        <image>
+                            <name>${docker.image.name}:${project.version}</name>
+                            <build>
+                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
             <plugin>

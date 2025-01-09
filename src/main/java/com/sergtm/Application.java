@@ -26,12 +26,12 @@ public class Application {
 	}
 
 	@Bean
-	public RestTemplate RestTemplate() {
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 
 	@Bean
-	public Authentication Authentication() {
+	public Authentication authentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 }
