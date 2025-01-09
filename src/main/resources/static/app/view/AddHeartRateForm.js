@@ -2,7 +2,8 @@ Ext.define('app.view.AddHeartRateForm', {
     extend: 'Ext.form.Panel',
 
     requires : [
-        'app.controller.AddHeartRateFormController'
+        'app.controller.AddHeartRateFormController',
+        'app.view.PersonCombobox'
     ],
 
     controller: 'AddHeartRateFormController',
@@ -49,13 +50,10 @@ Ext.define('app.view.AddHeartRateForm', {
         reference: 'beatsPerMinuteNumberField',
         name: 'beatsPerMinute'
     }, {
-        xtype: 'combobox',
-        reference: 'personCombobox',
         fieldLabel: 'Person',
-        store: Ext.create('app.store.PersonStore'),
-        queryMode: 'local',
-        displayField: 'name',
-        valueField: 'id',
+        xtype: 'personCombobox',
+        reference: 'personCombobox',
+        emptyText: 'select person',
         name: 'personId'
     }, {
         xtype: 'datefield',
