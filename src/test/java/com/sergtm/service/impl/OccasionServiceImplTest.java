@@ -1,22 +1,5 @@
 package com.sergtm.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import com.sergtm.OccasionLevel;
 import com.sergtm.controllers.rest.request.OccasionRequest;
 import com.sergtm.entities.Disease;
@@ -26,8 +9,24 @@ import com.sergtm.repository.DiseaseRepository;
 import com.sergtm.repository.OccasionRepository;
 import com.sergtm.service.IOccasionService;
 import com.sergtm.service.IPersonService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 public class OccasionServiceImplTest {
 	private static final Long PERSON_ID = 1L;
 	private static final String DISEASE_NAME = "epilepsy";
@@ -45,8 +44,6 @@ public class OccasionServiceImplTest {
 	private DiseaseRepository diseaseRepository;
 
 	@Mock
-	private Person person;
-	@Mock
 	private Disease disease;
 	@Captor
 	private ArgumentCaptor<Occasion> occasionCaptor;
@@ -54,29 +51,28 @@ public class OccasionServiceImplTest {
 	@InjectMocks
 	private IOccasionService testedInstance = new OccasionServiceImpl();
 
-	@Before
-	public void setUp() {
-		when(personService.findByIdOrThrowException(PERSON_ID)).thenReturn(person);
-		when(diseaseRepository.findOneByName(DISEASE_NAME)).thenReturn(disease);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowExceptionWhenOccasionIsNull() {
-		testedInstance.addOccasion(PERSON_ID, null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			testedInstance.addOccasion(createPerson(), null);
+		});
 	}
 
 	@Test
 	public void shouldPopulateAndSaveOccasion() {
-		testedInstance.addOccasion(PERSON_ID, createOccasionDto());
+		when(diseaseRepository.findOneByName(DISEASE_NAME)).thenReturn(disease);
+
+		Person person = createPerson();
+		testedInstance.addOccasion(person, createOccasionDto());
 
 		verify(occasionRepository).save(occasionCaptor.capture());
 		Occasion occasion = occasionCaptor.getValue();
 
-		assertEquals(occasion.getPerson(), person);
-		assertEquals(occasion.getOccasionLevel(), OCCASION_LEVEL);
-		assertEquals(occasion.isConvulsion(), IS_CONVULSION);
-		assertEquals(occasion.getDisease(), disease);
-		assertEquals(occasion.getOccasionDate(), OCCASION_DATE);
+		assertEquals(person, occasion.getPerson());
+		assertEquals(OCCASION_LEVEL, occasion.getOccasionLevel());
+		assertEquals(IS_CONVULSION, occasion.isConvulsion());
+		assertEquals(disease, occasion.getDisease());
+		assertEquals(OCCASION_DATE, occasion.getOccasionDate());
 	}
 
 	private OccasionRequest createOccasionDto() {
@@ -87,5 +83,12 @@ public class OccasionServiceImplTest {
 		occasionRequest.setOccasionDate(OCCASION_LOCAL_DT);
 
 		return occasionRequest;
+	}
+
+	private static Person createPerson() {
+		Person person = new Person();
+		person.setId(PERSON_ID);
+
+		return person;
 	}
 }

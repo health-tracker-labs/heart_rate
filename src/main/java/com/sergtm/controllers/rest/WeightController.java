@@ -1,6 +1,8 @@
 package com.sergtm.controllers.rest;
 
 import com.sergtm.controllers.rest.request.WeightRequest;
+import com.sergtm.entities.Person;
+import com.sergtm.service.IPersonService;
 import com.sergtm.service.IWeightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.List;
 public class WeightController {
 	@Resource
 	private IWeightService weightService;
+	@Resource
+	private IPersonService personService;
 
 	@GetMapping("/weights")
 	public List<WeightRequest> weights() {
@@ -23,7 +27,8 @@ public class WeightController {
 	@PutMapping("/{personId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void weight(@PathVariable Long personId, @Valid WeightRequest weightDto) {
-		weightService.addWeight(personId, weightDto);
+		Person person = personService.findByIdOrThrowException(personId);
+		weightService.addWeight(person, weightDto);
 	}
 
 	@DeleteMapping("/{weightId}")

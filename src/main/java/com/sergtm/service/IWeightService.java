@@ -1,11 +1,12 @@
 package com.sergtm.service;
 
 import com.sergtm.controllers.rest.request.WeightRequest;
+import com.sergtm.entities.Person;
 
 import java.util.List;
 
 public interface IWeightService extends IDeletableByPersonService {
-	void addWeight(Long personId, WeightRequest weightDto);
+	void addWeight(Person person, WeightRequest weightDto);
 	void removeWeight(Long weightId);
 	List<WeightRequest> findWeights();
 }

@@ -6,7 +6,6 @@ import com.sergtm.entities.Person;
 import com.sergtm.repository.DiseaseRepository;
 import com.sergtm.repository.OccasionRepository;
 import com.sergtm.service.IOccasionService;
-import com.sergtm.service.IPersonService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,15 +29,11 @@ public class OccasionServiceImpl implements IOccasionService {
 	private DiseaseRepository diseaseRepository;
 	@Resource
 	private OccasionRepository occasionRepository;
-	@Resource
-	private IPersonService personService;
 
 	@Override
 	@Transactional
-	public void addOccasion(Long personId, OccasionRequest occasionRequest) {
+	public void addOccasion(Person person, OccasionRequest occasionRequest) {
 		Assert.notNull(occasionRequest, OCCASION_MUST_NOT_BE_NULL);
-
-		Person person = personService.findByIdOrThrowException(personId);
 
 		Occasion occasion = new Occasion();
 

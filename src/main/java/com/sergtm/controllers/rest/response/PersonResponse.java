@@ -9,6 +9,7 @@ import lombok.Setter;
 public class PersonResponse {
 	private Long id;
 	private String name;
+	private String country;
 
 	public PersonResponse() {
 	}

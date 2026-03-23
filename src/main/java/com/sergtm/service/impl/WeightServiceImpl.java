@@ -4,7 +4,6 @@ import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.Weight;
 import com.sergtm.repository.WeightRepository;
-import com.sergtm.service.IPersonService;
 import com.sergtm.service.IWeightService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,15 +25,10 @@ public class WeightServiceImpl implements IWeightService {
 
 	@Resource
 	private WeightRepository weightRepository;
-	@Resource
-	private IPersonService personService;
 
 	@Override
-	public void addWeight(Long personId, WeightRequest weightDto) {
+	public void addWeight(Person person, WeightRequest weightDto) {
 		Assert.notNull(weightDto, WEIGHT_MUST_NOT_BE_NULL);
-
-		Person person = personService.findByIdOrThrowException(personId);
-
 		Weight model = new Weight();
 
 		model.setPerson(person);

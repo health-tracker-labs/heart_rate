@@ -4,7 +4,6 @@ import com.sergtm.dao.IStaffMemberDao;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.StaffMember;
 import com.sergtm.entities.User;
-import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ public class StaffMemberServiceImpl implements IStaffMemberService {
     private IStaffMemberDao staffMemberDao;
     @Resource
     private IUserService userService;
-    @Resource
-    private IPersonService personService;
 
     @Override
     public StaffMember add(int userId, int personId) {
@@ -36,9 +33,8 @@ public class StaffMemberServiceImpl implements IStaffMemberService {
 
     @Override
     @Transactional
-    public StaffMember addStaffMemberByUsernameAndPersonName(String username, String firstName, String secondName) {
+    public StaffMember addStaffMemberByUsernameAndPersonName(Person person, String username) {
         User user = userService.findUserByUsername(username);
-        Person person = personService.getByName(firstName, secondName);
 
         StaffMember staffMember = new StaffMember();
         staffMember.setPerson(person);
@@ -49,9 +45,8 @@ public class StaffMemberServiceImpl implements IStaffMemberService {
     }
 
     @Override
-    public StaffMember addPatientForStaffMember(String username, String firstName, String lastName) {
+    public StaffMember addPatientForStaffMember(Person person, String username) {
         User user = userService.findUserByUsername(username);
-        Person person = personService.getByName(firstName, lastName);
 
         StaffMember staffMember = staffMemberDao.getByUser(user).get();
         staffMember.getPatients().add(person);

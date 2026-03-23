@@ -21,12 +21,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
-@ComponentScan({ "com.sergtm.controllers", 
-	"com.sergtm.dao", 
-	"com.sergtm.service",
-	"com.sergtm.configuration.security",
-	"com.sergtm.configuration.swagger",
-	"com.sergtm.component"})
+@ComponentScan({"com.sergtm.controllers",
+        "com.sergtm.dao",
+        "com.sergtm.service",
+        "com.sergtm.configuration.security",
+        "com.sergtm.configuration.swagger",
+        "com.sergtm.client",
+        "com.sergtm.configuration.api",
+        "com.sergtm.component"})
 @EnableJpaRepositories(basePackages= {"com.sergtm.repository"})
 public class BaseConfiguration{
     @Autowired

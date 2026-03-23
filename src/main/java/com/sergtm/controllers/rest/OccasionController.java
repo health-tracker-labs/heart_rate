@@ -1,7 +1,9 @@
 package com.sergtm.controllers.rest;
 
 import com.sergtm.controllers.rest.request.OccasionRequest;
+import com.sergtm.entities.Person;
 import com.sergtm.service.IOccasionService;
+import com.sergtm.service.IPersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import java.util.List;
 public class OccasionController {
 	@Resource
 	private IOccasionService occasionService;
+	@Resource
+	private IPersonService personService;
 
 	@GetMapping
 	public List<OccasionRequest> occasions() {
@@ -23,7 +27,8 @@ public class OccasionController {
 	@PutMapping("/{personId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void occasion(@PathVariable Long personId, @Valid OccasionRequest occasionRequest) {
-		occasionService.addOccasion(personId, occasionRequest);
+		Person person = personService.findByIdOrThrowException(personId);
+		occasionService.addOccasion(person, occasionRequest);
 	}
 
 	@DeleteMapping("/{occasionId}")

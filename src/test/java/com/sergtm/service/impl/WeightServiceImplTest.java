@@ -4,27 +4,24 @@ import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.Weight;
 import com.sergtm.repository.WeightRepository;
-import com.sergtm.service.IPersonService;
-import com.sergtm.service.IWeightService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class WeightServiceImplTest {
 	private static final Long PERSON_ID = 1L;
 
@@ -35,37 +32,31 @@ public class WeightServiceImplTest {
 
 	@Mock
 	private WeightRepository weightRepository;
-	@Mock
-	private IPersonService personService;
 
-	@Mock
-	private Person person;
 	@Captor
 	private ArgumentCaptor<Weight> weightCaptor;
 
 	@InjectMocks
-	private IWeightService testedInstance = new WeightServiceImpl();
+	private WeightServiceImpl testedInstance;
 
-	@Before
-	public void setUp() {
-		when(personService.findByIdOrThrowException(PERSON_ID)).thenReturn(person);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowExceptionWhenWeightIsNull() {
-		testedInstance.addWeight(PERSON_ID, null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			testedInstance.addWeight(createPerson(), null);
+		});
 	}
 
 	@Test
 	public void shouldPopulateAndSaveWeight() {
-		testedInstance.addWeight(PERSON_ID, createWeightDto());
+		Person person = createPerson();
+		testedInstance.addWeight(person, createWeightDto());
 
 		verify(weightRepository).save(weightCaptor.capture());
 		Weight weight = weightCaptor.getValue();
 
-		assertEquals(weight.getPerson(), person);
-		assertEquals(weight.getDate(), WEIGHT_DATE);
-		assertEquals(weight.getWeight(), WEIGHT);
+		assertEquals(person, weight.getPerson());
+		assertEquals(WEIGHT_DATE, weight.getDate());
+		assertEquals(WEIGHT, weight.getWeight());
 	}
 
 	private WeightRequest createWeightDto() {
@@ -75,5 +66,12 @@ public class WeightServiceImplTest {
 		weightDto.setWeight(WEIGHT);
 
 		return weightDto;
+	}
+
+	private static Person createPerson() {
+		Person person = new Person();
+		person.setId(PERSON_ID);
+
+		return person;
 	}
 }
