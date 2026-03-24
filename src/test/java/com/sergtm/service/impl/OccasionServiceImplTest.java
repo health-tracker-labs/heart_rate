@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class OccasionServiceImplTest {
+class OccasionServiceImplTest {
 	private static final Long PERSON_ID = 1L;
 	private static final String DISEASE_NAME = "epilepsy";
 	private static final OccasionLevel OCCASION_LEVEL = OccasionLevel.MIDDLE;
@@ -52,14 +52,14 @@ public class OccasionServiceImplTest {
 	private IOccasionService testedInstance = new OccasionServiceImpl();
 
 	@Test
-	public void shouldThrowExceptionWhenOccasionIsNull() {
+	void shouldThrowExceptionWhenOccasionIsNull() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			testedInstance.addOccasion(createPerson(), null);
 		});
 	}
 
 	@Test
-	public void shouldPopulateAndSaveOccasion() {
+	void shouldPopulateAndSaveOccasion() {
 		when(diseaseRepository.findOneByName(DISEASE_NAME)).thenReturn(disease);
 
 		Person person = createPerson();
@@ -75,7 +75,7 @@ public class OccasionServiceImplTest {
 		assertEquals(OCCASION_DATE, occasion.getOccasionDate());
 	}
 
-	private OccasionRequest createOccasionDto() {
+	private static OccasionRequest createOccasionDto() {
 		OccasionRequest occasionRequest = new OccasionRequest();
 
 		occasionRequest.setOccasionLevel(OCCASION_LEVEL);

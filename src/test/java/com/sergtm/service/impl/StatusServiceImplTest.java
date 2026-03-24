@@ -18,20 +18,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class StatusServiceImplTest {
+class StatusServiceImplTest {
     @Mock
     private IServiceStatusDao serviceStatusDao;
     @InjectMocks
     private IStatusService statusService = new StatusServiceImpl();
 
     @Test
-    public void shouldReturnNoneIfGetAllReturnEmptyCollection(){
+    void shouldReturnNoneIfGetAllReturnEmptyCollection(){
         when(serviceStatusDao.getAll()).thenReturn(Collections.EMPTY_LIST);
         assertEquals(ServiceName.None, statusService.identifyLastModifiedService().getServiceName());
     }
 
     @Test
-    public void shouldReturnPressureService(){
+    void shouldReturnPressureService(){
         ServiceStatus weatherServiceStatus =
                 createServiceStatusEntity(ServiceName.WeatherService, LocalDateTime.now().minusMinutes(11));
 
@@ -44,7 +44,7 @@ public class StatusServiceImplTest {
     }
 
     @Test
-    public void shouldReturnNoneIfTenMinutesHaveNotPassed(){
+    void shouldReturnNoneIfTenMinutesHaveNotPassed(){
         ServiceStatus weatherServiceStatus =
                 createServiceStatusEntity(ServiceName.WeatherService, LocalDateTime.now().minusMinutes(5));
 
@@ -57,7 +57,7 @@ public class StatusServiceImplTest {
     }
 
     @Test
-    public void shouldReturnPressureServiceIfPressureServiceDateFieldIsNull(){
+    void shouldReturnPressureServiceIfPressureServiceDateFieldIsNull(){
         ServiceStatus weatherServiceStatus =
                 createServiceStatusEntity(ServiceName.WeatherService, LocalDateTime.now().minusMinutes(11));
 
@@ -70,7 +70,7 @@ public class StatusServiceImplTest {
     }
 
     @Test
-    public void shouldReturnPressureServiceIfBothDateFieldsAreNull(){
+    void shouldReturnPressureServiceIfBothDateFieldsAreNull(){
         ServiceStatus weatherServiceStatus =
                 createServiceStatusEntity(ServiceName.WeatherService, null);
 
@@ -82,7 +82,7 @@ public class StatusServiceImplTest {
         assertEquals(ServiceName.PressureService, statusService.identifyLastModifiedService().getServiceName());
     }
 
-    private ServiceStatus createServiceStatusEntity(ServiceName serviceName, LocalDateTime localDateTime){
+    private static ServiceStatus createServiceStatusEntity(ServiceName serviceName, LocalDateTime localDateTime){
         ServiceStatus serviceStatus = new ServiceStatus();
         serviceStatus.setServiceName(serviceName);
         serviceStatus.setLastModificationTime(localDateTime);

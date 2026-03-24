@@ -13,5 +13,5 @@ public class HealthTrackerApiClientProperties {
     @NotBlank
     private String baseUrl;
 
-    private TimeoutProperties timeouts;
+    private TimeoutProperties timeouts = new TimeoutProperties();
 }

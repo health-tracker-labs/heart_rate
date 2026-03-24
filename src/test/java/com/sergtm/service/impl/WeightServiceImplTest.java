@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class WeightServiceImplTest {
+class WeightServiceImplTest {
 	private static final Long PERSON_ID = 1L;
 
 	private static final LocalDate WEIGHT_LOCAL_DATE = LocalDate.of(2021, 12, 23);
@@ -40,14 +40,14 @@ public class WeightServiceImplTest {
 	private WeightServiceImpl testedInstance;
 
 	@Test
-	public void shouldThrowExceptionWhenWeightIsNull() {
+	void shouldThrowExceptionWhenWeightIsNull() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			testedInstance.addWeight(createPerson(), null);
 		});
 	}
 
 	@Test
-	public void shouldPopulateAndSaveWeight() {
+	void shouldPopulateAndSaveWeight() {
 		Person person = createPerson();
 		testedInstance.addWeight(person, createWeightDto());
 
@@ -59,7 +59,7 @@ public class WeightServiceImplTest {
 		assertEquals(WEIGHT, weight.getWeight());
 	}
 
-	private WeightRequest createWeightDto() {
+	private static WeightRequest createWeightDto() {
 		WeightRequest weightDto = new WeightRequest();
 
 		weightDto.setDate(WEIGHT_LOCAL_DATE);
