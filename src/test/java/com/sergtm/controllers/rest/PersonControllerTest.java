@@ -56,8 +56,7 @@ public class PersonControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // TODO: Fix transaction/session configuration (Hibernate + Spring TX)
-    //@Test
+    @Test
     public void shouldReturnPersonsByUserName() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get(GET_PERSONS_BY_USER_NAME_URL)
@@ -67,8 +66,7 @@ public class PersonControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk());
     }
 
-    //@Test
-    // TODO: Fix transaction/session configuration (Hibernate + Spring TX)
+    @Test
     public void shouldCreatePerson() throws Exception {
         PersonRequest request = PersonRequest.builder()
                 .firstName(PERSON_FIRST_NAME)

@@ -1,38 +1,28 @@
 package com.sergtm.service.impl;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.sergtm.repository.HeartRateRepository;
-import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.sergtm.dao.IHeartRateDao;
 import com.sergtm.dao.IHeartRateWithWeatherDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.dto.StatisticOnDay;
-import com.sergtm.entities.HeartRate;
-import com.sergtm.entities.HeartRateWithWeatherPressure;
-import com.sergtm.entities.IEntity;
-import com.sergtm.entities.Person;
-import com.sergtm.entities.User;
+import com.sergtm.entities.*;
 import com.sergtm.form.AddHeartRateForm;
+import com.sergtm.repository.HeartRateRepository;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
+import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -143,10 +133,10 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		LocalDateTime toDate = DateUtils.parseDate(to, lastDayOfMonth);
 
 		Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateWithWeatherDao
-				.getData(
-						Date.from(fromDate.atZone(ZoneId.systemDefault()).toInstant()),
-						Date.from(toDate.atZone(ZoneId.systemDefault()).toInstant()),
-						personId, user);
+				.getData(fromDate,
+						toDate,
+						personId, user
+				);
 
 		return heartRateWithWeatherPressures.stream().map(StatisticOnDay::new)
 				.collect(Collectors.toList());

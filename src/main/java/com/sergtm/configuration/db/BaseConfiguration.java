@@ -1,24 +1,23 @@
 package com.sergtm.configuration.db;
 
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
-import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.Properties;
+
+import static com.sergtm.configuration.db.BaseConfiguration.JPA_REPOSITORIES_PACKAGE;
 
 @EnableTransactionManagement
 @ComponentScan({"com.sergtm.controllers",
@@ -29,8 +28,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.sergtm.client",
         "com.sergtm.configuration.api",
         "com.sergtm.component"})
-@EnableJpaRepositories(basePackages= {"com.sergtm.repository"})
-public class BaseConfiguration{
+@EnableJpaRepositories(basePackages = {JPA_REPOSITORIES_PACKAGE})
+public class BaseConfiguration {
+    private static final String MODELS_PACKAGE = "com.sergtm.entities";
+    public static final String JPA_REPOSITORIES_PACKAGE = "com.sergtm.repository";
+
     @Autowired
     private Environment env;
 
@@ -45,42 +47,31 @@ public class BaseConfiguration{
     }
 
     @Bean
-    @Autowired
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        sessionFactory.setPackagesToScan("com.sergtm.entities");
-        sessionFactory.setHibernateProperties(getHibernateProperties());
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+            DataSource dataSource,
+            Properties hibernateProperties
+    ) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
 
-        return sessionFactory;
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setPackagesToScan(MODELS_PACKAGE);
+
+        em.setJpaProperties(hibernateProperties);
+
+        return em;
     }
 
     @Bean
-    @Primary
-    @Autowired
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-       em.setDataSource(dataSource);
-
-       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-       em.setJpaVendorAdapter(vendorAdapter);
-       em.setPackagesToScan("com.sergtm.entities");
-
-       em.setJpaProperties(getHibernateProperties());
-
-       return em;
+    public JpaTransactionManager transactionManager(
+            EntityManagerFactory entityManagerFactory
+    ) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 
     @Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-
-        return txManager;
-    }
-
-    private Properties getHibernateProperties() {
+    Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
         properties.put(AvailableSettings.HBM2DDL_AUTO, env.getRequiredProperty("hibernate.hbm2ddl.auto"));

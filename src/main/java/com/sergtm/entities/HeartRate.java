@@ -100,7 +100,13 @@ public class HeartRate implements IEntity{
         this.person = person;
     }
 
-    public static HeartRate createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, Date datetime, Person person){
+    public static HeartRate createHeartRate(
+            int upperPressure,
+            int lowerPressure,
+            int beatsPerMinute,
+            Date datetime,
+            Person person
+    ) {
         HeartRate hr = new HeartRate();
         hr.setUpperPressure(upperPressure);
         hr.setLowerPressure(lowerPressure);

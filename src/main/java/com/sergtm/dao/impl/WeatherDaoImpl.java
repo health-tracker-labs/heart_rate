@@ -2,11 +2,11 @@ package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IWeatherDao;
 import com.sergtm.entities.Weather;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +14,13 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public class WeatherDaoImpl implements IWeatherDao {
-
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Optional<Weather> getLatestWeather() {
         String sql = "FROM Weather";
-        Query query = sessionFactory.getCurrentSession().createQuery(sql);
+        Query query = entityManager.createQuery(sql);
         List<Weather> weatherList = query.getResultList();
         if (weatherList.isEmpty()) {
             return Optional.empty();
@@ -31,6 +30,6 @@ public class WeatherDaoImpl implements IWeatherDao {
 
     @Override
     public void saveOrUpdate(Weather weather) {
-        sessionFactory.getCurrentSession().saveOrUpdate(weather);
+        entityManager.merge(weather);
     }
 }
