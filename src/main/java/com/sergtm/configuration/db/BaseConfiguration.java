@@ -20,14 +20,6 @@ import java.util.Properties;
 import static com.sergtm.configuration.db.BaseConfiguration.JPA_REPOSITORIES_PACKAGE;
 
 @EnableTransactionManagement
-@ComponentScan({"com.sergtm.controllers",
-        "com.sergtm.dao",
-        "com.sergtm.service",
-        "com.sergtm.configuration.security",
-        "com.sergtm.configuration.swagger",
-        "com.sergtm.client",
-        "com.sergtm.configuration.api",
-        "com.sergtm.component"})
 @EnableJpaRepositories(basePackages = {JPA_REPOSITORIES_PACKAGE})
 public class BaseConfiguration {
     private static final String MODELS_PACKAGE = "com.sergtm.entities";

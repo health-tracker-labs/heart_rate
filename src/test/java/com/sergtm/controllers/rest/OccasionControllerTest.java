@@ -8,11 +8,10 @@ import com.sergtm.repository.OccasionRepository;
 import com.sergtm.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -23,8 +22,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(OccasionController.class)
-public class OccasionControllerTest extends AbstractRestControllerTest {
+@SpringBootTest
+class OccasionControllerTest extends AbstractRestControllerTest {
     private static final Long OCCASION_ID = 1L;
     private static final Long PERSON_ID = 1L;
     private static final String GET_ALL_OCCASIONS_URL = "/occasions";
@@ -50,7 +49,6 @@ public class OccasionControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    @Transactional
     void shouldCreateOccasion() throws Exception {
         when(personRepository.findById(PERSON_ID)).thenReturn(Optional.of(person));
         when(person.getId()).thenReturn(PERSON_ID);
@@ -72,7 +70,6 @@ public class OccasionControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    @Transactional
     void shouldDeleteOccasion() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete(DELETE_OCCASION_URL)

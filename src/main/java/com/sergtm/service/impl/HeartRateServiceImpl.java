@@ -1,13 +1,17 @@
 package com.sergtm.service.impl;
 
+import com.sergtm.TimeOfDay;
 import com.sergtm.dao.IHeartRateDao;
 import com.sergtm.dao.IHeartRateWithWeatherDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.*;
+import com.sergtm.exception.HeartRateNotFoundException;
+import com.sergtm.exception.PersonNotFoundException;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.repository.HeartRateRepository;
+import com.sergtm.repository.PersonRepository;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
@@ -16,24 +20,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.time.*;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.singletonList;
+import static java.util.Objects.isNull;
+
 @Service
 @Transactional(readOnly = true)
 public class HeartRateServiceImpl implements IHeartRateService {
 	private static final int RECORD_COUNT_ON_PAGE = 5;
+	private static final String CAN_NOT_FIND_HEART_RATE_BY_ID_MSG = "Can't find heart rate by id = %s";
+	private static final String CAN_NOT_FIND_PERSON_BY_ID_MSG = "Can't find person by id = %s";
+
 	@Autowired
 	private IHeartRateDao heartRateDao;
 	@Autowired
 	private IHeartRateWithWeatherDao heartRateWithWeatherDao;
-	@Resource
+	@Autowired
 	private HeartRateRepository heartRateRepository;
+	@Autowired
+	private PersonRepository personRepository;
 
 	@Autowired
 	private IPersonDao personDao;
@@ -44,31 +54,65 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
 	@Override
 	@Transactional
-	public Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, LocalDateTime datetime, String firstName, String secondName) {
-		List<Person> people = personDao.getPersonByName(firstName, secondName);
-
-		if (people.size() == 1) {
-			HeartRate hr = createAndSaveHeartRate(null, upperPressure, lowerPressure, beatsPerMinute, datetime, people.get(0));
-			return Arrays.asList(hr);
-		} else if (people.size() == 0) {
-			Person person = Person.createPerson(firstName, secondName);
+	public Collection<? extends IEntity> createHeartRate(
+			int upperPressure,
+			int lowerPressure,
+			int beatsPerMinute,
+			LocalDateTime dt,
+			String firstName,
+			String secondName
+	) {
+		List<Person> persons = personDao.getPersonByName(firstName, secondName);
+		Person person;
+		if (persons.isEmpty()) {
+			person = Person.createPerson(firstName, secondName);
 			personDao.savePerson(person);
-
-			HeartRate hr = createAndSaveHeartRate(null, upperPressure, lowerPressure, beatsPerMinute, datetime, person);
-			return Arrays.asList(hr);
 		} else {
-			return people;
+			person = persons.get(0);
 		}
+
+		Instant dtInstant = dt.with(LocalTime.now()).atZone(ZoneId.of("UTC")).toInstant();
+		HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure,
+				beatsPerMinute, Date.from(dtInstant), person);
+
+		heartRateRepository.save(hr);
+		return singletonList(hr);
 	}
 
 	// Rewrite
 	@Override
 	@Transactional
 	public HeartRate createHeartRate(Long id, AddHeartRateForm form) {
-		Person person = personDao.getPersonById(form.getPersonId());
-		return createAndSaveHeartRate(id, form.getUpperPressure(),
-				form.getLowerPressure(), form.getBeatsPerMinute(),
-				form.getDate(), person);
+		Long personId = form.getPersonId();
+		Person person = personRepository.findById(personId)
+				.orElseThrow(() -> new PersonNotFoundException(
+						String.format(CAN_NOT_FIND_PERSON_BY_ID_MSG, personId))
+				);
+
+		HeartRate hr;
+		if (isNull(id)) {
+			hr = new HeartRate();
+		} else {
+			hr = heartRateRepository
+					.findById(id)
+					.orElseThrow(() -> new HeartRateNotFoundException(
+							String.format(CAN_NOT_FIND_HEART_RATE_BY_ID_MSG, id))
+					);
+		}
+
+		LocalDateTime dt = form.getDate();
+		TimeOfDay timeOfDay = form.getTimeOfDay();
+
+		Instant dtInstant = dt.with(timeOfDay.getLocalTime())
+				.atZone(ZoneId.of("UTC")).toInstant();
+
+		hr.setUpperPressure(form.getUpperPressure());
+		hr.setLowerPressure(form.getLowerPressure());
+		hr.setBeatsPerMinute(form.getBeatsPerMinute());
+		hr.setDate(Date.from(dtInstant));
+		hr.setPerson(person);
+
+		return heartRateRepository.save(hr);
 	}
 
 	// Rewrite
@@ -140,28 +184,6 @@ public class HeartRateServiceImpl implements IHeartRateService {
 
 		return heartRateWithWeatherPressures.stream().map(StatisticOnDay::new)
 				.collect(Collectors.toList());
-	}
-
-	private HeartRate createAndSaveHeartRate(Long id, int upperPressure, int lowerPressure, int beatsPerMinute, LocalDateTime dt,
-			Person person) {
-		Instant dtInstant = dt.with(LocalTime.now()).atZone(ZoneId.of("UTC")).toInstant();
-
-		final HeartRate hr;
-		if (id == null) {
-			hr = HeartRate.createHeartRate(upperPressure, lowerPressure,
-					beatsPerMinute, Date.from(dtInstant), person);
-		} else {
-			hr = findById(id);
-
-			hr.setUpperPressure(upperPressure);
-			hr.setLowerPressure(lowerPressure);
-			hr.setBeatsPerMinute(beatsPerMinute);
-			hr.setDate(Date.from(dtInstant));
-			hr.setPerson(person);
-		}
-		heartRateDao.addHeartRate(hr);
-
-		return hr;
 	}
 
 	@Override

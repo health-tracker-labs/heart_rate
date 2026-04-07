@@ -36,7 +36,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
 	@Override
 	@Transactional
 	public void deleteHeartRate(HeartRate heartRate) {
-		entityManager.persist(heartRate);
+		entityManager.remove(heartRate);
 	}
 
 	@SuppressWarnings("unchecked")

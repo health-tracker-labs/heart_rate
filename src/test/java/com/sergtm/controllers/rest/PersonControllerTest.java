@@ -9,7 +9,7 @@ import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IWeightService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,8 +21,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PersonController.class)
-public class PersonControllerTest extends AbstractRestControllerTest {
+@SpringBootTest
+class PersonControllerTest extends AbstractRestControllerTest {
     private static final String GET_ALL_PERSONS_URL = "/persons";
     private static final String CREATE_PERSON_URL = "/persons/create";
     private static final Long PERSON_ID = 1L;

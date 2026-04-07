@@ -1,28 +1,22 @@
 package com.sergtm.controllers;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.HeartRate;
 import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.service.IHeartRateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Collection;
+import java.util.Date;
+
+import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping("/heartRate")
@@ -33,11 +27,12 @@ public class HeartRateController {
 	@RequestMapping(method = RequestMethod.GET, path = "add.json", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Collection<? extends IEntity> addHeartRate(
-			@RequestParam int upperPressure, @RequestParam int lowerPressure,
+			@RequestParam int upperPressure,
+			@RequestParam int lowerPressure,
 			@RequestParam int beatsPerMinute,
 			@RequestParam(value = "date", required = false) Date date,
 			@RequestParam String firstName,
-			@RequestParam String secondName/* , Authentication authentication */) {
+			@RequestParam String secondName) {
 		LocalDateTime dt = checkParam(date);
 		return heartRateService.createHeartRate(upperPressure, lowerPressure,
 				beatsPerMinute, dt, firstName, secondName);
@@ -92,13 +87,12 @@ public class HeartRateController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "save.do")
-	public void save(Long id, @ModelAttribute AddHeartRateForm form) {
+	public void save(@RequestParam(required = false) Long id, @ModelAttribute AddHeartRateForm form) {
 		heartRateService.createHeartRate(id, form);
 	}
 
 	private LocalDateTime checkParam(Date date) {
-		return LocalDateTime.ofInstant(
-				Optional.ofNullable(date).orElse(new Date()).toInstant(),
-				ZoneId.systemDefault());
+		Date effectiveDate = isNull(date) ? new Date() : date;
+		return LocalDateTime.ofInstant(effectiveDate.toInstant(), ZoneId.systemDefault());
 	}
 }

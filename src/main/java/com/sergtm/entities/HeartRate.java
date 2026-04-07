@@ -1,29 +1,26 @@
 package com.sergtm.entities;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * Created by Sergey on 16.07.2017.
  */
 @Entity
+@Data
 @Table(name = "HEART_RATE")
 @XmlRootElement
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class HeartRate implements IEntity{
     @Id
     @SequenceGenerator(name = "HEART_RATE_SEQ", sequenceName = "HEART_RATE_SEQ", allocationSize = 1)
@@ -50,55 +47,6 @@ public class HeartRate implements IEntity{
     @ManyToOne
     @JoinColumn(name="PERSON_ID")
     private Person person;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getUpperPressure() {
-        return upperPressure;
-    }
-
-    public void setUpperPressure(int upperPressure) {
-        this.upperPressure = upperPressure;
-    }
-
-    public int getLowerPressure() {
-        return lowerPressure;
-    }
-
-    public void setLowerPressure(int lowerPressure) {
-        this.lowerPressure = lowerPressure;
-    }
-
-    public int getBeatsPerMinute() {
-        return beatsPerMinute;
-    }
-
-    public void setBeatsPerMinute(int beatsPerMinute) {
-        this.beatsPerMinute = beatsPerMinute;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 
     public static HeartRate createHeartRate(
             int upperPressure,

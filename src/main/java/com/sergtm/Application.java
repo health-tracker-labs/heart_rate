@@ -7,7 +7,6 @@ import com.sergtm.configuration.web.WebConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.core.Authentication;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@ComponentScan("com.sergtm.configuration.db")
 @Import({WebConfig.class, SecurityConfiguration.class,
 		SwaggerConfiguration.class, JacksonConfiguration.class})
 @EnableScheduling

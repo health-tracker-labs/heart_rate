@@ -3,7 +3,8 @@ Ext.define('app.view.AddHeartRateForm', {
 
     requires : [
         'app.controller.AddHeartRateFormController',
-        'app.view.PersonCombobox'
+        'app.view.PersonCombobox',
+        'app.view.TimeOfDayCombobox'
     ],
 
     controller: 'AddHeartRateFormController',
@@ -64,6 +65,12 @@ Ext.define('app.view.AddHeartRateForm', {
         submitFormat: 'm/d/Y h:i:s',
         maxValue: new Date(),
         name: 'date'
+    }, {
+        fieldLabel: 'Time',
+        xtype: 'timeOfDayCombobox',
+        reference: 'timeOfDayCombobox',
+        emptyText: 'select time of day',
+        name: 'timeOfDay'
     }],
     buttons: [{
         text: 'Save',

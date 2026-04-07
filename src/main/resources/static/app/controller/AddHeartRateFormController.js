@@ -58,7 +58,8 @@ Ext.define('app.controller.AddHeartRateFormController', {
 
 		refs.dateDataCombobox.show();
     	this.showMainControls(true);
-    	
+    	refs.timeOfDayCombobox.hide();
+
     	refs.addButton.disable();
     	refs.deleteButton.enable();
     	refs.cancelButton.enable();
@@ -69,6 +70,8 @@ Ext.define('app.controller.AddHeartRateFormController', {
     },
 
     onDateDataComboboxChange: function (element, newValue, oldValue) {
+        var me = this;
+
     	var id = newValue;
     	var refs = this.getReferences();
 
@@ -80,12 +83,14 @@ Ext.define('app.controller.AddHeartRateFormController', {
             },
 			success: function(response, opts) {
 			    var obj = Ext.decode(response.responseText);
+			    var date = new Date(obj.date)
 			    
 			    refs.lowerPressureNumberField.setValue(obj.lowerPressure);
 			    refs.upperPressureNumberField.setValue(obj.upperPressure);
 			    refs.beatsPerMinuteNumberField.setValue(obj.beatsPerMinute);
 			    refs.personCombobox.setValue(obj.person.id);
-			    refs.dateCombobox.setValue(new Date(obj.date));
+			    refs.dateCombobox.setValue(date);
+			    refs.timeOfDayCombobox.setValue(me.resolveTimeOfDay(date));
 
 			    console.dir(obj);
 			},
@@ -197,11 +202,19 @@ Ext.define('app.controller.AddHeartRateFormController', {
     			refs.lowerPressureNumberField,
     			refs.beatsPerMinuteNumberField,
     			refs.personCombobox,
-    			refs.dateCombobox
+    			refs.dateCombobox,
+    			refs.timeOfDayCombobox
     		];
     		elements.forEach(function(element) {
     			isShow ? element.show() : element.hide();
     		});
-    	}
+    	},
+    	resolveTimeOfDay: function(date) {
+            const hours = date.getHours();
+
+            if (hours < 12) return 'MORNING';
+            if (hours < 18) return 'DAY';
+            return 'EVENING';
+        }
     }
 });

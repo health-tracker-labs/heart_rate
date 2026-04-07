@@ -11,6 +11,8 @@ import javax.persistence.Query;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 /**
  * Created by Sergey on 18.07.2017.
  */
@@ -22,7 +24,11 @@ public class PersonDaoImpl implements IPersonDao{
     @Override
     @Transactional
     public void savePerson(Person person) {
-        entityManager.merge(person);
+        if (isNull(person.getId())) {
+            entityManager.persist(person);
+        } else {
+            entityManager.merge(person);
+        }
     }
 
     @Override

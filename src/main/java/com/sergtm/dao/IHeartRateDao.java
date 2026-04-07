@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public interface IHeartRateDao {
 	void addHeartRate(HeartRate heartRate);
+
 	void deleteHeartRate(HeartRate heartRate);
 	Collection<HeartRate> getByPage(int firstResult, int maxResult);
 	Collection<HeartRate> findHeartRatesByDateRangeAndPerson(Date from, Date to, Long personId);

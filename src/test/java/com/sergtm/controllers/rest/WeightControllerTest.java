@@ -7,11 +7,10 @@ import com.sergtm.repository.PersonRepository;
 import com.sergtm.repository.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,8 +22,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(WeightController.class)
-public class WeightControllerTest extends AbstractRestControllerTest {
+@SpringBootTest
+class WeightControllerTest extends AbstractRestControllerTest {
     private static final Long WEIGHT_ID = 1L;
     private static final Long PERSON_ID = 1L;
     private static final String DELETE_WEIGHT_URL = String.format("/weight/%s", WEIGHT_ID);
@@ -50,7 +49,6 @@ public class WeightControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    @Transactional
     void shouldCreateWeight() throws Exception {
         when(personRepository.findById(PERSON_ID)).thenReturn(Optional.of(person));
         when(person.getId()).thenReturn(PERSON_ID);
@@ -71,7 +69,6 @@ public class WeightControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    @Transactional
     void shouldDeleteWeight() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete(DELETE_WEIGHT_URL)
