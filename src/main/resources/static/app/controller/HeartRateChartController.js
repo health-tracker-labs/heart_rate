@@ -19,12 +19,15 @@ Ext.define('app.controller.HeartRateChartController', {
         }
     },
 
-    onReloadChartStore: function (personId, from, to) {
+    onReloadChartStore: function (data) {
+        if (!data || !data.personId) {
+            return;
+        }
         this.refreshChart({
             params: {
-                personId: personId,
-                from: from,
-                to: to
+                personId: data.personId,
+                from: data.from,
+                to: data.to
             }
         });
     },

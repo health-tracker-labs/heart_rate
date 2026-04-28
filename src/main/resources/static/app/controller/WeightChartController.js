@@ -7,7 +7,7 @@ Ext.define('app.controller.WeightChartController', {
 		tooltip.setHtml(title);
 	},
 
-	onReloadChartStore: function() {
+	onReloadChartStore: function(data) {
 		var chart = this.getView().getReferences().chart;
 		chart.getStore().load();
 		chart.redraw();
