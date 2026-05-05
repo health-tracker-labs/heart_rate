@@ -1,4 +1,4 @@
-package com.sergtm.model.pressureModel;
+package com.sergtm.health.tracker.integration.openweather.model.pressure;
 
 public class List {
     private String dt_txt;

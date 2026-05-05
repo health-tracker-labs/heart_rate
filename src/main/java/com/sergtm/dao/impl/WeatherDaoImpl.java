@@ -1,7 +1,7 @@
 package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IWeatherDao;
-import com.sergtm.entities.Weather;
+import com.sergtm.health.tracker.persistence.entity.Weather;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

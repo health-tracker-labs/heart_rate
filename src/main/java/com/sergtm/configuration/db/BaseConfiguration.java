@@ -3,7 +3,6 @@ package com.sergtm.configuration.db;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -22,7 +21,10 @@ import static com.sergtm.configuration.db.BaseConfiguration.JPA_REPOSITORIES_PAC
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {JPA_REPOSITORIES_PACKAGE})
 public class BaseConfiguration {
-    private static final String MODELS_PACKAGE = "com.sergtm.entities";
+    private static final String[] MODELS_PACKAGES = {
+            "com.sergtm.entities",
+            "com.sergtm.health.tracker.persistence.entity"
+    };
     public static final String JPA_REPOSITORIES_PACKAGE = "com.sergtm.repository";
 
     @Autowired
@@ -48,7 +50,7 @@ public class BaseConfiguration {
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setPackagesToScan(MODELS_PACKAGE);
+        em.setPackagesToScan(MODELS_PACKAGES);
 
         em.setJpaProperties(hibernateProperties);
 

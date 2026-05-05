@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sergtm.entities.Weather;
+import com.sergtm.health.tracker.persistence.entity.Weather;
 import com.sergtm.service.IWeatherService;
 
 @RestController

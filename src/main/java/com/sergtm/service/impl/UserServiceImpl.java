@@ -4,20 +4,21 @@ import com.sergtm.dao.IUserDao;
 import com.sergtm.dto.UserDTO;
 import com.sergtm.entities.User;
 import com.sergtm.service.IUserService;
-import org.modelmapper.ModelMapper;
+import com.sergtm.service.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
     @Resource
     private IUserDao userDao;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public User findUserByUsername(String username) {
@@ -26,13 +27,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Collection<UserDTO> getAll() {
-        ModelMapper modelMapper = new ModelMapper();
-        List<UserDTO> userDTOList = new ArrayList<>();
         Collection<User> users = userDao.getAll();
-        for (User user: users) {
-            userDTOList.add(modelMapper.map(user, UserDTO.class));
-        }
-        return userDTOList;
+        return userMapper.toUserDtos(users);
     }
 
     @Override

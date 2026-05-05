@@ -10,6 +10,8 @@ import com.sergtm.entities.*;
 import com.sergtm.exception.HeartRateNotFoundException;
 import com.sergtm.exception.PersonNotFoundException;
 import com.sergtm.form.AddHeartRateForm;
+import com.sergtm.health.tracker.monitoring.kafka.event.UserBpEvent;
+import com.sergtm.health.tracker.monitoring.kafka.producer.UserBpProducer;
 import com.sergtm.repository.HeartRateRepository;
 import com.sergtm.repository.PersonRepository;
 import com.sergtm.service.IHeartRateService;
@@ -51,6 +53,8 @@ public class HeartRateServiceImpl implements IHeartRateService {
 	private IHelpDao helpDao;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private UserBpProducer userBpProducer;
 
 	@Override
 	@Transactional
@@ -75,7 +79,11 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure,
 				beatsPerMinute, Date.from(dtInstant), person);
 
-		heartRateRepository.save(hr);
+		try {
+			heartRateRepository.save(hr);
+		} finally {
+			sendUserBpEvent(hr);
+		}
 		return singletonList(hr);
 	}
 
@@ -112,7 +120,21 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		hr.setDate(Date.from(dtInstant));
 		hr.setPerson(person);
 
-		return heartRateRepository.save(hr);
+		try {
+			heartRateRepository.save(hr);
+		} finally {
+			sendUserBpEvent(hr);
+		}
+
+		return hr;
+	}
+
+	private void sendUserBpEvent(HeartRate hr) {
+		UserBpEvent event = UserBpEvent.builder()
+				.systolic(hr.getUpperPressure())
+				.diastolic(hr.getLowerPressure())
+				.build();
+		userBpProducer.sendMessage(event);
 	}
 
 	// Rewrite

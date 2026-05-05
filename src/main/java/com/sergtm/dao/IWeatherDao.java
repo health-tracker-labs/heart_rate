@@ -1,6 +1,6 @@
 package com.sergtm.dao;
 
-import com.sergtm.entities.Weather;
+import com.sergtm.health.tracker.persistence.entity.Weather;
 
 import java.util.Optional;
 

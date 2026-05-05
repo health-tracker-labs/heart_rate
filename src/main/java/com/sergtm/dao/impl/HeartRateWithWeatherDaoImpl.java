@@ -9,10 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 @Repository
 @Transactional(readOnly=true)

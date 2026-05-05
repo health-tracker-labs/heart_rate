@@ -2,7 +2,6 @@ package com.sergtm.dao;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 import com.sergtm.entities.HeartRateWithWeatherPressure;
 import com.sergtm.entities.User;

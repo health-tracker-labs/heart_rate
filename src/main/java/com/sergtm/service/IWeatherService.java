@@ -1,6 +1,6 @@
 package com.sergtm.service;
 
-import com.sergtm.entities.Weather;
+import com.sergtm.health.tracker.persistence.entity.Weather;
 
 public interface IWeatherService {
     Weather getWeather();
