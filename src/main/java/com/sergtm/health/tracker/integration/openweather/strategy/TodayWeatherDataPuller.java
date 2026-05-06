@@ -7,9 +7,6 @@ import com.sergtm.health.tracker.integration.openweather.client.OpenWeatherApiCl
 import com.sergtm.health.tracker.integration.openweather.mapper.WeatherMapper;
 import com.sergtm.health.tracker.integration.openweather.model.weather.WeatherModel;
 import com.sergtm.health.tracker.persistence.entity.Weather;
-import com.sergtm.model.ServiceName;
-import com.sergtm.service.IStatusService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,35 +15,32 @@ import static com.sergtm.health.tracker.integration.openweather.WeatherPullerTyp
 
 @Component
 public class TodayWeatherDataPuller implements WeatherDataPuller {
-    @Value("${currentWeatherUrl}")
-    private String currentWeatherUrl;
-
-    @Autowired
-    private IStatusService statusService;
-    @Autowired
-    private IWeatherDao weatherDao;
-    @Autowired
-    private WeatherMapper weatherMapper;
+    @Value("${open-weather.today-weather-url}")
+    private String todayWeatherUrl;
 
     private final OpenWeatherApiClient helper;
+    private final IWeatherDao weatherDao;
+    private final WeatherMapper weatherMapper;
 
-    public TodayWeatherDataPuller(OpenWeatherApiClient openWeatherApiHelper) {
+    public TodayWeatherDataPuller(
+            OpenWeatherApiClient openWeatherApiHelper,
+            IWeatherDao weatherDao,
+            WeatherMapper weatherMapper
+    ) {
         this.helper = openWeatherApiHelper;
+        this.weatherDao = weatherDao;
+        this.weatherMapper = weatherMapper;
     }
 
     @Override
     @Transactional
     public void updateWeatherData() {
-        try {
-            WeatherModel weatherModel = helper.exchange(currentWeatherUrl, WeatherModel.class);
+        WeatherModel weatherModel = helper.exchange(todayWeatherUrl, WeatherModel.class);
 
-            Weather weather = weatherDao.getLatestWeather().orElse(new Weather());
-            weatherMapper.update(weatherModel, weather);
+        Weather weather = weatherDao.getLatestWeather().orElse(new Weather());
+        weatherMapper.update(weatherModel, weather);
 
-            weatherDao.saveOrUpdate(weather);
-        } finally {
-            statusService.updateAndSave(ServiceName.WeatherService);
-        }
+        weatherDao.saveOrUpdate(weather);
     }
 
     @Override

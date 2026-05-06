@@ -45,9 +45,9 @@ public class StatusServiceImpl implements IStatusService {
                 Duration.of(10, ChronoUnit.MINUTES);
 
         Duration deference = durationBetweenLastMod.minus(durationBetweenCalls);
-        /*if (deference.isNegative()) {
+        if (deference.isNegative()) {
             return new Response(ServiceName.None, deference);
-        }*/
+        }
         return new Response(serviceStatusesSorted.get(serviceStatuses.size() - 1).getServiceName(),
                 Duration.of(0, ChronoUnit.MINUTES));
     }

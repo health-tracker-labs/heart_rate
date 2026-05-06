@@ -1,4 +1,4 @@
-package com.sergtm.health.tracker.monitoring.kafka.event;
+package com.sergtm.health.tracker.monitoring.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class WeatherEvent {
+public class WeatherApplicationEvent {
     private LocalDate dt;
     private double pressure;
 }

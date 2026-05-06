@@ -5,4 +5,5 @@ import com.sergtm.health.tracker.persistence.entity.Weather;
 public interface IWeatherService {
     Weather getWeather();
     Weather getCurrentWeather();
+    void update5DaysForecast();
 }

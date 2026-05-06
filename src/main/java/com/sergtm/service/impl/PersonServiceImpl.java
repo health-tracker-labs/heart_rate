@@ -2,7 +2,7 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
-import com.sergtm.repository.PersonRepository;
+import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

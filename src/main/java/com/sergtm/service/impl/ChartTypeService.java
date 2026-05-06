@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sergtm.entities.ChartType;
-import com.sergtm.repository.ChartTypeRepository;
+import com.sergtm.health.tracker.persistence.repository.ChartTypeRepository;
 import com.sergtm.service.IChartTypeService;
 
 @Service

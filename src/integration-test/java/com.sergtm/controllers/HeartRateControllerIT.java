@@ -6,8 +6,8 @@ import com.sergtm.TimeOfDay;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.HeartRate;
 import com.sergtm.entities.Person;
-import com.sergtm.repository.HeartRateRepository;
-import com.sergtm.repository.PersonRepository;
+import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
+import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class HeartRateControllerTest {
+class HeartRateControllerIT {
     private static final String HEART_RATE_CONTROLLER_URL = "/heartRate";
     private static final String METHOD_HEART_RATE_URL_FORMAT = "%s/%s";
 

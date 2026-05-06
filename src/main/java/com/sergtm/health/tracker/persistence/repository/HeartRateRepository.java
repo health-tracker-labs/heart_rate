@@ -1,4 +1,4 @@
-package com.sergtm.repository;
+package com.sergtm.health.tracker.persistence.repository;
 
 import com.sergtm.entities.HeartRate;
 import com.sergtm.entities.Person;

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @AutoConfigureMockMvc
-public class AbstractRestControllerTest {
+public class AbstractRestControllerIT {
     @Autowired
     protected MockMvc mockMvc;
     @Autowired

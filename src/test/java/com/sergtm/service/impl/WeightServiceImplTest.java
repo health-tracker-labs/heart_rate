@@ -3,7 +3,7 @@ package com.sergtm.service.impl;
 import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.Weight;
-import com.sergtm.repository.WeightRepository;
+import com.sergtm.health.tracker.persistence.repository.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

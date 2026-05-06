@@ -25,7 +25,8 @@ public class BaseConfiguration {
             "com.sergtm.entities",
             "com.sergtm.health.tracker.persistence.entity"
     };
-    public static final String JPA_REPOSITORIES_PACKAGE = "com.sergtm.repository";
+    public static final String JPA_REPOSITORIES_PACKAGE =
+            "com.sergtm.health.tracker.persistence.repository";
 
     @Autowired
     private Environment env;

@@ -10,15 +10,15 @@ import com.sergtm.entities.*;
 import com.sergtm.exception.HeartRateNotFoundException;
 import com.sergtm.exception.PersonNotFoundException;
 import com.sergtm.form.AddHeartRateForm;
-import com.sergtm.health.tracker.monitoring.kafka.event.UserBpEvent;
-import com.sergtm.health.tracker.monitoring.kafka.producer.UserBpProducer;
-import com.sergtm.repository.HeartRateRepository;
-import com.sergtm.repository.PersonRepository;
+import com.sergtm.health.tracker.monitoring.event.UserBpApplicationEvent;
+import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
+import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +54,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private UserBpProducer userBpProducer;
+	private ApplicationEventPublisher applicationEventPublisher;
 
 	@Override
 	@Transactional
@@ -79,11 +79,9 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		HeartRate hr = HeartRate.createHeartRate(upperPressure, lowerPressure,
 				beatsPerMinute, Date.from(dtInstant), person);
 
-		try {
-			heartRateRepository.save(hr);
-		} finally {
-			sendUserBpEvent(hr);
-		}
+		heartRateRepository.save(hr);
+		publishUserBpApplicationEvent(hr);
+
 		return singletonList(hr);
 	}
 
@@ -120,21 +118,19 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		hr.setDate(Date.from(dtInstant));
 		hr.setPerson(person);
 
-		try {
-			heartRateRepository.save(hr);
-		} finally {
-			sendUserBpEvent(hr);
-		}
+		heartRateRepository.save(hr);
+		publishUserBpApplicationEvent(hr);
 
 		return hr;
 	}
 
-	private void sendUserBpEvent(HeartRate hr) {
-		UserBpEvent event = UserBpEvent.builder()
+	private void publishUserBpApplicationEvent(HeartRate hr) {
+		UserBpApplicationEvent event = UserBpApplicationEvent.builder()
 				.systolic(hr.getUpperPressure())
 				.diastolic(hr.getLowerPressure())
+				.timestamp(LocalDateTime.now())
 				.build();
-		userBpProducer.sendMessage(event);
+		applicationEventPublisher.publishEvent(event);
 	}
 
 	// Rewrite

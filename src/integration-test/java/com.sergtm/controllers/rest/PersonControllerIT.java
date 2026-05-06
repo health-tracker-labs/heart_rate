@@ -2,7 +2,7 @@ package com.sergtm.controllers.rest;
 
 import com.sergtm.controllers.rest.request.PersonRequest;
 import com.sergtm.entities.Person;
-import com.sergtm.repository.PersonRepository;
+import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IOccasionService;
 import com.sergtm.service.IStaffMemberService;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class PersonControllerTest extends AbstractRestControllerTest {
+class PersonControllerIT extends AbstractRestControllerIT {
     private static final String GET_ALL_PERSONS_URL = "/persons";
     private static final String CREATE_PERSON_URL = "/persons/create";
     private static final Long PERSON_ID = 1L;
