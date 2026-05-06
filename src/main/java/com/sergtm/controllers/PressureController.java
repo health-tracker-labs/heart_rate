@@ -1,6 +1,6 @@
 package com.sergtm.controllers;
 
-import com.sergtm.health.tracker.integration.openweather.strategy.FiveDaysWeatherDataPuller;
+import com.sergtm.service.IWeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pressure")
 public class PressureController {
-
     @Autowired
-    private FiveDaysWeatherDataPuller fiveDaysWeatherDataPuller;
+    private IWeatherService weatherService;
 
     @RequestMapping(path = "/pull.do", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void pull() {
-        fiveDaysWeatherDataPuller.updateWeatherData();
+        weatherService.update5DaysForecast();
     }
-
 }

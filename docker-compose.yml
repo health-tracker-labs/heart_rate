@@ -2,6 +2,8 @@ services:
     heart-rate:
       image: health-tracker/heart_rate:1.7.1-SNAPSHOT
       container_name: heart_rate
+      depends_on:
+        - broker
     broker:
       image: apache/kafka:latest
       container_name: broker

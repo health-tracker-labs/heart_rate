@@ -2,27 +2,26 @@ package com.sergtm.health.tracker.persistence.entity;
 
 
 import com.sergtm.entities.IEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Weather implements IEntity {
     @Id
     @SequenceGenerator(name = "WEATHER_SEQ", sequenceName = "WEATHER_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "WEATHER_SEQ")
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "WEATHER_SEQ")
     private Long id;
 
     @Column(name = "ICON_URL")
     private String iconUrl;
 
-    @Column(name = "TEMPERATURE")
     private long temperature;
 
-    @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "CONCRETE_DATE")

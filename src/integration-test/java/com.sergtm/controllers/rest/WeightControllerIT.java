@@ -1,11 +1,10 @@
 package com.sergtm.controllers.rest;
 
-import com.sergtm.OccasionLevel;
-import com.sergtm.controllers.rest.request.OccasionRequest;
-import com.sergtm.entities.Occasion;
+import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
-import com.sergtm.repository.OccasionRepository;
-import com.sergtm.repository.PersonRepository;
+import com.sergtm.entities.Weight;
+import com.sergtm.health.tracker.persistence.repository.PersonRepository;
+import com.sergtm.health.tracker.persistence.repository.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,25 +23,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class OccasionControllerTest extends AbstractRestControllerTest {
-    private static final Long OCCASION_ID = 1L;
+class WeightControllerIT extends AbstractRestControllerIT {
+    private static final Long WEIGHT_ID = 1L;
     private static final Long PERSON_ID = 1L;
-    private static final String GET_ALL_OCCASIONS_URL = "/occasions";
-    private static final String DELETE_OCCASION_URL = String.format("/occasions/%s", OCCASION_ID);
-    private static final String CREATE_OCCASION_URL = String.format("/occasions/%s", PERSON_ID);
+    private static final String DELETE_WEIGHT_URL = String.format("/weight/%s", WEIGHT_ID);
+    private static final String CREATE_WEIGHT_URL = String.format("/weight/%s", PERSON_ID);
+    private static final String GET_ALL_WEIGHTS_URL = "/weight/weights";
 
     @MockBean
     private PersonRepository personRepository;
     @MockBean
-    private OccasionRepository occasionRepository;
+    private WeightRepository weightRepository;
 
     @Mock
     private Person person;
 
     @Test
-    void shouldReturnAllOccasions() throws Exception {
+    void shouldReturnAllWeights() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(GET_ALL_OCCASIONS_URL)
+                        .get(GET_ALL_WEIGHTS_URL)
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -49,35 +49,33 @@ class OccasionControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    void shouldCreateOccasion() throws Exception {
+    void shouldCreateWeight() throws Exception {
         when(personRepository.findById(PERSON_ID)).thenReturn(Optional.of(person));
         when(person.getId()).thenReturn(PERSON_ID);
 
-        OccasionRequest request = OccasionRequest.builder()
-                .id(OCCASION_ID)
-                .convulsion(false)
-                .occasionLevel(OccasionLevel.LOW)
-                .occasionDate(LocalDateTime.now())
+        WeightRequest request = WeightRequest.builder()
+                .id(WEIGHT_ID)
+                .weight(BigDecimal.ONE)
+                .date(LocalDate.now())
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .put(CREATE_OCCASION_URL)
+                        .put(CREATE_WEIGHT_URL)
                         .queryParams(convertRequestToMultiValueMap(request))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        verify(occasionRepository).save(any(Occasion.class));
+        verify(weightRepository).save(any(Weight.class));
     }
 
     @Test
-    void shouldDeleteOccasion() throws Exception {
+    void shouldDeleteWeight() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete(DELETE_OCCASION_URL)
+                        .delete(DELETE_WEIGHT_URL)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(occasionRepository).deleteById(OCCASION_ID);
+        verify(weightRepository).deleteById(WEIGHT_ID);
     }
-
 }

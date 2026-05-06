@@ -3,7 +3,7 @@ package com.sergtm.service.impl;
 import com.sergtm.controllers.rest.request.WeightRequest;
 import com.sergtm.entities.Person;
 import com.sergtm.entities.Weight;
-import com.sergtm.repository.WeightRepository;
+import com.sergtm.health.tracker.persistence.repository.WeightRepository;
 import com.sergtm.service.IWeightService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
