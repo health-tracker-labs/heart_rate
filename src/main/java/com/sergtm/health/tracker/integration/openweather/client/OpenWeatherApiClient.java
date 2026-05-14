@@ -1,18 +1,24 @@
 package com.sergtm.health.tracker.integration.openweather.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 import static java.util.Collections.singletonList;
 
 @Component
 public class OpenWeatherApiClient {
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String RESPONSE_BODY_IS_EMPTY = "Response body is empty";
+
+    private final RestTemplate restTemplate;
+
+    public OpenWeatherApiClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public <T> T exchange(String url, Class<T> clazz) {
         HttpHeaders headers = new HttpHeaders();
@@ -26,7 +32,7 @@ public class OpenWeatherApiClient {
                 clazz);
 
         if (!response.hasBody()) {
-            Objects.requireNonNull(response.getBody());
+            throw new IllegalStateException(RESPONSE_BODY_IS_EMPTY);
         }
 
         return response.getBody();

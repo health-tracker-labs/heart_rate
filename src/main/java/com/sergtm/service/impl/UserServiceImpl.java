@@ -5,21 +5,24 @@ import com.sergtm.dto.UserDTO;
 import com.sergtm.entities.User;
 import com.sergtm.service.IUserService;
 import com.sergtm.service.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
-    @Resource
-    private IUserDao userDao;
-    @Autowired
-    private UserMapper userMapper;
+    private final IUserDao userDao;
+    private final UserMapper userMapper;
 
+    public UserServiceImpl(
+            IUserDao userDao,
+            UserMapper userMapper
+    ) {
+        this.userDao = userDao;
+        this.userMapper = userMapper;
+    }
     @Override
     public User findUserByUsername(String username) {
         return userDao.findUserByUsername(username);

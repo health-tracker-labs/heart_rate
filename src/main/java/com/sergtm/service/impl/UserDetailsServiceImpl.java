@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!(username.equals("unauthorized"))) {
             user = userService.findUserByUsername(username);
         }
-        if (user != null && user.isState()){
+        if (user != null && user.getState()){
             return buildUserFromUserEntity(user);
         }else{
             throw new UsernameNotFoundException("User wasn't found");

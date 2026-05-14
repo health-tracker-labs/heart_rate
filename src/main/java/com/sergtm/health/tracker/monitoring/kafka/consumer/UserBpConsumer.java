@@ -5,9 +5,11 @@ import com.sergtm.health.tracker.monitoring.service.AssessmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserBpConsumer {
-    @Value("health-tracker.user.blood.pressure.topic")
+    @Value("${health-tracker.user.blood.pressure.topic}")
     private String topic;
 
     @Autowired

@@ -1,7 +1,8 @@
 package com.sergtm.entities;
 
-import java.util.Objects;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.Objects;
+import java.util.Set;
 
-import org.hibernate.annotations.Type;
-
+@Setter
+@Getter
 @Entity
 @Table( name = "USERS")
 public class User implements IEntity{
@@ -44,47 +47,6 @@ public class User implements IEntity{
     )
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
     @Override
     public boolean equals(Object o) {
