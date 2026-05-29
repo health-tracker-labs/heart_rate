@@ -3,10 +3,12 @@ package com.sergtm.health.tracker.monitoring.listener;
 import com.sergtm.health.tracker.monitoring.event.UserBpApplicationEvent;
 import com.sergtm.health.tracker.monitoring.kafka.event.UserBpEvent;
 import com.sergtm.health.tracker.monitoring.kafka.producer.UserBpProducer;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
+@Component
 public class UserBpEventListener {
     private final UserBpProducer userBpProducer;
 

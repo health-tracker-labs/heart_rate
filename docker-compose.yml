@@ -4,6 +4,8 @@ services:
       build:
         context: .
       container_name: heart_rate
+      ports:
+        - "8081:8080"
       environment:
         TZ: Europe/Kiev
         JAVA_TOOL_OPTIONS: "-Duser.timezone=Europe/Kiev"
