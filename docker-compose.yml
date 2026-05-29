@@ -1,6 +1,8 @@
 services:
     heart-rate:
       image: health-tracker/heart_rate:1.7.1-SNAPSHOT
+      build:
+        context: .
       container_name: heart_rate
       environment:
         TZ: Europe/Kiev
