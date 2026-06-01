@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package
 
 #deploy
-FROM openjdk:26-rc-jdk-slim
+FROM eclipse-temurin:21-jre-jammy
 
 ARG APP_HOME=/health-tracker/heart-rate
 ARG JAR_FILE=${APP_HOME}/target/*.war
