@@ -9,6 +9,7 @@ services:
       environment:
         TZ: Europe/Kiev
         JAVA_TOOL_OPTIONS: "-Duser.timezone=Europe/Kiev"
+        SPRING_PROFILES_ACTIVE: oracle-prod
       depends_on:
         - broker
     broker:
