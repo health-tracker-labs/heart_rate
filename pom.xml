@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>heart_rate</groupId>
+    <groupId>com.alextim.health.tracker</groupId>
     <artifactId>heart_rate</artifactId>
     <packaging>war</packaging>
     <version>1.7.1-SNAPSHOT</version>
