@@ -18,6 +18,6 @@ ARG JAR_FILE=${APP_HOME}/target/*.war
 WORKDIR ${APP_HOME}
 COPY --from=build ${JAR_FILE} heart_rate.war
 
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "heart_rate.war"]
