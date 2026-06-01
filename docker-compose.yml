@@ -1,6 +1,6 @@
 services:
     heart-rate:
-      image: health-tracker/heart_rate:1.7.1-SNAPSHOT
+      image: health-tracker/heart_rate:${APP_VERSION}
       build:
         context: .
       container_name: heart_rate
