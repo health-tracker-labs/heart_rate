@@ -1,7 +1,7 @@
 package com.sergtm.service;
 
 import com.sergtm.dto.UserDTO;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 
 import java.util.Collection;
 

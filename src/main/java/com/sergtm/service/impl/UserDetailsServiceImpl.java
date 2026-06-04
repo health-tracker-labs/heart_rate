@@ -1,7 +1,7 @@
 package com.sergtm.service.impl;
 
 import com.sergtm.entities.Role;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

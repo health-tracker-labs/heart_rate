@@ -1,6 +1,6 @@
-package com.sergtm.client;
+package com.sergtm.health.tracker.rest.client;
 
-import com.sergtm.controllers.rest.response.PersonResponse;
+import com.sergtm.health.tracker.rest.response.PersonResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;

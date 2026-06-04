@@ -1,32 +1,38 @@
 package com.sergtm.controllers.rest;
 
 import com.sergtm.controllers.rest.request.PersonRequest;
-import com.sergtm.controllers.rest.response.PersonResponse;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
+import com.sergtm.health.tracker.controller.mapper.PersonMapper;
+import com.sergtm.health.tracker.rest.client.PersonApiClient;
+import com.sergtm.health.tracker.rest.response.PersonResponse;
 import com.sergtm.service.IPersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping(path = "/persons", produces = "application/json")
+@RequiredArgsConstructor
 public class PersonController {
-    @Resource
-    private IPersonService personService;
+    private final IPersonService personService;
+    private final PersonMapper personMapper;
+    private final PersonApiClient personApiClient;
 
     @GetMapping
     public Collection<PersonResponse> getPersons() {
-        return personService.findAll().stream()
-                .map(PersonResponse::new)
-                .collect(Collectors.toCollection(ArrayList::new));
+        return personApiClient.getPersons();
     }
 
     @GetMapping(path = "/xml", produces = "application/xml")
@@ -45,7 +51,7 @@ public class PersonController {
         Person person = personService.addPerson(
                 request.getFirstName(),
                 request.getSecondName());
-        return new PersonResponse(person);
+        return personMapper.toResponse(person);
     }
 
     @DeleteMapping("/delete/{personId}")

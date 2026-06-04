@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sergtm.dto.UserDTO;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.service.IUserService;
 
 @RestController

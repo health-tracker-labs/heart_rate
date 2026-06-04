@@ -1,6 +1,6 @@
 package com.sergtm.controllers;
 
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.StaffMember;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;

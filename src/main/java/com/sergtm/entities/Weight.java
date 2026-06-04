@@ -1,5 +1,7 @@
 package com.sergtm.entities;
 
+import com.sergtm.health.tracker.persistence.entity.Person;
+
 import java.math.BigDecimal;
 import java.util.Date;
 

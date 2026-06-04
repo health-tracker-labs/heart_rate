@@ -1,25 +1,35 @@
-package com.sergtm.entities;
+package com.sergtm.health.tracker.persistence.entity;
 
-import lombok.*;
-import org.springframework.util.StringUtils;
+import com.sergtm.entities.IEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
  * Created by Sergey on 16.07.2017.
  */
 @Entity
-@Table(name = "PERSON")
+@Table(name = "PERSONS")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Person implements IEntity{
+public class Person implements IEntity {
     @Id
-    @SequenceGenerator(name = "PERSON_SEQ", sequenceName = "PERSON_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PERSON_SEQ")
+    @SequenceGenerator(name = "PERSONS_SEQ", sequenceName = "PERSONS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PERSONS_SEQ")
     @Column(name = "ID")
     private Long id;
 
@@ -32,29 +42,15 @@ public class Person implements IEntity{
     @Column(name = "SECOND_NAME")
     private String secondName;
 
-    @Column(name = "COUNTRY")
     private String country;
-
-    @Column(name = "CITY")
     private String city;
-
-    @Column(name = "BIRTHDATE")
     private LocalDateTime birthdate;
-
-    @Column(name = "PHONE")
     private String phone;
 
     @Column(name = "MOBILE_PHONE")
     private String mobilePhone;
 
-    @Column(name = "EMAIL")
     private String email;
-
-    public String getName() {
-        final String middleName = getMiddleName();
-        return String.format("%s%s, %s", getSecondName(), 
-                StringUtils.isEmpty(middleName) ? "" : " " + middleName, getFirstName());
-    }
 
     public static Person createPerson(String firstName, String secondName){
         Person person = new Person();

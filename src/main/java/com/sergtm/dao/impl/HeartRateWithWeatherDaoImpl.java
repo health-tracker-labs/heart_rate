@@ -2,7 +2,7 @@ package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IHeartRateWithWeatherDao;
 import com.sergtm.entities.HeartRateWithWeatherPressure;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

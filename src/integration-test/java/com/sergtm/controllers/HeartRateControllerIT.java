@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergtm.TimeOfDay;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.HeartRate;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import org.junit.jupiter.api.Test;

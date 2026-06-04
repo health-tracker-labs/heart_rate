@@ -1,7 +1,7 @@
-package com.sergtm.controllers.api;
+package com.sergtm.health.tracker.controller;
 
-import com.sergtm.client.PersonApiClient;
-import com.sergtm.controllers.rest.response.PersonResponse;
+import com.sergtm.health.tracker.rest.client.PersonApiClient;
+import com.sergtm.health.tracker.rest.response.PersonResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

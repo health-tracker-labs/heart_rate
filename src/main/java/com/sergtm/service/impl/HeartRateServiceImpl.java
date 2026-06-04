@@ -11,6 +11,8 @@ import com.sergtm.exception.HeartRateNotFoundException;
 import com.sergtm.exception.PersonNotFoundException;
 import com.sergtm.form.AddHeartRateForm;
 import com.sergtm.health.tracker.monitoring.event.UserBpApplicationEvent;
+import com.sergtm.health.tracker.persistence.entity.Person;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.service.IHeartRateService;

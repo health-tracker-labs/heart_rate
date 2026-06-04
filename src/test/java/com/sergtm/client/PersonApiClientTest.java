@@ -1,6 +1,7 @@
 package com.sergtm.client;
 
-import com.sergtm.controllers.rest.response.PersonResponse;
+import com.sergtm.health.tracker.rest.response.PersonResponse;
+import com.sergtm.health.tracker.rest.client.PersonApiClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

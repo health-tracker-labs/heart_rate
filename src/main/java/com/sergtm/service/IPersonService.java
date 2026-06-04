@@ -1,6 +1,6 @@
 package com.sergtm.service;
 
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 
 import java.util.Collection;
 

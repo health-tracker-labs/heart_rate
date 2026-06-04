@@ -2,7 +2,7 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IUserDao;
 import com.sergtm.dto.UserDTO;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.service.IUserService;
 import com.sergtm.service.mapper.UserMapper;
 import org.springframework.stereotype.Service;

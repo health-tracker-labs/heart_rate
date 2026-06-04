@@ -1,5 +1,6 @@
 package com.sergtm.entities;
 
+import com.sergtm.health.tracker.persistence.entity.Person;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;

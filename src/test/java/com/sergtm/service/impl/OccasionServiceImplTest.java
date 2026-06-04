@@ -4,7 +4,7 @@ import com.sergtm.OccasionLevel;
 import com.sergtm.controllers.rest.request.OccasionRequest;
 import com.sergtm.entities.Disease;
 import com.sergtm.entities.Occasion;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.DiseaseRepository;
 import com.sergtm.health.tracker.persistence.repository.OccasionRepository;
 import com.sergtm.service.IOccasionService;

@@ -1,9 +1,13 @@
 package com.sergtm.service.impl;
 
 import com.sergtm.dao.IPersonDao;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
-import com.sergtm.service.*;
+import com.sergtm.service.IHeartRateService;
+import com.sergtm.service.IOccasionService;
+import com.sergtm.service.IPersonService;
+import com.sergtm.service.IStaffMemberService;
+import com.sergtm.service.IWeightService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;

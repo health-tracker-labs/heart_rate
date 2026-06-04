@@ -1,7 +1,7 @@
 package com.sergtm.controllers.rest;
 
 import com.sergtm.controllers.rest.request.WeightRequest;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IWeightService;
 import org.springframework.http.HttpStatus;
