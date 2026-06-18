@@ -1,6 +1,7 @@
 package com.sergtm.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,11 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-@Setter
-@Getter
+@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Setter
+@Getter
 public class Role {
     @Id
     @SequenceGenerator(name = "ROLE_SEQ", sequenceName = "ROLE_SEQ", allocationSize = 1)

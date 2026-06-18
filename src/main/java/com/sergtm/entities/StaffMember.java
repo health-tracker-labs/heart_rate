@@ -1,5 +1,8 @@
 package com.sergtm.entities;
 
+import com.sergtm.health.tracker.persistence.entity.Person;
+import com.sergtm.health.tracker.persistence.entity.User;
+
 import javax.persistence.*;
 import java.util.Set;
 

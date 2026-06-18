@@ -1,6 +1,7 @@
 package com.sergtm.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -5,7 +5,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 public abstract class EventProducer<T> {
     private final KafkaTemplate<String, T> kafkaTemplate;
 
-    public EventProducer(KafkaTemplate<String, T> kafkaTemplate) {
+    EventProducer(KafkaTemplate<String, T> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

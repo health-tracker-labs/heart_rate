@@ -1,0 +1,194 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="addMigrateColumnToPersonTable" author="alextim">
+        <addColumn tableName="PERSON">
+            <column name="LEGACY_USER_ID" type="NUMBER"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="renamePersonTable" author="alextim">
+        <renameTable oldTableName="PERSON" newTableName="PERSONS"/>
+    </changeSet>
+
+    <changeSet id="renamePersonSequence" author="alextim">
+        <renameSequence oldSequenceName="PERSON_SEQ" newSequenceName="PERSONS_SEQ"/>
+    </changeSet>
+
+    <changeSet id="addPatientsTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PATIENTS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="PATIENTS">
+            <column name="ID" type="NUMBER">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PERSON_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="PATIENTS" baseColumnNames="PERSON_ID"
+                constraintName="PATIENTS_PERSON_ID_FK" referencedTableName="PERSONS"
+                referencedColumnNames="ID" />
+    </changeSet>
+
+    <changeSet id="addPatientsSequence" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="PATIENTS_SEQ"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="PATIENTS_SEQ"/>
+    </changeSet>
+
+    <changeSet id="addEmployeesTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="EMPLOYEES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EMPLOYEES">
+            <column name="ID" type="NUMBER">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PERSON_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="EMPLOYEES" baseColumnNames="PERSON_ID"
+                constraintName="EMPLOYEES_PERSON_ID_FK" referencedTableName="PERSONS"
+                referencedColumnNames="ID" />
+    </changeSet>
+
+    <changeSet id="addEmployeesSequence" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="EMPLOYEES_SEQ"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="EMPLOYEES_SEQ"/>
+    </changeSet>
+
+    <changeSet id="addEmployeePatientTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="EMPLOYEE_PATIENT"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EMPLOYEE_PATIENT">
+            <column name="EMPLOYEE_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PATIENT_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="EMPLOYEE_PATIENT" columnNames="EMPLOYEE_ID, PATIENT_ID"/>
+        <addForeignKeyConstraint
+                baseTableName="EMPLOYEE_PATIENT" baseColumnNames="EMPLOYEE_ID"
+                constraintName="EMP_PATIENT_EMPLOYEE_ID_FK" referencedTableName="EMPLOYEES"
+                referencedColumnNames="ID" />
+        <addForeignKeyConstraint
+                baseTableName="EMPLOYEE_PATIENT" baseColumnNames="PATIENT_ID"
+                constraintName="EMP_PATIENT_PATIENT_ID_FK" referencedTableName="PATIENTS"
+                referencedColumnNames="ID" />
+    </changeSet>
+
+    <changeSet id="addEmployeeIdColumnToUsersTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="USERS" columnName="EMPLOYEE_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USERS">
+            <column name="EMPLOYEE_ID" type="NUMBER">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="USERS" baseColumnNames="EMPLOYEE_ID"
+                constraintName="USERS_EMPLOYEE_ID_FK" referencedTableName="EMPLOYEES"
+                referencedColumnNames="ID" />
+    </changeSet>
+
+    <changeSet id="insertAdminUserIntoPersonsTable" author="alextim">
+        <sql>
+            insert into persons (id, first_name, second_name, LEGACY_USER_ID)
+            select persons_seq.nextval,
+               u.username,
+               u.username,
+               u.id
+            from users u
+                 join user_role ur on u.id = ur.user_id
+                 join role r on ur.role_id = r.id
+            where r.name = 'ADMIN'
+              and not exists(select 1 from persons p where LEGACY_USER_ID is not null)
+        </sql>
+    </changeSet>
+    <changeSet id="insertAdminUserIntoEmployeesTable" author="alextim">
+        <sql>
+            insert into employees (id, person_id)
+            select employees_seq.nextval, p.id
+            from persons p
+            where p.LEGACY_USER_ID is not null
+              and not exists (
+                select 1
+                from employees e
+                where e.person_id = p.id
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="insertAdminUserIntoPatientsTable" author="alextim">
+        <sql>
+            insert into patients (id, person_id)
+            select patients_seq.nextval, p.id
+            from persons p
+            where p.LEGACY_USER_ID is not null
+              and not exists (
+                select 1
+                from patients pat
+                where pat.person_id = p.id
+              )
+        </sql>
+    </changeSet>
+    <changeSet id="linkAdminEmployeeToAdminPatient" author="alextim">
+        <sql>
+            insert into employee_patient (employee_id, patient_id)
+            select e.id, pat.id from persons p
+                 inner join employees e on e.person_id = p.id
+                 inner join patients pat on pat.person_id = p.id
+            where p.LEGACY_USER_ID is not null
+              and not exists (
+                select 1
+                from employee_patient ep
+                where ep.employee_id = e.id
+                  and ep.patient_id = pat.id
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet id="updateAdminUserByAdminEmployee" author="alextim">
+        <sql>
+            update users u set employee_id = (
+                select e.id from persons p
+                        join employees e on p.id = e.person_id
+                 where p.LEGACY_USER_ID = u.id
+            ) where exists (
+                select 1
+                from persons p
+                where p.legacy_user_id = u.id
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet id="dropMigrateColumnFromPersonTable" author="alextim">
+        <dropColumn tableName="PERSONS">
+            <column name="LEGACY_USER_ID"/>
+        </dropColumn>
+    </changeSet>
+</databaseChangeLog>

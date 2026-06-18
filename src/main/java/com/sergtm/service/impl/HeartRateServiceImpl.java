@@ -6,15 +6,19 @@ import com.sergtm.dao.IHeartRateWithWeatherDao;
 import com.sergtm.dao.IHelpDao;
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.dto.StatisticOnDay;
-import com.sergtm.entities.*;
-import com.sergtm.exception.HeartRateNotFoundException;
-import com.sergtm.exception.PersonNotFoundException;
+import com.sergtm.entities.HeartRate;
+import com.sergtm.entities.HeartRateWithWeatherPressure;
+import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
+import com.sergtm.health.tracker.exception.HeartRateNotFoundException;
+import com.sergtm.health.tracker.exception.PersonNotFoundException;
 import com.sergtm.health.tracker.monitoring.event.UserBpApplicationEvent;
+import com.sergtm.health.tracker.persistence.entity.Person;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
+import com.sergtm.health.tracker.service.IUserService;
 import com.sergtm.service.IHeartRateService;
-import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +77,10 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		List<Person> persons = personDao.getPersonByName(firstName, secondName);
 		Person person;
 		if (persons.isEmpty()) {
-			person = Person.createPerson(firstName, secondName);
+			person = Person.builder()
+					.firstName(firstName)
+					.secondName(secondName)
+					.build();
 			personDao.savePerson(person);
 		} else {
 			person = persons.get(0);

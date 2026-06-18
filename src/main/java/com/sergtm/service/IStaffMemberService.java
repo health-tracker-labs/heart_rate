@@ -1,8 +1,8 @@
 package com.sergtm.service;
 
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.StaffMember;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 
 public interface IStaffMemberService extends IDeletableByPersonService {
     StaffMember add(int userId, int personId);

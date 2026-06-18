@@ -1,14 +1,14 @@
 package com.sergtm.service.impl;
 
 import com.sergtm.OccasionLevel;
-import com.sergtm.controllers.rest.request.OccasionRequest;
 import com.sergtm.entities.Disease;
 import com.sergtm.entities.Occasion;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.DiseaseRepository;
 import com.sergtm.health.tracker.persistence.repository.OccasionRepository;
+import com.sergtm.health.tracker.rest.request.OccasionRequest;
+import com.sergtm.health.tracker.service.IPersonService;
 import com.sergtm.service.IOccasionService;
-import com.sergtm.service.IPersonService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -76,19 +76,16 @@ class OccasionServiceImplTest {
 	}
 
 	private static OccasionRequest createOccasionDto() {
-		OccasionRequest occasionRequest = new OccasionRequest();
-
-		occasionRequest.setOccasionLevel(OCCASION_LEVEL);
-		occasionRequest.setConvulsion(IS_CONVULSION);
-		occasionRequest.setOccasionDate(OCCASION_LOCAL_DT);
-
-		return occasionRequest;
+		return OccasionRequest.builder()
+				.occasionLevel(OCCASION_LEVEL)
+				.convulsion(IS_CONVULSION)
+				.occasionDate(OCCASION_LOCAL_DT)
+				.build();
 	}
 
 	private static Person createPerson() {
-		Person person = new Person();
-		person.setId(PERSON_ID);
-
-		return person;
+		return Person.builder()
+				.id(PERSON_ID)
+				.build();
 	}
 }

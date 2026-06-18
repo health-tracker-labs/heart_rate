@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.sergtm.health.tracker.persistence.entity.Person;
 import org.hibernate.annotations.Type;
 
 import com.sergtm.OccasionLevel;

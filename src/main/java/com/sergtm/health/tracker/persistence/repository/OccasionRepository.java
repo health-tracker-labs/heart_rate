@@ -1,7 +1,7 @@
 package com.sergtm.health.tracker.persistence.repository;
 
 import com.sergtm.entities.Occasion;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.sergtm.dao;
 
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 
 import java.util.Collection;
 import java.util.Optional;

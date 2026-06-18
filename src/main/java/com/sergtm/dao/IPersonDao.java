@@ -1,6 +1,6 @@
 package com.sergtm.dao;
 
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,5 +13,4 @@ public interface IPersonDao {
     Person getPersonById(Long personId);
     Collection<Person> findAll();
     List<Person> getPersonByName(String firstName, String secondName);
-    Collection<Person> getByUser(String username);
 }

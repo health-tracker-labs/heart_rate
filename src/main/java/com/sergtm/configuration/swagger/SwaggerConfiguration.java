@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Import(SpringDataRestConfiguration.class)
 public class SwaggerConfiguration {
-	private static final String REST_CONTROLLER_PACKAGE = "com.sergtm.controllers.rest";
+	private static final String REST_CONTROLLER_PACKAGE = "com.sergtm.health.tracker.rest.controller";
 
 	@Bean
 	public Docket api() {

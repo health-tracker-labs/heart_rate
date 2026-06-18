@@ -1,9 +1,9 @@
 package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IStaffMemberDao;
-import com.sergtm.entities.Person;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.StaffMember;
-import com.sergtm.entities.User;
+import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.StaffMemberRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
