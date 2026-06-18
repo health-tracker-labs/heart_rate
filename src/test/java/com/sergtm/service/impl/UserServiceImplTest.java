@@ -1,16 +1,12 @@
 package com.sergtm.service.impl;
 
 import com.sergtm.dao.IUserDao;
-import com.sergtm.dto.UserDTO;
 import com.sergtm.entities.Role;
 import com.sergtm.health.tracker.persistence.entity.User;
-import com.sergtm.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collection;
@@ -42,63 +38,61 @@ class UserServiceImplTest {
 
     @Mock
     private IUserDao userDao;
-    @Spy
-    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @InjectMocks
     private UserServiceImpl testedInstance;
 
     @Test
-    void getAll_shouldReturnOneUserDto_whenOneUserExists() {
+    void getUsers_shouldReturnOneUser_whenOneUserExists() {
         doReturn(singleton(createRegularUser()))
                 .when(userDao)
                 .getAll();
 
-        Collection<UserDTO> userDtos = testedInstance.getAll();
-        assertRegularUserDto(userDtos.stream()
+        Collection<User> users = testedInstance.getUsers();
+        assertRegularUser(users.stream()
                 .findFirst()
                 .orElseThrow());
     }
 
     @Test
-    void getAll_shouldReturnSeveralUserDtos_whenSeveralUsersExist() {
+    void getUsers_shouldReturnSeveralUsers_whenSeveralUsersExist() {
         doReturn(List.of(createRegularUser(), createAdminUser()))
                 .when(userDao)
                 .getAll();
 
-        Collection<UserDTO> userDtos = testedInstance.getAll();
+        Collection<User> users = testedInstance.getUsers();
 
-        List<UserDTO> sortedUsers = userDtos.stream()
-                .sorted(Comparator.comparing(UserDTO::getId))
+        List<User> sortedUsers = users.stream()
+                .sorted(Comparator.comparing(User::getId))
                 .toList();
 
-        UserDTO regularUserDto = sortedUsers.get(0);
-        assertRegularUserDto(regularUserDto);
+        User regularUser = sortedUsers.get(0);
+        assertRegularUser(regularUser);
 
-        UserDTO adminUserDto = sortedUsers.get(1);
-        assertAdminUserDto(adminUserDto);
+        User adminUser = sortedUsers.get(1);
+        assertAdminUser(adminUser);
     }
 
-    private static void assertRegularUserDto(UserDTO userDto) {
-        assertEquals(FIRST_USER_ID, userDto.getId());
-        assertEquals(FIRST_USER_NAME, userDto.getUsername());
-        assertEquals(FIRST_USER_PASSWORD, userDto.getPassword());
-        assertFalse(userDto.isState());
+    private static void assertRegularUser(User user) {
+        assertEquals(FIRST_USER_ID, user.getId());
+        assertEquals(FIRST_USER_NAME, user.getUsername());
+        assertEquals(FIRST_USER_PASSWORD, user.getPassword());
+        assertFalse(user.getState());
 
-        Role role = userDto.getRoles().stream()
+        Role role = user.getRoles().stream()
                 .findFirst()
                 .orElseThrow();
         assertEquals(USER_ROLE_ID, role.getId());
         assertEquals(USER_ROLE_NAME, role.getName());
     }
 
-    private static void assertAdminUserDto(UserDTO userDto) {
-        assertEquals(SECOND_USER_ID, userDto.getId());
-        assertEquals(SECOND_USER_NAME, userDto.getUsername());
-        assertEquals(SECOND_USER_PASSWORD, userDto.getPassword());
-        assertTrue(userDto.isState());
+    private static void assertAdminUser(User user) {
+        assertEquals(SECOND_USER_ID, user.getId());
+        assertEquals(SECOND_USER_NAME, user.getUsername());
+        assertEquals(SECOND_USER_PASSWORD, user.getPassword());
+        assertTrue(user.getState());
 
-        Role role = userDto.getRoles().stream()
+        Role role = user.getRoles().stream()
                 .findFirst()
                 .orElseThrow();
         assertEquals(ADMIN_ROLE_ID, role.getId());
@@ -130,15 +124,13 @@ class UserServiceImplTest {
             Boolean isActive,
             Set<Role> roles
     ) {
-        User user = new User();
-
-        user.setId(id);
-        user.setUsername(name);
-        user.setPassword(password);
-        user.setState(isActive);
-        user.setRoles(roles);
-
-        return user;
+        return User.builder()
+                .id(id)
+                .username(name)
+                .password(password)
+                .state(isActive)
+                .roles(roles)
+                .build();
     }
 
     private static Role createRole(Long id, String name) {

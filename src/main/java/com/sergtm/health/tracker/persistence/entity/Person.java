@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,10 +21,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "PERSONS")
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person implements IEntity {
     @Id
     @SequenceGenerator(name = "PERSONS_SEQ", sequenceName = "PERSONS_SEQ", allocationSize = 1)
@@ -51,11 +49,4 @@ public class Person implements IEntity {
     private String mobilePhone;
 
     private String email;
-
-    public static Person createPerson(String firstName, String secondName){
-        Person person = new Person();
-        person.setFirstName(firstName);
-        person.setSecondName(secondName);
-        return person;
-    }
 }

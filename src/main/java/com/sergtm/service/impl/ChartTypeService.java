@@ -17,5 +17,4 @@ public class ChartTypeService implements IChartTypeService {
 	public Iterable<ChartType> getChartTypes() {
 		return chartTypeRepository.findAll();
 	}
-
 }

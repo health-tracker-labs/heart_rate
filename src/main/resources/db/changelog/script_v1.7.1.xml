@@ -74,6 +74,31 @@
         <createSequence sequenceName="EMPLOYEES_SEQ"/>
     </changeSet>
 
+    <changeSet id="addEmployeePatientTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="EMPLOYEE_PATIENT"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EMPLOYEE_PATIENT">
+            <column name="EMPLOYEE_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PATIENT_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="EMPLOYEE_PATIENT" columnNames="EMPLOYEE_ID, PATIENT_ID"/>
+        <addForeignKeyConstraint
+                baseTableName="EMPLOYEE_PATIENT" baseColumnNames="EMPLOYEE_ID"
+                constraintName="EMP_PATIENT_EMPLOYEE_ID_FK" referencedTableName="EMPLOYEES"
+                referencedColumnNames="ID" />
+        <addForeignKeyConstraint
+                baseTableName="EMPLOYEE_PATIENT" baseColumnNames="PATIENT_ID"
+                constraintName="EMP_PATIENT_PATIENT_ID_FK" referencedTableName="PATIENTS"
+                referencedColumnNames="ID" />
+    </changeSet>
+
     <changeSet id="addEmployeeIdColumnToUsersTable" author="alextim">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -113,9 +138,9 @@
             where p.LEGACY_USER_ID is not null
               and not exists (
                 select 1
-                from patients pat
-                where pat.person_id = p.id
-              )
+                from employees e
+                where e.person_id = p.id
+            )
         </sql>
     </changeSet>
     <changeSet id="insertAdminUserIntoPatientsTable" author="alextim">
@@ -131,6 +156,22 @@
               )
         </sql>
     </changeSet>
+    <changeSet id="linkAdminEmployeeToAdminPatient" author="alextim">
+        <sql>
+            insert into employee_patient (employee_id, patient_id)
+            select e.id, pat.id from persons p
+                 inner join employees e on e.person_id = p.id
+                 inner join patients pat on pat.person_id = p.id
+            where p.LEGACY_USER_ID is not null
+              and not exists (
+                select 1
+                from employee_patient ep
+                where ep.employee_id = e.id
+                  and ep.patient_id = pat.id
+            )
+        </sql>
+    </changeSet>
+
     <changeSet id="updateAdminUserByAdminEmployee" author="alextim">
         <sql>
             update users u set employee_id = (

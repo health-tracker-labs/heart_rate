@@ -1,8 +1,8 @@
 package com.sergtm.controllers;
 
-import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.StaffMember;
-import com.sergtm.service.IPersonService;
+import com.sergtm.health.tracker.persistence.entity.Person;
+import com.sergtm.health.tracker.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;

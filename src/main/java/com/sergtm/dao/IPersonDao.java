@@ -13,5 +13,4 @@ public interface IPersonDao {
     Person getPersonById(Long personId);
     Collection<Person> findAll();
     List<Person> getPersonByName(String firstName, String secondName);
-    Collection<Person> getByUser(String username);
 }

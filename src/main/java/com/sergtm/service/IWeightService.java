@@ -1,6 +1,6 @@
 package com.sergtm.service;
 
-import com.sergtm.controllers.rest.request.WeightRequest;
+import com.sergtm.health.tracker.rest.request.WeightRequest;
 import com.sergtm.health.tracker.persistence.entity.Person;
 
 import java.util.List;

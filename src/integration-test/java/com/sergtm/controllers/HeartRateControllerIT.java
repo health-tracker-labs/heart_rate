@@ -174,7 +174,7 @@ class HeartRateControllerIT {
 
     @Test
     void shouldThrowHeartRateNotFoundExceptionWhenHeartRateWasNotFound() throws Exception {
-        Person person = personRepository.save(new Person());
+        Person person = personRepository.save(Person.builder().build());
 
         HeartRateRequest request = createDefaultHeartRateRequestBuilder()
                 .id(HEART_RATE_VALUE)

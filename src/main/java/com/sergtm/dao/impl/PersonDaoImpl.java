@@ -51,15 +51,4 @@ public class PersonDaoImpl implements IPersonDao{
         query.setParameter("secondName", secondName);
         return query.getResultList();
     }
-
-    @Override
-    public Collection<Person> getByUser(String userName) {
-        String sql = "select sm.person from StaffMember sm \n" +
-                "join sm.person p \n" +
-                "join sm.user u \n" +
-                "where u.username = :username";
-        Query query = entityManager.createQuery(sql);
-        query.setParameter("username", userName);
-        return query.getResultList();
-    }
 }

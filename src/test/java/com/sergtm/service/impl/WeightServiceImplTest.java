@@ -1,9 +1,9 @@
 package com.sergtm.service.impl;
 
-import com.sergtm.controllers.rest.request.WeightRequest;
-import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.Weight;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.WeightRepository;
+import com.sergtm.health.tracker.rest.request.WeightRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -60,18 +60,15 @@ class WeightServiceImplTest {
 	}
 
 	private static WeightRequest createWeightDto() {
-		WeightRequest weightDto = new WeightRequest();
-
-		weightDto.setDate(WEIGHT_LOCAL_DATE);
-		weightDto.setWeight(WEIGHT);
-
-		return weightDto;
+		return WeightRequest.builder()
+				.date(WEIGHT_LOCAL_DATE)
+				.weight(WEIGHT)
+				.build();
 	}
 
 	private static Person createPerson() {
-		Person person = new Person();
-		person.setId(PERSON_ID);
-
-		return person;
+		return Person.builder()
+				.id(PERSON_ID)
+				.build();
 	}
 }

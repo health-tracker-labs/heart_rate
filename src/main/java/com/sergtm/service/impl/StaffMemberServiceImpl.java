@@ -5,7 +5,7 @@ import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.StaffMember;
 import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.service.IStaffMemberService;
-import com.sergtm.service.IUserService;
+import com.sergtm.health.tracker.service.IUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
