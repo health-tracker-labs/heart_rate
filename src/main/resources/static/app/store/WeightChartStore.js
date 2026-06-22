@@ -5,7 +5,7 @@ Ext.define('app.store.WeightChartStore', {
 
     proxy: {
         type: 'ajax',
-        url : '../weight/weights',
+        url : '../weights',
         reader: {
             type: 'json',
             rootProperty : 'data'
