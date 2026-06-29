@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.PERSIST;
+
 @Entity
 @Table( name = "USERS")
 @Builder
@@ -51,7 +53,7 @@ public class User implements IEntity {
         joinColumns = @JoinColumn(name = "USER_ID"),
         inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {PERSIST})
     private Set<Role> roles;
 
     @Override
