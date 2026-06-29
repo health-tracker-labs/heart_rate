@@ -25,29 +25,24 @@ public class PersonController {
     private final PersonMapper personMapper;
     private final IPersonService personService;
 
-    @GetMapping
+    @GetMapping(produces = {
+            "application/json", "application/xml"
+    })
     public Collection<PersonResponse> getPersons() {
         Collection<Person> persons = personService.findAll();
         return personMapper.toResponses(persons);
     }
 
-    @GetMapping(path = "/xml", produces = "application/xml")
-    public Collection<PersonResponse> getPersonsXml(){
-        return getPersons();
-    }
-
     @GetMapping(path = "{userName}")
-    public Collection<PersonResponse> getPersonsByUserName(@PathVariable String userName){
-        Collection<Person> persons = personService.getByUser(userName);
+    public Collection<PersonResponse> getPersonsAssignedToUser(@PathVariable String userName){
+        Collection<Person> persons = personService.getPersonsAssignedToUser(userName);
         return personMapper.toResponses(persons);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonResponse createPerson(@Valid PersonRequest request) {
-        Person person = personService.addPerson(
-                request.getFirstName(),
-                request.getSecondName());
+        Person person = personService.addPerson(personMapper.toDomain(request));
         return personMapper.toResponse(person);
     }
 

@@ -10,8 +10,8 @@ Ext.define('app.store.UserStore', {
             rootProperty: 'data'
         },
         api: {
-            update: '../user/update',
-            read: '../user/getAll.json'
+            update: '../users/update',
+            read: '../users'
         },
         writer: {
             type: 'json',

@@ -1,0 +1,14 @@
+{
+  "patients": [
+    {
+      "person": {
+        "name": "person2LN person2MN, person2FN",
+        "country": "Afghanistan"
+      }
+    }
+  ],
+  "person": {
+    "name": "person1LN person1MN, person1FN",
+    "country": "Ukraine"
+  }
+}

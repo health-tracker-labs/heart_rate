@@ -17,7 +17,7 @@ Ext.define('app.controller.UserAdditionFormController', {
             });
 
             Ext.Ajax.request({
-                url: '../user/save',
+                url: '../users/create',
                 method: 'POST',
                 jsonData: user.data,
                 success: function (response) {

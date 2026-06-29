@@ -25,7 +25,7 @@ import static java.util.Collections.emptyList;
 @Service
 @Transactional(readOnly = true)
 public class PersonServiceImpl implements IPersonService {
-    private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
+    private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MSG = "Can't find person by person id = %s";
 
     @Autowired
     private IPersonDao personDao;
@@ -48,7 +48,7 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Collection<Person> getByUser(String userName) {
+    public Collection<Person> getPersonsAssignedToUser(String userName) {
         return userRepository.findOneByUsername(userName)
                 .map(User::getEmployee)
                 .map(Employee::getId)
@@ -71,13 +71,8 @@ public class PersonServiceImpl implements IPersonService {
 
     @Override
     @Transactional
-    public Person addPerson(String firstName, String secondName) {
-        Person person = Person.builder()
-                .firstName(firstName)
-                .secondName(secondName)
-                .build();
+    public Person addPerson(Person person) {
         personDao.savePerson(person);
-
         return person;
     }
 
@@ -90,6 +85,7 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public Person findByIdOrThrowException(Long personId) {
         return personRepository.findById(personId)
-                .orElseThrow(() -> new PersonNotFoundException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
+                .orElseThrow(() -> new PersonNotFoundException(String.format(
+                        CAN_NOT_FIND_PERSON_BY_PERSON_ID_MSG, personId)));
     }
 }
