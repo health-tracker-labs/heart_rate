@@ -2,7 +2,6 @@ package com.sergtm.service.impl;
 
 import com.sergtm.dao.IUserDao;
 import com.sergtm.health.tracker.persistence.entity.User;
-import com.sergtm.health.tracker.rest.request.UserRequest;
 import com.sergtm.health.tracker.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,12 +28,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public void createUser(UserRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(request.getPassword())
-                .state(request.isState())
-                .build();
+    public void createUser(User user) {
         userDao.save(user);
     }
 

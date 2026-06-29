@@ -1,0 +1,42 @@
+[
+  {
+    "patients": [
+      {
+        "person": {
+          "name": "person2LN person2MN, person2FN",
+          "country": "Afghanistan"
+        }
+      },
+      {
+        "person": {
+          "name": "person3LN person3MN, person3FN",
+          "country": "Germany"
+        }
+      }
+    ],
+    "person": {
+      "name": "person1LN person1MN, person1FN",
+      "country": "Ukraine"
+    }
+  },
+  {
+    "patients": [
+      {
+        "person": {
+          "name": "person1LN person1MN, person1FN",
+          "country": "Ukraine"
+        }
+      },
+      {
+        "person": {
+          "name": "person3LN person3MN, person3FN",
+          "country": "Germany"
+        }
+      }
+    ],
+    "person": {
+      "name": "person2LN person2MN, person2FN",
+      "country": "Afghanistan"
+    }
+  }
+]

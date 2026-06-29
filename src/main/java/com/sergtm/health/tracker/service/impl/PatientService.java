@@ -15,7 +15,7 @@ import java.util.Collection;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PatientService {
-    private static final String CAN_NOT_FIND_PATIENT_BY_PATIENT_ID_MESSAGE = "Can't find patient by patient id = %s";
+    private static final String CAN_NOT_FIND_PATIENT_BY_PATIENT_ID_MSG = "Can't find patient by patient id = %s";
 
     private final PatientRepository patientRepository;
     private final IPersonService personService;
@@ -35,6 +35,7 @@ public class PatientService {
 
     public Patient getPatientByIdOrThrowException(Long patientId) {
         return patientRepository.findById(patientId)
-                .orElseThrow(() -> new PatientNotFoundException(CAN_NOT_FIND_PATIENT_BY_PATIENT_ID_MESSAGE));
+                .orElseThrow(() -> new PatientNotFoundException(
+                        String.format(CAN_NOT_FIND_PATIENT_BY_PATIENT_ID_MSG, patientId)));
     }
 }

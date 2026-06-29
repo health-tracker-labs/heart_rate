@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",
+@Mapper(config = BaseMapperConfig.class,
         uses = {PatientMapper.class, PersonMapper.class})
 public interface EmployeeMapper {
     List<EmployeeResponse> toResponses(Iterable<Employee> employees);

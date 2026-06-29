@@ -10,6 +10,6 @@ Ext.define('app.model.TreeViewModel', {
 
     proxy: {
         type: 'ajax',
-        url : '../admin/treeView.json'
+        url : '../admin/treeView'
     }
 });

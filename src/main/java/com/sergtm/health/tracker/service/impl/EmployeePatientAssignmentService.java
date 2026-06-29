@@ -1,5 +1,6 @@
 package com.sergtm.health.tracker.service.impl;
 
+import com.sergtm.health.tracker.exception.PatientIsNotAssignedToEmployeeException;
 import com.sergtm.health.tracker.persistence.entity.Employee;
 import com.sergtm.health.tracker.persistence.entity.Patient;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EmployeePatientAssignmentService {
+    private static final String PATIENT_IS_NOT_ASSIGNED_TO_EMPLOYEE_MSG =
+            "Patient with id [%s] is not assigned to employee with id [%s]";
+
     private final EmployeeService employeeService;
     private final PatientService patientService;
 
@@ -20,7 +24,7 @@ public class EmployeePatientAssignmentService {
 
         employee.getPatients().add(patient);
 
-        return employeeService.saveEmployee(employee);
+        return employee;
     }
 
     @Transactional
@@ -28,8 +32,11 @@ public class EmployeePatientAssignmentService {
         Employee employee = employeeService.getEmployeeByIdOrThrowException(employeeId);
         Patient toBeRemoved = patientService.getPatientByIdOrThrowException(patientId);
 
-        employee.getPatients().removeIf(patient -> patient.equals(toBeRemoved));
-
+        boolean isRemove = employee.getPatients().removeIf(patient -> patient.equals(toBeRemoved));
+        if (!isRemove) {
+            throw new PatientIsNotAssignedToEmployeeException(
+                    String.format(PATIENT_IS_NOT_ASSIGNED_TO_EMPLOYEE_MSG, patientId, employeeId));
+        }
         return employee;
     }
 }

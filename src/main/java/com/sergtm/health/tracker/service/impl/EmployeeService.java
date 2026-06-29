@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EmployeeService {
-    private static final String CAN_NOT_FIND_EMPLOYEE_BY_EMPLOYEE_ID_MESSAGE = "Can't find employee by employee id = %s";
+    private static final String CAN_NOT_FIND_EMPLOYEE_BY_EMPLOYEE_ID_MSG = "Can't find employee by employee id = %s";
 
     private final EmployeeRepository employeeRepository;
 
@@ -25,7 +25,8 @@ public class EmployeeService {
 
     public Employee getEmployeeByIdOrThrowException(Long employeeId) {
         return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException(CAN_NOT_FIND_EMPLOYEE_BY_EMPLOYEE_ID_MESSAGE));
+                .orElseThrow(() -> new EmployeeNotFoundException(
+                        String.format(CAN_NOT_FIND_EMPLOYEE_BY_EMPLOYEE_ID_MSG, employeeId)));
     }
 
     @Transactional

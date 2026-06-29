@@ -6,9 +6,9 @@ import java.util.Collection;
 
 public interface IPersonService {
     void deletePerson(Long id);
-    Person addPerson(String firstName, String secondName);
+    Person addPerson(Person request);
     Collection<Person> findAll();
-    Collection<Person> getByUser(String userName);
+    Collection<Person> getPersonsAssignedToUser(String userName);
     Person getByName(String firstName, String secondName);
 	Person findByIdOrThrowException(Long personId);
 }
