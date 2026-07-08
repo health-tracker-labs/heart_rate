@@ -3,12 +3,10 @@ package com.sergtm.health.tracker.rest.controller.mapper;
 import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.rest.response.PersonResponse;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mapstruct.factory.Mappers;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,7 +24,6 @@ import static com.sergtm.health.tracker.testsupport.response.PersonResponseFixtu
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 class PersonMapperTest {
     private static final Long EMPLOYEE_PERSON_ID = 1L;
     private static final Long PATIENT_PERSON_ID = 2L;
@@ -35,7 +32,7 @@ class PersonMapperTest {
     private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
     @ParameterizedTest
-    @MethodSource("namesScenarios")
+    @MethodSource("personNamesScenarios")
     void toResponse_shouldGenerateExpectedNameInPersonResponse(
             String middleName,
             String expectedName
@@ -100,7 +97,7 @@ class PersonMapperTest {
                         .build());
     }
 
-    private static Stream<Arguments> namesScenarios() {
+    private static Stream<Arguments> personNamesScenarios() {
         return Stream.of(
                 Arguments.of(PERSON_1_MIDDLE_NAME_VALUE, getFirstPersonFullName()),
                 Arguments.of(EMPTY, getFirstPersonShortName())

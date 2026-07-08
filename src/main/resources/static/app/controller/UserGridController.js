@@ -12,10 +12,17 @@ Ext.define('app.controller.UserGridController', {
     },
 
     onRemoveUserClick: function () {
-        var me = this;
-        var sm = this.getView().getSelectionModel();
-        var id = sm.getSelection()[0].data.id;
-        var roles = sm.getSelection()[0].data.roles;
+        const me= this;
+        const sm = this.getView().getSelectionModel();
+
+        const selectedRow = sm.getSelection()[0];
+        if (!selectedRow) {
+            Ext.Msg.alert('Failed', 'Please select a user to delete');
+            return;
+        }
+
+        const id = selectedRow.data.id;
+        const roles = selectedRow.data.roles;
 
         if (this.isAdmin(roles)) {
             Ext.Msg.alert('Failed', 'You can\'t delete admin');
@@ -25,11 +32,8 @@ Ext.define('app.controller.UserGridController', {
         Ext.Msg.confirm("Confirmation", "Do you want to delete user?", function (btnText) {
             if (btnText === "yes") {
                 Ext.Ajax.request({
-                    url: '../user/deleteUser',
-                    method: 'POST',
-                    params: {
-                        id: id
-                    },
+                    url: `../users/delete/${id}`,
+                    method: 'DELETE',
                     success: function (response) {
                         me.refreshStore();
                     },
@@ -41,7 +45,7 @@ Ext.define('app.controller.UserGridController', {
     },
 
     onUpdateClick: function () {
-        var store = this.getView().store;
+        const store = this.getView().store;
         store.sync({
             success: function () {
                 store.commitChanges();

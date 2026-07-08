@@ -3,23 +3,24 @@ Ext.define('app.controller.UserAdditionFormController', {
     alias: 'controller.UserAdditionFormController',
 
     onSubmitClick: function () {
-        var me = this;
-        var form = this.getView();
+        const me= this;
+        const form = this.getView();
 
         if (this.validateForm(form)) {
-            var roles = this.formRolesArray(form);
-            var user = Ext.create('UserModel', {
-                'id': -1,
-                'username': form.getReferences().user.getValue(),
-                'password': form.getReferences().password.getValue(),
-                'state': form.getReferences().state.getValue(),
-                'roles': roles
-            });
+            const references = form.getReferences();
+
+            const roles = this.getRoles(form);
+            const user= {
+                'username': references.user.getValue(),
+                'password': references.password.getValue(),
+                'state': references.state.getValue(),
+                'roleIds': roles
+            };
 
             Ext.Ajax.request({
-                url: '../users/create',
+                url: '../users',
                 method: 'POST',
-                jsonData: user.data,
+                jsonData: user,
                 success: function (response) {
                     me.fireEvent('onRefreshStore');
                     me.destroyFormAndEnableAddUserButton();
@@ -35,31 +36,19 @@ Ext.define('app.controller.UserAdditionFormController', {
     },
 
     privates: {
-        formRolesArray: function (form) {
-            var role1 = this.extractRole(form.getReferences().role1);
-
-            if (role2) {
-                var role2 = this.extractRole(form.getReferences().role2);
-                return [role1, role2];
-            }
-
-            return [role1];
-        },
-        extractRole: function (combobox) {
-            var r1 = combobox.getValue();
-            var index = combobox.getStore().findExact('id', r1);
-            return combobox.getStore().getAt(index).data;
+        getRoles: function (form) {
+            const references = form.getReferences();
+            return [references.role1, references.role2]
+                .map(role => role.getValue())
+                .filter(roleId => roleId != null);
         },
         validateForm: function (form) {
-            if (!form.getReferences().role1.getValue()) {
-                form.isValid();
+            const references = form.getReferences();
+            if (!references.role1.getValue()) {
                 Ext.Msg.alert('Error', 'enter role 1');
                 return false;
             }
-
-            if (form.isValid()) {
-                return true;
-            }
+            return form.isValid();
         },
         destroyFormAndEnableAddUserButton: function () {
             this.fireEvent('onEnableButton');

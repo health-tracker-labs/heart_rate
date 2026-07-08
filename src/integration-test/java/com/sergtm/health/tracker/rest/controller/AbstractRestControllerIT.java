@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.sergtm.health.tracker.testsupport.entry.RoleEntryFixture.createUserRoleBuilder;
 import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserBuilder;
-import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserRoleBuilder;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @AutoConfigureMockMvc

@@ -113,7 +113,7 @@ class PersonControllerIT extends AbstractRestControllerIT {
 
     @Test
     void post_shouldCreatePerson(
-            @Value("classpath:person/responses/postPersons.json")
+            @Value("classpath:person/responses/postPerson.json")
             Resource response) throws Exception {
         PersonRequest request = createThirdPersonRequestBuilder()
                 .build();

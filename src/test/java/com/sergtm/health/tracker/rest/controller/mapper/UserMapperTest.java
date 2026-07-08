@@ -15,9 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Set;
 
-import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createAdminRoleBuilder;
+import static com.sergtm.health.tracker.testsupport.entry.RoleEntryFixture.createAdminRoleBuilder;
+import static com.sergtm.health.tracker.testsupport.entry.RoleEntryFixture.createUserRoleBuilder;
 import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserBuilder;
-import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserRoleBuilder;
 import static com.sergtm.health.tracker.testsupport.request.UserRequestFixture.createUserRequestBuilder;
 import static com.sergtm.health.tracker.testsupport.response.UserResponseFixture.createUserResponseBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
