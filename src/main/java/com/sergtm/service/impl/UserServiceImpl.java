@@ -5,6 +5,7 @@ import com.sergtm.entities.Role;
 import com.sergtm.health.tracker.exception.RoleNotFoundException;
 import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.RoleRepository;
+import com.sergtm.health.tracker.rest.request.UserUpdateRequest;
 import com.sergtm.health.tracker.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.collections4.CollectionUtils.size;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
     private static final String SOME_ROLES_WERE_NOT_FOUND_MSG = "The following roles were not found: [%s]";
@@ -42,7 +43,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
     public void createUser(User user, Set<Long> roleIds) {
         requireNonNull(roleIds);
 
@@ -62,18 +62,28 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
     public void deleteUser(long id) {
         userDao.getUserById(id)
                 .ifPresent(userDao::deleteUser);
     }
 
     @Override
-    @Transactional
-    public void update(Long id, boolean state) {
+    public void updateUserState(Long id, boolean state) {
         Optional<User> userOpt = userDao.getUserById(id);
         userOpt.ifPresent(user -> {
             user.setState(state);
+            userDao.save(user);
+        });
+    }
+
+    @Override
+    public void updateUser(Long id, UserUpdateRequest request) {
+        Optional<User> userOpt = userDao.getUserById(id);
+        userOpt.ifPresent(user -> {
+            user.setUsername(request.getUsername());
+            user.setPassword(request.getPassword());
+            user.setState(request.isState());
+
             userDao.save(user);
         });
     }

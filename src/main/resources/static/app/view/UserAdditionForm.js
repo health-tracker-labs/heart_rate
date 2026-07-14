@@ -4,8 +4,7 @@ Ext.define('app.view.UserAdditionForm', {
     controller: 'UserAdditionFormController',
 
     requires: [
-        'app.controller.UserAdditionFormController',
-        'app.model.UserModel'
+        'app.controller.UserAdditionFormController'
     ],
 
     frame: true,

@@ -6,20 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
+public class UserUpdateRequest {
+    @NotNull
+    private Long id;
+
     @NotBlank
     private String username;
     @NotBlank
     private String password;
     private boolean state;
-
-    @NotEmpty
-    private Set<Long> roleIds;
 }

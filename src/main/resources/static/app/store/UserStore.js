@@ -5,17 +5,28 @@ Ext.define('app.store.UserStore', {
 
     proxy: {
         type: 'ajax',
+        api: {
+            read: '../users',
+            update: '../users'
+        },
+        actionMethods: {
+            read: 'GET',
+            update: 'PUT'
+        },
         reader: {
             type: 'json',
             rootProperty: 'data'
         },
-        api: {
-            update: '../users/update',
-            read: '../users'
-        },
         writer: {
             type: 'json',
-            writeAllFields: true
+            writeAllFields: true,
+            transform: function (data, request) {
+                if (request.getAction() === 'update') {
+                    delete data.roles;
+                }
+
+                return data;
+            }
         }
     },
     autoLoad: true
