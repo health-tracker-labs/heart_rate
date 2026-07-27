@@ -83,7 +83,7 @@ class PatientControllerIT extends AbstractRestControllerIT {
 
     @Test
     void post_shouldCreatePatient(
-            @Value("classpath:patient/responses/postPatients.json")
+            @Value("classpath:patient/responses/postPatient.json")
             Resource response
     ) throws Exception {
         Person person = personRepository.save(createFirstPerson());

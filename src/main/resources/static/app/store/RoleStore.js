@@ -3,7 +3,7 @@ Ext.define('app.store.RoleStore', {
 
     proxy: {
         type: 'ajax',
-        url : '../role/getRoles.json',
+        url : '../roles',
         reader: {
             type: 'json',
             rootProperty : 'data'

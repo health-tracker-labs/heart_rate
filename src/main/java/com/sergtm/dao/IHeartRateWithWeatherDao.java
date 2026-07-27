@@ -1,11 +1,10 @@
 package com.sergtm.dao;
 
+import com.sergtm.entities.HeartRateWithWeatherPressure;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import com.sergtm.entities.HeartRateWithWeatherPressure;
-import com.sergtm.health.tracker.persistence.entity.User;
-
 public interface IHeartRateWithWeatherDao {
-	Collection<HeartRateWithWeatherPressure> getData(LocalDateTime from, LocalDateTime to, Long personId, User user);
+	Collection<HeartRateWithWeatherPressure> getData(LocalDateTime from, LocalDateTime to, Long personId);
 }

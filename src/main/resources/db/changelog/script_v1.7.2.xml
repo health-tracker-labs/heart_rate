@@ -1,0 +1,26 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="dropPatientDoctorTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="PATIENT_DOCTOR"/>
+        </preConditions>
+        <dropTable tableName="PATIENT_DOCTOR"/>
+    </changeSet>
+
+    <changeSet id="dropStaffMemberSequence" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <sequenceExists sequenceName="STAFF_MEMBER_SEQ"/>
+        </preConditions>
+        <dropSequence sequenceName="STAFF_MEMBER_SEQ"/>
+    </changeSet>
+
+    <changeSet id="dropStaffMemberTable" author="alextim">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="STAFF_MEMBER"/>
+        </preConditions>
+        <dropTable tableName="STAFF_MEMBER"/>
+    </changeSet>
+
+</databaseChangeLog>
