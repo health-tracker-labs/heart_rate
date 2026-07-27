@@ -10,7 +10,6 @@ import com.sergtm.health.tracker.persistence.repository.UserRepository;
 import com.sergtm.health.tracker.service.IPersonService;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IOccasionService;
-import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IWeightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,6 @@ public class PersonServiceImpl implements IPersonService {
 
     @Autowired
     private IPersonDao personDao;
-    @Resource
-    private IStaffMemberService staffMemberService;
     @Resource
     private IWeightService weightService;
     @Resource
@@ -64,7 +61,7 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     private void deletePersonRelatedData(Person person) {
-        Stream.of(staffMemberService, weightService, heartRateService, occasionService)
+        Stream.of(weightService, heartRateService, occasionService)
                 .forEach(service -> service.deleteByPerson(person));
         personRepository.deleteByPerson(person.getId());
     }

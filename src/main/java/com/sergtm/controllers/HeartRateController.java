@@ -8,7 +8,6 @@ import com.sergtm.service.IHeartRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -73,17 +72,13 @@ public class HeartRateController {
 	@RequestMapping(method = RequestMethod.GET, path = "getByDateRangeAndPerson.json", produces = "application/json")
 	public Collection<? extends IEntity> getByDateRangeAndPerson(Long personId,
 			@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss") LocalDateTime from,
-			@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss") LocalDateTime to,
-			Authentication authentication) {
-		return heartRateService.findHeartRatesByDateRangeAndPerson(personId,
-				from, to, authentication.getName());
+			@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss") LocalDateTime to) {
+		return heartRateService.findHeartRatesByDateRangeAndPerson(personId, from, to);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "chart.json", produces = "application/json")
-	public Collection<StatisticOnDay> getChartData(Long personId, String from,
-			String to, Authentication authentication) {
-		return heartRateService.getChartData(personId, from, to,
-				authentication.getName());
+	public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
+		return heartRateService.getChartData(personId, from, to);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "save.do")

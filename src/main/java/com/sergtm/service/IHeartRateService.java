@@ -16,9 +16,9 @@ public interface IHeartRateService extends IDeletableByPersonService {
 
 	boolean deleteHeartRate(Long id);
 
-	Collection<StatisticOnDay> getChartData(Long id, String from, String to, String userName);
+	Collection<StatisticOnDay> getChartData(Long id, String from, String to);
 
-	Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to, String userName);
+	Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to);
 	Collection<? extends IEntity> findByPage(int page);
 	HeartRate findById(Long id);
 	Collection<? extends IEntity> getHelp(String query, String topicName);

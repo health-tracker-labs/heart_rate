@@ -14,23 +14,19 @@ import com.sergtm.health.tracker.exception.HeartRateNotFoundException;
 import com.sergtm.health.tracker.exception.PersonNotFoundException;
 import com.sergtm.health.tracker.monitoring.event.UserBpApplicationEvent;
 import com.sergtm.health.tracker.persistence.entity.Person;
-import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.HeartRateRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.health.tracker.service.IUserService;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.util.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -41,10 +37,12 @@ import static java.util.Objects.isNull;
 
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class HeartRateServiceImpl implements IHeartRateService {
 	private static final int RECORD_COUNT_ON_PAGE = 5;
 	private static final String CAN_NOT_FIND_HEART_RATE_BY_ID_MSG = "Can't find heart rate by id = %s";
 	private static final String CAN_NOT_FIND_PERSON_BY_ID_MSG = "Can't find person by id = %s";
+	private static final String CAN_NOT_DELETE_HEART_RATE_BY_ID_MSG = "Can't delete heart rate by id = {}";
 
 	@Autowired
 	private IHeartRateDao heartRateDao;
@@ -181,13 +179,13 @@ public class HeartRateServiceImpl implements IHeartRateService {
 			heartRateDao.deleteHeartRate(heartRate);
 			return true;
 		} catch (HibernateException e) {
-
+			log.error(CAN_NOT_DELETE_HEART_RATE_BY_ID_MSG, id, e);
 		}
 		return false;
 	}
 
 	@Override
-	public Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to, String userName) {
+	public Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to) {
 		Instant fromInstant = from.with(LocalTime.of(0, 0, 0)).atZone(ZoneId.of("UTC")).toInstant();
 		Instant toInstant = to.with(LocalTime.of(23, 59, 59)).atZone(ZoneId.of("UTC")).toInstant();
 
@@ -195,9 +193,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 	}
 
 	@Override
-	public Collection<StatisticOnDay> getChartData(Long personId, String from, String to, String userName) {
-		User user = userService.findUserByUsername(userName);
-
+	public Collection<StatisticOnDay> getChartData(Long personId, String from, String to) {
 		LocalDate now = LocalDate.now();
 		LocalDateTime firstDayOfMonth = now.withDayOfMonth(1).atStartOfDay();
 		LocalDateTime lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth()).atTime(23, 59);
@@ -206,10 +202,7 @@ public class HeartRateServiceImpl implements IHeartRateService {
 		LocalDateTime toDate = DateUtils.parseDate(to, lastDayOfMonth);
 
 		Collection<HeartRateWithWeatherPressure> heartRateWithWeatherPressures = heartRateWithWeatherDao
-				.getData(fromDate,
-						toDate,
-						personId, user
-				);
+				.getData(fromDate, toDate, personId);
 
 		return heartRateWithWeatherPressures.stream().map(StatisticOnDay::new)
 				.collect(Collectors.toList());
