@@ -1,50 +1,42 @@
 package com.sergtm.configuration.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().
-                authorizeRequests()
-                    .antMatchers("/", "/static/index.html").hasAnyAuthority("USER", "ADMIN")
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/person/**").hasAnyAuthority("USER", "ADMIN")
-                    .antMatchers("/heartRate/**").hasAnyAuthority("USER", "ADMIN")
-                    .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll(true)
-                    .and()
-                .httpBasic()
-                    .and()
-                .logout()
-                    .deleteCookies("remove")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login?logout")
-                    .permitAll();
+public class SecurityConfiguration {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/WEB-INF/**", "/error", "/webjars/**", "/swagger-ui/**", "/v3/api-docs/**")
+                        .permitAll()
+                        .requestMatchers("/", "/static/index.html").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/person/**").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers("/heartRate/**").hasAnyAuthority("USER", "ADMIN")
+                        .anyRequest()
+                        .authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(login ->
+                        login.loginPage("/login")
+                                .permitAll())
+                .logout(logout ->
+                        logout.logoutUrl("/logout")
+                                .logoutSuccessUrl("/login?logout")
+                                .permitAll()
+                                .deleteCookies("JSESSIONID"))
+                .build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userDetailsService);
     }
 }

@@ -4,7 +4,6 @@ import io.netty.channel.ChannelOption;
 import org.junit.jupiter.api.Test;
 import reactor.netty.http.client.HttpClient;
 
-import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ class HealthTrackerWebClientConfigTest {
     private static final int NON_DEFAULT_CONNECT_TIMEOUT_MILLIS = 5000;
     private static final Duration DEFAULT_RESPONSE_TIMEOUT = Duration.ofSeconds(3);
     private static final Duration NON_DEFAULT_RESPONSE_TIMEOUT = Duration.ofSeconds(5);
-    private static final @NotBlank String DEFAULT_BASE_URL = "http://localhost:8080";
 
     private final HealthTrackerWebClientConfig testedInstance = new HealthTrackerWebClientConfig();
 

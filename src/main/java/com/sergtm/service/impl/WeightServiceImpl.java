@@ -1,15 +1,15 @@
 package com.sergtm.service.impl;
 
-import com.sergtm.health.tracker.rest.request.WeightRequest;
-import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.Weight;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.WeightRepository;
+import com.sergtm.health.tracker.rest.request.WeightRequest;
 import com.sergtm.service.IWeightService;
+import jakarta.annotation.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

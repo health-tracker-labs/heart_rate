@@ -1,11 +1,11 @@
 package com.sergtm.health.tracker.rest.client;
 
 import com.sergtm.health.tracker.rest.response.PersonResponse;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 
 @Component

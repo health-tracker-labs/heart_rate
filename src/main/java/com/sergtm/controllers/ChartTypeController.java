@@ -1,24 +1,22 @@
 package com.sergtm.controllers;
 
-import javax.annotation.Resource;
-
+import com.sergtm.entities.ChartType;
+import com.sergtm.service.IChartTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sergtm.entities.ChartType;
-import com.sergtm.service.IChartTypeService;
-
 @Controller
 @RequestMapping("chartTypes")
+@RequiredArgsConstructor
 public class ChartTypeController {
-	@Resource
-	private IChartTypeService chartTypeService;
+    private final IChartTypeService chartTypeService;
 
-	@GetMapping
-	@ResponseBody
-	public Iterable<ChartType> getChartTypes() {
-		return chartTypeService.getChartTypes();
-	}
+    @GetMapping
+    @ResponseBody
+    public Iterable<ChartType> getChartTypes() {
+        return chartTypeService.getChartTypes();
+    }
 }

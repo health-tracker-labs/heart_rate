@@ -1,24 +1,25 @@
 package com.sergtm.entities;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.sergtm.health.tracker.persistence.entity.Person;
-import org.hibernate.annotations.Type;
-
 import com.sergtm.OccasionLevel;
+import com.sergtm.health.tracker.persistence.entity.Person;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.NumericBooleanConverter;
+import org.hibernate.type.YesNoConverter;
+
+import java.util.Date;
 
 @Entity
 public class Occasion implements IEntity {
@@ -41,7 +42,7 @@ public class Occasion implements IEntity {
 	private OccasionLevel occasionLevel;
 
 	@Column(name = "WITH_CONVULSION")
-	@Type(type = "yes_no")
+	@Convert(converter = YesNoConverter.class)
 	private boolean convulsion;
 
 	@Column(name = "OCCASION_DATE")

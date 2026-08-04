@@ -1,16 +1,16 @@
 package com.sergtm.health.tracker.rest.controller;
 
 import com.sergtm.OccasionLevel;
-import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import com.sergtm.entities.Occasion;
 import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.OccasionRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
+import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
@@ -30,9 +30,9 @@ class OccasionControllerIT extends AbstractRestControllerIT {
     private static final String DELETE_OCCASION_URL = String.format("/occasions/%s", OCCASION_ID);
     private static final String CREATE_OCCASION_URL = String.format("/occasions/%s", PERSON_ID);
 
-    @MockBean
+    @MockitoBean
     private PersonRepository personRepository;
-    @MockBean
+    @MockitoBean
     private OccasionRepository occasionRepository;
 
     @Mock

@@ -2,12 +2,12 @@ package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IHeartRateWithWeatherDao;
 import com.sergtm.entities.HeartRateWithWeatherPressure;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
