@@ -1,16 +1,16 @@
 package com.sergtm.service.impl;
 
-import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import com.sergtm.entities.Occasion;
 import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.DiseaseRepository;
 import com.sergtm.health.tracker.persistence.repository.OccasionRepository;
+import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import com.sergtm.service.IOccasionService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

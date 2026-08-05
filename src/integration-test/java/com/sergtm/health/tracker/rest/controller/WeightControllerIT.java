@@ -1,15 +1,15 @@
 package com.sergtm.health.tracker.rest.controller;
 
-import com.sergtm.health.tracker.rest.request.WeightRequest;
-import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.entities.Weight;
+import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
 import com.sergtm.health.tracker.persistence.repository.WeightRepository;
+import com.sergtm.health.tracker.rest.request.WeightRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
@@ -30,9 +30,9 @@ class WeightControllerIT extends AbstractRestControllerIT {
     private static final String CREATE_WEIGHT_URL = String.format("/weights/%s", PERSON_ID);
     private static final String GET_ALL_WEIGHTS_URL = "/weights";
 
-    @MockBean
+    @MockitoBean
     private PersonRepository personRepository;
-    @MockBean
+    @MockitoBean
     private WeightRepository weightRepository;
 
     @Mock

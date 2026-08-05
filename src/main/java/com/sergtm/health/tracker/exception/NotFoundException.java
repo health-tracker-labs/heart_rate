@@ -1,11 +1,11 @@
 package com.sergtm.health.tracker.exception;
 
 public abstract class NotFoundException extends RuntimeException {
-    public NotFoundException() {
+    NotFoundException() {
         super();
     }
 
-    public NotFoundException(String message) {
+    NotFoundException(String message) {
         super(message);
     }
 }

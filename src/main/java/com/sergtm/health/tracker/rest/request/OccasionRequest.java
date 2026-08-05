@@ -2,7 +2,7 @@ package com.sergtm.health.tracker.rest.request;
 
 import com.sergtm.OccasionLevel;
 import com.sergtm.entities.Occasion;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,22 +14,24 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OccasionRequest {
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Long id;
 
-    @ApiModelProperty(required = true)
+    @Schema(requiredMode = REQUIRED)
     private OccasionLevel occasionLevel;
 
-    @ApiModelProperty(required = true)
+    @Schema(requiredMode = REQUIRED)
     private boolean convulsion;
 
-    @ApiModelProperty(required = true, example = "yyyy-MM-ddTHH:mm:ss")
+    @Schema(requiredMode = REQUIRED, example = "yyyy-MM-ddTHH:mm:ss")
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private LocalDateTime occasionDate;
 

@@ -24,7 +24,7 @@ import static com.sergtm.health.tracker.testsupport.entry.RoleEntryFixture.creat
 import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserBuilder;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters  = false)
 @Transactional
 class AbstractRestControllerIT {
     protected static final String USER_NAME = "testuser";

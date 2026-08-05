@@ -1,1 +1,7 @@
-"The following roles were not found: [%s]"
+{
+  "type": "about:blank",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "The following roles were not found: [%s]",
+  "instance": "/users"
+}
