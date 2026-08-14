@@ -116,7 +116,7 @@
                 referencedColumnNames="ID" />
     </changeSet>
 
-    <changeSet id="insertAdminUserIntoPersonsTable" author="alextim">
+    <changeSet id="insertAdminUserIntoPersonsTable" author="alextim" context="initial-data">
         <sql>
             insert into persons (id, first_name, second_name, LEGACY_USER_ID)
             select persons_seq.nextval,
@@ -130,7 +130,7 @@
               and not exists(select 1 from persons p where LEGACY_USER_ID is not null)
         </sql>
     </changeSet>
-    <changeSet id="insertAdminUserIntoEmployeesTable" author="alextim">
+    <changeSet id="insertAdminUserIntoEmployeesTable" author="alextim" context="initial-data">
         <sql>
             insert into employees (id, person_id)
             select employees_seq.nextval, p.id
@@ -143,7 +143,7 @@
             )
         </sql>
     </changeSet>
-    <changeSet id="insertAdminUserIntoPatientsTable" author="alextim">
+    <changeSet id="insertAdminUserIntoPatientsTable" author="alextim" context="initial-data">
         <sql>
             insert into patients (id, person_id)
             select patients_seq.nextval, p.id
@@ -156,7 +156,7 @@
               )
         </sql>
     </changeSet>
-    <changeSet id="linkAdminEmployeeToAdminPatient" author="alextim">
+    <changeSet id="linkAdminEmployeeToAdminPatient" author="alextim" context="initial-data">
         <sql>
             insert into employee_patient (employee_id, patient_id)
             select e.id, pat.id from persons p
@@ -172,7 +172,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="updateAdminUserByAdminEmployee" author="alextim">
+    <changeSet id="updateAdminUserByAdminEmployee" author="alextim" context="initial-data">
         <sql>
             update users u set employee_id = (
                 select e.id from persons p

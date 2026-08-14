@@ -4,10 +4,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="addPressureTable" author="sergtm" dbms="oracle">
+    <changeSet id="addPressureTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="PRESSURE" schemaName="heart_rate"/>
+                <tableExists tableName="PRESSURE"/>
             </not>
         </preConditions>
         <createTable tableName="pressure">
@@ -26,10 +26,10 @@
         <createSequence sequenceName="PRESSURE_SEQ"/>
     </changeSet>
 
-    <changeSet id="addUserRoleTable" author="sergtm" dbms="oracle">
+    <changeSet id="addUserRoleTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="USER_ROLE" schemaName="heart_rate"/>
+                <tableExists tableName="USER_ROLE"/>
             </not>
         </preConditions>
         <createTable tableName="USER_ROLE">
@@ -46,10 +46,10 @@
         <createSequence sequenceName="USER_ROLE_SEQ"/>
     </changeSet>
 
-    <changeSet id="addUsersTable" author="sergtm" dbms="oracle">
+    <changeSet id="addUsersTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="USERS" schemaName="heart_rate"/>
+                <tableExists tableName="USERS"/>
             </not>
         </preConditions>
         <createTable tableName="USERS">
@@ -71,10 +71,10 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="addRoleTable" author="sergtm" dbms="oracle">
+    <changeSet id="addRoleTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="ROLE" schemaName="heart_rate"/>
+                <tableExists tableName="ROLE"/>
             </not>
         </preConditions>
         <createTable tableName="ROLE">
@@ -93,23 +93,21 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
-    <changeSet id="addHeartRateWithAtmPressureView" author="sergtm" dbms="oracle">
-        <createView viewName="heart_rate_with_atm_pressure" schemaName="heart_rate" replaceIfExists="true">
-            SELECT
-            concat(p.id,coalesce(h.id,0) ) AS id,
-            coalesce(h.upper_pressure,0) AS upperpressure,
-            coalesce(h.lower_pressure,0) AS lowerpressure,
-            coalesce(h.bpm,0) AS beatsperminute,
-            coalesce(p.pressure, 0) AS weatherpressure,
-            COALESCE (p.CONCRETE_DATE, h.CONCREATE_DATE) as concrete_date,
-            h.person_id AS person_id
-            FROM
-            heart_rate h
-            FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date)
+    <changeSet id="addHeartRateWithAtmPressureView" author="sergtm">
+        <createView viewName="heart_rate_with_atm_pressure" replaceIfExists="true">
+            SELECT concat(p.id, coalesce(h.id, 0))             AS id,
+                   coalesce(h.upper_pressure, 0)               AS upperpressure,
+                   coalesce(h.lower_pressure, 0)               AS lowerpressure,
+                   coalesce(h.bpm, 0)                          AS beatsperminute,
+                   coalesce(p.pressure, 0)                     AS weatherpressure,
+                   COALESCE(p.CONCRETE_DATE, h.CONCREATE_DATE) as concrete_date,
+                   h.person_id                                 AS person_id
+            FROM heart_rate h
+                     FULL JOIN pressure p ON trunc(h.concreate_date) = trunc(p.concrete_date)
         </createView>
     </changeSet>
 
-    <changeSet id="insertIntoUsersAndRoleAndUser_RoleTables" author="sergtm" dbms="oracle">
+    <changeSet id="insertIntoUsersAndRoleAndUser_RoleTables" author="sergtm" context="initial-data">
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from user_role</sqlCheck>
@@ -133,10 +131,10 @@
         </insert>
     </changeSet>
 
-    <changeSet author="sergtm" id="createTableServiceStatus" dbms="oracle">
+    <changeSet author="sergtm" id="createTableServiceStatus">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="SERVICE_STATUS" schemaName="heart_rate"/>
+                <tableExists tableName="SERVICE_STATUS"/>
             </not>
         </preConditions>
         <createTable tableName="SERVICE_STATUS">
@@ -151,7 +149,7 @@
         <createSequence sequenceName="SERVICE_STATUS_SEQ"/>
     </changeSet>
 
-    <changeSet author="sergtm" id="insertServiceStatusesIntoServiceStatusTable" dbms="oracle">
+    <changeSet author="sergtm" id="insertServiceStatusesIntoServiceStatusTable">
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from SERVICE_STATUS</sqlCheck>
@@ -167,10 +165,10 @@
         </insert>
     </changeSet>
 
-    <changeSet author="sergtm" id="createTableWeather" dbms="oracle">
+    <changeSet author="sergtm" id="createTableWeather">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="WEATHER" schemaName="heart_rate"/>
+                <tableExists tableName="WEATHER"/>
             </not>
         </preConditions>
         <createTable tableName="WEATHER">

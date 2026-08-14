@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="addStateColumnToUsersTable" author="sergtm" dbms="oracle">
+    <changeSet id="addStateColumnToUsersTable" author="sergtm">
         <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="USERS" columnName="STATE"/>
@@ -17,7 +17,7 @@
         </addColumn>
     </changeSet>
 
-    <changeSet author="sergtm" id="changeRole_AdminRoleToAdmin" dbms="oracle">
+    <changeSet author="sergtm" id="changeRole_AdminRoleToAdmin" context="initial-data">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">select count(*) from role where NAME = 'ROLE_ADMIN'</sqlCheck>
         </preConditions>
@@ -27,7 +27,7 @@
         </update>
     </changeSet>
 
-    <changeSet author="sergtm" id="insertUserRole" dbms="oracle">
+    <changeSet author="sergtm" id="insertUserRole" context="initial-data">
         <preConditions onFail="MARK_RAN">
             <and>
                 <sqlCheck expectedResult="0">select count(*) from role where NAME = 'ROLE_USER'
@@ -51,7 +51,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="sergtm" id="re-createUserRoleTable" dbms="oracle">
+    <changeSet author="sergtm" id="re-createUserRoleTable">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="USER_ROLE"/>
         </preConditions>
@@ -78,7 +78,7 @@
         <createSequence sequenceName="USER_ROLE_SEQ"/>
     </changeSet>
 
-    <changeSet author="sergtm" id="insertUserIntoUserRole" dbms="oracle">
+    <changeSet author="sergtm" id="insertUserIntoUserRole" context="initial-data">
         <preConditions onFail="MARK_RAN">
             <and>
                 <not>
@@ -95,7 +95,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="sergtm" id="insertAdminIntoUserRole" dbms="oracle">
+    <changeSet author="sergtm" id="insertAdminIntoUserRole" context="initial-data">
         <preConditions onFail="MARK_RAN">
             <and>
                 <not>
