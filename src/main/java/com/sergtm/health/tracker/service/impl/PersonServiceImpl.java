@@ -11,11 +11,11 @@ import com.sergtm.health.tracker.service.IPersonService;
 import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IOccasionService;
 import com.sergtm.service.IWeightService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.stream.Stream;
 

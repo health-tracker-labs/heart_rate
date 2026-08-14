@@ -1,7 +1,9 @@
 package com.sergtm.health.tracker.rest.request;
 
 import com.sergtm.entities.Weight;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,11 +12,11 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Builder
 @Getter
@@ -22,15 +24,15 @@ import java.time.ZoneId;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeightRequest {
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Long id;
 
     @DecimalMin("1")
     @DecimalMax("999.999")
-    @ApiModelProperty(required = true)
+    @Schema(requiredMode = REQUIRED)
     private BigDecimal weight;
 
-    @ApiModelProperty(required = true, example = "yyyy-MM-dd")
+    @Schema(requiredMode = REQUIRED, example = "yyyy-MM-dd")
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate date;
 

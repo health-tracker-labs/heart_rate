@@ -1,13 +1,16 @@
-package com.sergtm.health.tracker.rest.controller;
+package com.sergtm.health.tracker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sergtm.health.tracker.configuration.TestcontainersConfiguration;
 import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -24,9 +27,11 @@ import static com.sergtm.health.tracker.testsupport.entry.RoleEntryFixture.creat
 import static com.sergtm.health.tracker.testsupport.entry.UserEntryFixture.createUserBuilder;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@AutoConfigureMockMvc
+@Import(TestcontainersConfiguration.class)
+@ActiveProfiles("oracle-it")
+@AutoConfigureMockMvc(addFilters  = false)
 @Transactional
-class AbstractRestControllerIT {
+public class AbstractIntegrationTest {
     protected static final String USER_NAME = "testuser";
 
     @Autowired
@@ -39,10 +44,7 @@ class AbstractRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User user = createUserBuilder()
-                .roles(Set.of(createUserRoleBuilder().build()))
-                .build();
-        userRepository.save(user);
+        createDefaultUser();
     }
 
     protected String loadJson(Resource response) throws IOException {
@@ -62,5 +64,12 @@ class AbstractRestControllerIT {
                         Collectors.mapping(e -> String.valueOf(e.getValue()), Collectors.toList()))
         );
         return new LinkedMultiValueMap<>(multiValueMap);
+    }
+
+    protected void createDefaultUser() {
+        User user = createUserBuilder()
+                .roles(Set.of(createUserRoleBuilder().build()))
+                .build();
+        userRepository.save(user);
     }
 }

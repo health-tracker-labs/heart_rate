@@ -5,6 +5,7 @@ import com.sergtm.health.tracker.rest.controller.mapper.PersonMapper;
 import com.sergtm.health.tracker.rest.request.PersonRequest;
 import com.sergtm.health.tracker.rest.response.PersonResponse;
 import com.sergtm.health.tracker.service.IPersonService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController

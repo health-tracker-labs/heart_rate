@@ -1,45 +1,40 @@
 package com.sergtm.health.tracker.rest.controller;
 
 import com.sergtm.OccasionLevel;
-import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import com.sergtm.entities.Occasion;
+import com.sergtm.health.tracker.AbstractIntegrationTest;
 import com.sergtm.health.tracker.persistence.entity.Person;
 import com.sergtm.health.tracker.persistence.repository.OccasionRepository;
 import com.sergtm.health.tracker.persistence.repository.PersonRepository;
+import com.sergtm.health.tracker.rest.request.OccasionRequest;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static com.sergtm.health.tracker.testsupport.entry.PersonEntryFixture.createFirstPerson;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class OccasionControllerIT extends AbstractRestControllerIT {
+class OccasionControllerIT extends AbstractIntegrationTest {
     private static final Long OCCASION_ID = 1L;
-    private static final Long PERSON_ID = 1L;
     private static final String GET_ALL_OCCASIONS_URL = "/occasions";
-    private static final String DELETE_OCCASION_URL = String.format("/occasions/%s", OCCASION_ID);
-    private static final String CREATE_OCCASION_URL = String.format("/occasions/%s", PERSON_ID);
+    private static final String DELETE_OCCASION_URL = "/occasions/{occasionId}";
+    private static final String CREATE_OCCASION_URL = "/occasions/{personId}";
 
-    @MockBean
+    @Autowired
     private PersonRepository personRepository;
-    @MockBean
+    @Autowired
     private OccasionRepository occasionRepository;
 
-    @Mock
-    private Person person;
-
     @Test
-    void shouldReturnAllOccasions() throws Exception {
+    void get_shouldReturnAllOccasions() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get(GET_ALL_OCCASIONS_URL)
                         .accept(MediaType.APPLICATION_JSON)
@@ -49,9 +44,8 @@ class OccasionControllerIT extends AbstractRestControllerIT {
     }
 
     @Test
-    void shouldCreateOccasion() throws Exception {
-        when(personRepository.findById(PERSON_ID)).thenReturn(Optional.of(person));
-        when(person.getId()).thenReturn(PERSON_ID);
+    void put_shouldCreateOccasion() throws Exception {
+        Person firstPerson = personRepository.save(createFirstPerson());
 
         OccasionRequest request = OccasionRequest.builder()
                 .id(OCCASION_ID)
@@ -60,24 +54,25 @@ class OccasionControllerIT extends AbstractRestControllerIT {
                 .occasionDate(LocalDateTime.now())
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .put(CREATE_OCCASION_URL)
+                        .put(CREATE_OCCASION_URL, firstPerson.getId())
                         .queryParams(convertRequestToMultiValueMap(request))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());
-
-        verify(occasionRepository).save(any(Occasion.class));
     }
 
     @Test
-    void shouldDeleteOccasion() throws Exception {
+    void delete_shouldDeleteOccasion() throws Exception {
+        Occasion firstOccasion = Occasion.builder().build();
+        occasionRepository.save(firstOccasion);
+
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete(DELETE_OCCASION_URL)
+                        .delete(DELETE_OCCASION_URL, firstOccasion.getId())
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
-        verify(occasionRepository).deleteById(OCCASION_ID);
+        Optional<Occasion> occasionOpt = occasionRepository.findById(firstOccasion.getId());
+        assertTrue(occasionOpt.isEmpty());
     }
-
 }

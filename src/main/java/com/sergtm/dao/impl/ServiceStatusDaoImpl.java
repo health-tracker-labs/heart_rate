@@ -3,12 +3,12 @@ package com.sergtm.dao.impl;
 import com.sergtm.dao.IServiceStatusDao;
 import com.sergtm.entities.ServiceStatus;
 import com.sergtm.model.ServiceName;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.Collection;
 
 @Repository

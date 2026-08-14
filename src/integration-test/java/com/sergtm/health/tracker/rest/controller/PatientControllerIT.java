@@ -1,6 +1,7 @@
 package com.sergtm.health.tracker.rest.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.sergtm.health.tracker.AbstractIntegrationTest;
 import com.sergtm.health.tracker.persistence.entity.Employee;
 import com.sergtm.health.tracker.persistence.entity.Patient;
 import com.sergtm.health.tracker.persistence.entity.Person;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class PatientControllerIT extends AbstractRestControllerIT {
+class PatientControllerIT extends AbstractIntegrationTest {
     private static final String PATIENTS_URL = "/patients";
 
     @Autowired
@@ -70,14 +71,9 @@ class PatientControllerIT extends AbstractRestControllerIT {
                 .getContentAsString();
 
         List<PatientResponse> responses = objectMapper.readValue(responsesJson, new TypeReference<>() {});
-        List<PatientResponse> actual = responses.stream()
-                .filter(resp -> patients.stream()
-                        .anyMatch(p -> p.getId().equals(resp.getId())))
-                .toList();
-
         JSONAssert.assertEquals(
                 loadJson(response),
-                writeValueAsString(actual),
+                writeValueAsString(responses),
                 JSONCompareMode.LENIENT);
     }
 
