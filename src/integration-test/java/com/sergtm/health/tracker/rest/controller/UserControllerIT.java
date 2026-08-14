@@ -2,6 +2,7 @@ package com.sergtm.health.tracker.rest.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.sergtm.entities.Role;
+import com.sergtm.health.tracker.AbstractIntegrationTest;
 import com.sergtm.health.tracker.persistence.entity.User;
 import com.sergtm.health.tracker.persistence.repository.RoleRepository;
 import com.sergtm.health.tracker.rest.request.UserCreationRequest;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class UserControllerIT extends AbstractRestControllerIT {
+class UserControllerIT extends AbstractIntegrationTest {
     private static final String USERS_URL = "/users";
     private static final String UPDATE_USER_STATE_URL = "/users/{userId}";
 

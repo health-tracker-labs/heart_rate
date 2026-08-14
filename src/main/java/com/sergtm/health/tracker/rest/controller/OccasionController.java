@@ -20,25 +20,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/occasions")
 public class OccasionController {
-	@Resource
-	private IOccasionService occasionService;
-	@Resource
-	private IPersonService personService;
+    @Resource
+    private IOccasionService occasionService;
+    @Resource
+    private IPersonService personService;
 
-	@GetMapping
-	public List<OccasionRequest> occasions() {
-		return occasionService.findOccasions();
-	}
+    @GetMapping
+    public List<OccasionRequest> occasions() {
+        return occasionService.findOccasions();
+    }
 
-	@PutMapping("/{personId}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void occasion(@PathVariable Long personId, @Valid OccasionRequest occasionRequest) {
-		Person person = personService.findByIdOrThrowException(personId);
-		occasionService.addOccasion(person, occasionRequest);
-	}
+    @PutMapping("/{personId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void occasion(@PathVariable Long personId, @Valid OccasionRequest occasionRequest) {
+        Person person = personService.findByIdOrThrowException(personId);
+        occasionService.addOccasion(person, occasionRequest);
+    }
 
-	@DeleteMapping("/{occasionId}")
-	public void occasion(@PathVariable Long occasionId) {
-		occasionService.removeOccasion(occasionId);
-	}
+    @DeleteMapping("/{occasionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void occasion(@PathVariable Long occasionId) {
+        occasionService.removeOccasion(occasionId);
+    }
 }

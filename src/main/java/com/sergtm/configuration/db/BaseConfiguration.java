@@ -1,12 +1,9 @@
 package com.sergtm.configuration.db;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.cfg.AvailableSettings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,6 +14,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 import static com.sergtm.configuration.db.BaseConfiguration.JPA_REPOSITORIES_PACKAGE;
+import static org.hibernate.cfg.JdbcSettings.DIALECT;
+import static org.hibernate.cfg.SchemaToolingSettings.HBM2DDL_AUTO;
 
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {JPA_REPOSITORIES_PACKAGE})
@@ -27,19 +26,6 @@ public class BaseConfiguration {
     };
     public static final String JPA_REPOSITORIES_PACKAGE =
             "com.sergtm.health.tracker.persistence.repository";
-
-    @Autowired
-    private Environment env;
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driver"));
-        dataSource.setUrl(env.getRequiredProperty("datasource.url"));
-        dataSource.setUsername(env.getRequiredProperty("datasource.username"));
-        dataSource.setPassword(env.getRequiredProperty("datasource.password"));
-        return dataSource;
-    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
@@ -66,10 +52,10 @@ public class BaseConfiguration {
     }
 
     @Bean
-    Properties hibernateProperties() {
+    Properties hibernateProperties(Environment env) {
         Properties properties = new Properties();
-        properties.put(AvailableSettings.DIALECT, env.getRequiredProperty("hibernate.dialect"));
-        properties.put(AvailableSettings.HBM2DDL_AUTO, env.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put(DIALECT, env.getRequiredProperty("hibernate.dialect"));
+        properties.put(HBM2DDL_AUTO, env.getRequiredProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 }

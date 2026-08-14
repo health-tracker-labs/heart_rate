@@ -7,7 +7,7 @@
     <changeSet author="svetatim" id="createTablePerson">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="PERSON" schemaName="heart_rate"/>
+                <tableExists tableName="PERSON"/>
             </not>
         </preConditions>
         <createTable tableName="PERSON">
@@ -32,7 +32,7 @@
     <changeSet author="svetatim" id="createTableHeartRate">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="HEART_RATE" schemaName="heart_rate"/>
+                <tableExists tableName="HEART_RATE"/>
             </not>
         </preConditions>
         <createTable tableName="HEART_RATE">
@@ -61,7 +61,7 @@
     <changeSet author="svetatim" id="createTableHelp">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="HELP" schemaName="heart_rate"/>
+                <tableExists tableName="HELP"/>
             </not>
         </preConditions>
         <createTable tableName="HELP">
@@ -81,7 +81,7 @@
     <changeSet author="svetatim" id="createTableTopic">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="TOPIC" schemaName="heart_rate"/>
+                <tableExists tableName="TOPIC"/>
             </not>
         </preConditions>
         <createTable tableName="TOPIC">

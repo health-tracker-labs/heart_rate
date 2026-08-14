@@ -1,6 +1,7 @@
 package com.sergtm.health.tracker.rest.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.sergtm.health.tracker.AbstractIntegrationTest;
 import com.sergtm.health.tracker.persistence.entity.Employee;
 import com.sergtm.health.tracker.persistence.entity.Patient;
 import com.sergtm.health.tracker.persistence.entity.Person;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class PersonControllerIT extends AbstractRestControllerIT {
+class PersonControllerIT extends AbstractIntegrationTest {
     private static final String PERSONS_URL = "/persons";
     private static final String DELETE_PERSON_URL = "/persons/delete/{personId}";
     private static final String GET_PERSONS_BY_USER_NAME_URL = "/persons/{userName}";
@@ -53,10 +54,8 @@ class PersonControllerIT extends AbstractRestControllerIT {
             @Value("classpath:person/responses/getPersons.json")
             Resource response
     ) throws Exception {
-        Person firstPerson = personRepository.save(createFirstPerson());
-        Person secondPerson = personRepository.save(createSecondPerson());
-
-        Set<Person> persons = Set.of(firstPerson, secondPerson);
+        personRepository.save(createFirstPerson());
+        personRepository.save(createSecondPerson());
 
         String actualJson = mockMvc.perform(MockMvcRequestBuilders
                         .get(PERSONS_URL)
@@ -69,14 +68,9 @@ class PersonControllerIT extends AbstractRestControllerIT {
                 .getContentAsString();
 
         List<PersonResponse> responses = objectMapper.readValue(actualJson, new TypeReference<>() {});
-        List<PersonResponse> actual = responses.stream()
-                .filter(resp -> persons.stream()
-                        .anyMatch(p -> p.getId().equals(resp.getId())))
-                .toList();
-
         JSONAssert.assertEquals(
                 loadJson(response),
-                writeValueAsString(actual),
+                writeValueAsString(responses),
                 JSONCompareMode.LENIENT);
     }
 
